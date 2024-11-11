@@ -33,9 +33,11 @@ The API is fully documentation using OpenAPI / Swagger.
 
 ## Start database
 
-- Open the project directory in your terminal and type the command:
+- Open the project directory in your terminal and type the commands:
 ```bash
 docker compose -f docker-compose.xaml up -d
+dotnet ef migrations add InitialCreate
+dotnet ef database update
 ```
 
 ## Database
