@@ -22,7 +22,7 @@ The API is fully documentation using OpenAPI / Swagger.
 | Name                                                                                                          | Reason                                            |
 |---------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
 | [Microsoft.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore)                 | ORM to interract with the database.               |
-| [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL) | EFCore Driver to connect to PostgreSQL databases. | 
+| [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL) | EFCore Driver to connect to PostgreSQL databases. |
 | [Swashbuckle.AspNetCore](https://www.nuget.org/packages/Swashbuckle.AspNetCore) | Swagger tools for documenting APIs built on ASP.NET Core |
 | [Swashbuckle.AspNetCore.Annotations](https://www.nuget.org/packages/Swashbuckle.AspNetCore.Annotations) | Provides custom attributes that can be applied to controllers, actions and models to enrich the generated Swagger |
 
@@ -45,3 +45,21 @@ Note: There are currently no migration saved in the project since it has yet to 
 
 ## Database
 
+```mermaid
+erDiagram
+    Products {
+        int Id
+        string Designation
+        string Description
+        string ImageId
+    }
+
+    Users {
+        int Id
+        string Email
+        boolean IsActive
+        string Name
+        string Company
+        string Password
+    }
+```
