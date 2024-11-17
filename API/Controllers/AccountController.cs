@@ -62,7 +62,7 @@ public class AccountsController : ControllerBase
         }
 
         await _userManager.AddToRoleAsync(user, userForRegistrationDto.Role!);
-        return Created();
+        return StatusCode(201);
     }
 
     /// <summary>
