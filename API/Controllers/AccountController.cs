@@ -38,7 +38,7 @@ public class AccountsController : ControllerBase
     /// <response code="201">user is created</response>
     /// <response code="400">request is invalid</response>
     [HttpPost("register")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto? userForRegistrationDto)

@@ -41,5 +41,5 @@ public class UserForRegistrationDto
     /// <summary>
     /// User role, default is "user".
     /// </summary>
-    public string? Role { get; set; } = "user";
+    public string? Role { get; set; } = "User";
 }
