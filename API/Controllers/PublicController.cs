@@ -1,4 +1,4 @@
-using API.Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -20,6 +20,7 @@ public class PublicController(ILogger<PublicController> logger, AppDbContext con
     [HttpGet("status")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+    [AllowAnonymous]
     public async Task<ActionResult> GetStatus()
     {
         var result = await _context.Database.CanConnectAsync();
