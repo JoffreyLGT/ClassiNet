@@ -1,29 +1,46 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.Utilities;
 using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers;
 
+/// <summary>
+/// Controller with all the routes to manage products in database.
+/// </summary>
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "User, Admin")]
 public class ProductsController : ControllerBase
 {
     private readonly AppDbContext _context;
 
+    /// <summary>
+    /// Default constructor, store objects from dependency injection.
+    /// </summary>
+    /// <param name="context">database context to communicate with database</param>
     public ProductsController(AppDbContext context)
     {
         _context = context;
     }
 
+    /// <summary>
+    /// Get the list of products.
+    /// </summary>
+    /// <returns>list of products</returns>
     // GET: api/Product
     [HttpGet]
-    [Authorize(Roles = "User, Admin")]
     public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
     {
         return await _context.Products.ToListAsync();
     }
 
+    /// <summary>
+    /// Get the product with the specified id.
+    /// </summary>
+    /// <param name="id">identifier of the product</param>
+    /// <returns>the product and its properties</returns>
     // GET: api/Product/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Product>> GetProduct(int id)
@@ -38,8 +55,13 @@ public class ProductsController : ControllerBase
         return product;
     }
 
+    /// <summary>
+    /// Update a product.
+    /// </summary>
+    /// <param name="id">identifier of the product</param>
+    /// <param name="product">product information</param>
+    /// <returns>a status code indicating the operation status</returns>
     // PUT: api/Product/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
     public async Task<IActionResult> PutProduct(int id, Product product)
     {
@@ -56,7 +78,7 @@ public class ProductsController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!ProductExists(id))
+            if (!ProductHelper.ProductExists(_context, id))
             {
                 return NotFound();
             }
@@ -69,8 +91,12 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Add a new product in database.
+    /// </summary>
+    /// <param name="product">to add</param>
+    /// <returns>product information</returns>
     // POST: api/Product
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
     public async Task<ActionResult<Product>> PostProduct(Product product)
     {
@@ -80,6 +106,11 @@ public class ProductsController : ControllerBase
         return CreatedAtAction("GetProduct", new { id = product.Id }, product);
     }
 
+    /// <summary>
+    /// Delete a product from database.
+    /// </summary>
+    /// <param name="id">identifier of the product</param>
+    /// <returns>a status code indicating the operation status</returns>
     // DELETE: api/Product/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct(int id)
@@ -96,8 +127,4 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
-    private bool ProductExists(int id)
-    {
-        return _context.Products.Any(e => e.Id == id);
-    }
 }
