@@ -3,6 +3,7 @@ import { UserCardComponent } from "./user-card/user-card.component";
 import { MenuSectionComponent } from "./menu-section/menu-section.component";
 import { MenuItem } from "./menu-item/menu-item";
 import { MenuItemComponent } from "./menu-item/menu-item.component";
+import { MENU_ITEMS } from "../../app.static-data";
 
 @Component({
   selector: "app-sidebar",
@@ -15,7 +16,7 @@ import { MenuItemComponent } from "./menu-item/menu-item.component";
         <img src="logo-small.png" alt="Product Categorization" />
       </h1>
       <app-user-card [username]="username" [company]="company" />
-      @for (section of sections; track section.name) {
+      @for (section of menu_items; track section.name) {
         <app-menu-section [name]="section.name" [items]="section.items" />
       }
 
@@ -28,56 +29,10 @@ import { MenuItemComponent } from "./menu-item/menu-item.component";
 export class SidebarComponent {
   username = "Hervé Dumon";
   company = "ACME Corporation";
+  menu_items = MENU_ITEMS;
   logout: MenuItem = {
     icon: "logout",
     label: "Logout",
     link: "/users/logout",
   };
-  sections: { name: string; items: MenuItem[] }[] = [
-    {
-      name: "Dashboard",
-      items: [
-        {
-          icon: "home",
-          label: "Home",
-          link: "/dashboard/home",
-        },
-        {
-          icon: "chart-pie",
-          label: "Data visualization",
-          link: "/dashboard/data-visualization",
-        },
-        {
-          icon: "battery",
-          label: "Model performance",
-          link: "/dashboard/model-performance",
-        },
-      ],
-    },
-    {
-      name: "Categorization",
-      items: [
-        {
-          icon: "brain",
-          label: "Categorize a product",
-          link: "/categorization/product",
-        },
-      ],
-    },
-    {
-      name: "Administration",
-      items: [
-        {
-          icon: "users",
-          label: "Users",
-          link: "/administration/users",
-        },
-        {
-          icon: "barcode",
-          label: "Products",
-          link: "/administration/products",
-        },
-      ],
-    },
-  ];
 }
