@@ -5,9 +5,9 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet],
   template: `
-    <h1>Hello world!</h1>
+    <h1 class="text-ellipsis text-3xl font-bold underline">Hello world!</h1>
   `,
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Product classification';
