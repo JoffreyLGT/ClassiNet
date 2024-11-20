@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  template: `
-    <h1 class="text-ellipsis text-3xl font-bold underline">Hello world!</h1>
-  `,
+  imports: [RouterOutlet, SidebarComponent],
+  templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
