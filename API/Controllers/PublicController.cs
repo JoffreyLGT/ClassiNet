@@ -25,6 +25,6 @@ public class PublicController(ILogger<PublicController> logger, AppDbContext con
     {
         var result = await _context.Database.CanConnectAsync();
 
-        return result ? StatusCode(StatusCodes.Status200OK, "API and DB are up and running!") : StatusCode(StatusCodes.Status503ServiceUnavailable, "Can't connect to database!");
+        return result ? StatusCode(StatusCodes.Status200OK, new { message = "API and DB are up and running!" }) : StatusCode(StatusCodes.Status503ServiceUnavailable, new { message = "Can't connect to database!" });
     }
 }
