@@ -1,4 +1,11 @@
-import { Component } from "@angular/core";
+import {
+  Component,
+  input,
+  OnDestroy,
+  output,
+  signal,
+  WritableSignal,
+} from "@angular/core";
 import { NgClass } from "@angular/common";
 import {
   ReactiveFormsModule,
@@ -6,6 +13,12 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { UserService } from "../../services/user/user.service";
+import { LoginRequest } from "../../models/login-request";
+import { User } from "../../models/user";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { DASHBOARD_HOME_ROUTE } from "../../app.static-data";
 
 @Component({
   selector: "app-login",
@@ -101,13 +114,46 @@ import {
   `,
   styles: ``,
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
+  user = input.required<User | undefined>();
+
+  invalidCredentials = false;
+
+  private loginSubscription: Subscription | null = null;
+
   loginForm = new FormGroup({
-    email: new FormControl("", [Validators.required, Validators.email]),
-    password: new FormControl("", Validators.required),
+    email: new FormControl("admin@test.fr", [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: new FormControl("Admin1!", Validators.required),
   });
 
+  constructor(
+    private userService: UserService,
+    private router: Router,
+  ) {}
+
   onSubmit() {
-    alert(this.loginForm.value.email);
+    const credentials: LoginRequest = {
+      email: this.loginForm.controls["email"].value ?? "",
+      password: this.loginForm.controls["password"].value ?? "",
+    };
+    this.loginSubscription = this.userService.login(credentials).subscribe({
+      next: (result: User | null | undefined) => {
+        this.navigateHome();
+      },
+      error: (error) => {
+        this.invalidCredentials = true;
+      },
+    });
+  }
+
+  navigateHome() {
+    this.router.navigate([DASHBOARD_HOME_ROUTE]);
+  }
+
+  ngOnDestroy(): void {
+    this.loginSubscription?.unsubscribe();
   }
 }

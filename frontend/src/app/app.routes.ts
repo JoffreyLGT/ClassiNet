@@ -11,6 +11,7 @@ import {
   USER_LOGOUT_ROUTE,
 } from "./app.static-data";
 import { UnderConstructionComponent } from "./shared/under-construction/under-construction.component";
+import { isLoggedInGuard } from "./guards/is-logged-in.guard";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -26,27 +27,33 @@ export const routes: Routes = [
   {
     path: DASHBOARD_HOME_ROUTE,
     component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
   },
   {
     path: DASHBOARD_DATA_VISUALIZATION_ROUTE,
     component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
   },
   {
     path: DASHBOARD_MODEL_PERFORMANCE_ROUTE,
     component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
   },
   // CATEGORIZATION ROUTES
   {
     path: CATEGORIZATION_PRODUCT_ROUTE,
     component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
   },
   // ADMINISTRATION ROUTES
   {
     path: ADMIN_PRODUCTS_ROUTE,
     component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
   },
   {
     path: ADMIN_USERS_ROUTE,
     component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
   },
 ];

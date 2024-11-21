@@ -19,12 +19,6 @@ export const MENU_ITEM_LOGIN: MenuItem = {
   link: USER_LOGIN_ROUTE,
 };
 
-export const MENU_ITEM_LOGOUT: MenuItem = {
-  icon: "logout",
-  label: "Logout",
-  link: USER_LOGOUT_ROUTE,
-};
-
 export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
   {
     name: "Dashboard",
