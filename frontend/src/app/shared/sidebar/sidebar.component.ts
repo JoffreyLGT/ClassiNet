@@ -1,9 +1,8 @@
 import { Component } from "@angular/core";
 import { UserCardComponent } from "./user-card/user-card.component";
 import { MenuSectionComponent } from "./menu-section/menu-section.component";
-import { MenuItem } from "./menu-item/menu-item";
 import { MenuItemComponent } from "./menu-item/menu-item.component";
-import { MENU_ITEMS } from "../../app.static-data";
+import { MENU_ITEM_LOGOUT, MENU_ITEMS } from "../../app.static-data";
 
 @Component({
   selector: "app-sidebar",
@@ -29,10 +28,7 @@ import { MENU_ITEMS } from "../../app.static-data";
 export class SidebarComponent {
   username = "Hervé Dumon";
   company = "ACME Corporation";
+
   menu_items = MENU_ITEMS;
-  logout: MenuItem = {
-    icon: "logout",
-    label: "Logout",
-    link: "/users/logout",
-  };
+  logout = MENU_ITEM_LOGOUT;
 }
