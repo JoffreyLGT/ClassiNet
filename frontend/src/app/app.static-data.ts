@@ -13,6 +13,12 @@ export const CATEGORIZATION_PRODUCT_ROUTE = "categorization/product";
 export const ADMIN_USERS_ROUTE = "admin/users";
 export const ADMIN_PRODUCTS_ROUTE = "admin/products";
 
+export const MENU_ITEM_LOGIN: MenuItem = {
+  icon: "logout",
+  label: "Login",
+  link: USER_LOGIN_ROUTE,
+};
+
 export const MENU_ITEM_LOGOUT: MenuItem = {
   icon: "logout",
   label: "Logout",

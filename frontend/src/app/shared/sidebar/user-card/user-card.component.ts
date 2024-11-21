@@ -1,20 +1,30 @@
 import { Component, input } from "@angular/core";
+import { MenuItemComponent } from "../menu-item/menu-item.component";
+import { MENU_ITEM_LOGIN } from "../../../app.static-data";
 
 @Component({
   selector: "app-user-card",
-  imports: [],
+  imports: [MenuItemComponent],
   template: `
     <div class="flex gap-3 border-y-2 border-blue-100 p-3">
       <img src="user.png" alt="User avatar" class="h-14" />
       <div class="flex flex-col place-content-center">
-        <span class="text-ellipsis">{{ username() }}</span>
-        <span class="text-ellipsis">{{ company() }}</span>
+        @if (isLoggedIn()) {
+          <span class="text-ellipsis">{{ username() }}</span>
+          <span class="text-ellipsis">{{ company() }}</span>
+        } @else {
+          <span class="text-ellipsis">Guest</span>
+          <app-menu-item [menuItem]="loginMenuItem" />
+        }
       </div>
     </div>
   `,
   styles: ``,
 })
 export class UserCardComponent {
-  username = input<string>("");
-  company = input<string>("");
+  loginMenuItem = MENU_ITEM_LOGIN;
+
+  isLoggedIn = input(false);
+  username = input<string>();
+  company = input<string>();
 }
