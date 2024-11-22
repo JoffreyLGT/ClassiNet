@@ -1,16 +1,8 @@
+import { Component, input, OnDestroy } from "@angular/core";
 import {
-  Component,
-  input,
-  OnDestroy,
-  output,
-  signal,
-  WritableSignal,
-} from "@angular/core";
-import { NgClass } from "@angular/common";
-import {
-  ReactiveFormsModule,
   FormControl,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
 import { UserService } from "../../services/user/user.service";
@@ -25,7 +17,7 @@ import { DASHBOARD_HOME_ROUTE } from "../../app.static-data";
   imports: [ReactiveFormsModule],
   template: `
     <div class="flex min-h-screen items-center justify-center">
-      <div class="card bg-base-100 w-96 shadow-xl">
+      <div class="card w-96 bg-base-100 shadow-xl">
         <div class="card-body">
           <h2 class="card-title mb-6 text-2xl font-bold">Login</h2>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
