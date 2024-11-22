@@ -1,3 +1,5 @@
+using System.Net;
+using System.Security.Claims;
 using API.Models;
 using API.Utilities;
 using Microsoft.AspNetCore.Authorization;
@@ -49,7 +51,7 @@ public class AccountsController : ControllerBase
         if (!await _roleManager.RoleExistsAsync(userForRegistrationDto.Role!))
         {
             return BadRequest(new AuthResponseDto
-                { ErrorMessage = $"Role {userForRegistrationDto.Role} does not exist" });
+            { ErrorMessage = $"Role {userForRegistrationDto.Role} does not exist" });
         }
 
         var user = userForRegistrationDto.ToUser();
@@ -82,12 +84,49 @@ public class AccountsController : ControllerBase
         if (user is null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password!))
         {
             return Unauthorized(new AuthResponseDto
-                { IsAuthSuccessful = false, ErrorMessage = "Invalid authentication" });
+            { IsAuthSuccessful = false, ErrorMessage = "Invalid authentication" });
         }
 
         var roles = await _userManager.GetRolesAsync(user);
 
         var token = _jwtHandler.CreateToken(user, roles);
-        return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
+        return Ok(new AuthResponseDto
+        {
+            IsAuthSuccessful = true,
+            Token = token,
+            User = new UserDto
+            {
+                UserName = user.UserName,
+                Company = user.Company,
+                Email = user.Email!
+            }
+        });
+    }
+
+    /// <summary>
+    /// Fetch user's own information.
+    /// </summary>
+    /// <returns>Logged in user information</returns>
+    /// <response code="200">user credentials are good</response>
+    /// <response code="400">user not found</response>
+    /// <response code="401">invalid authentication</response>
+    [HttpGet("me")]
+    [Authorize(Roles = "User, Admin")]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> GetUserInfo()
+    {
+        var userEmail = User.Claims.Single(x => x.Type == ClaimTypes.Email).Value;
+        var user = await _userManager.FindByEmailAsync(userEmail);
+        if (user is not null)
+        {
+            return Ok(new UserDto { Email = user.Email!, Company = user.Company, UserName = user.UserName });
+        }
+        // Should never happen since the user is authenticated,
+        // except if the user was deleted from db but still has a
+        // valid JWT.
+        return BadRequest();
+
     }
 }

@@ -13,10 +13,10 @@ export const CATEGORIZATION_PRODUCT_ROUTE = "categorization/product";
 export const ADMIN_USERS_ROUTE = "admin/users";
 export const ADMIN_PRODUCTS_ROUTE = "admin/products";
 
-export const MENU_ITEM_LOGOUT: MenuItem = {
+export const MENU_ITEM_LOGIN: MenuItem = {
   icon: "logout",
-  label: "Logout",
-  link: USER_LOGOUT_ROUTE,
+  label: "Login",
+  link: USER_LOGIN_ROUTE,
 };
 
 export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [

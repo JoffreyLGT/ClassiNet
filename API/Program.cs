@@ -10,6 +10,17 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200",
+                                "https://localhost:7052")
+                                .AllowAnyHeader();
+        });
+});
+
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration["ConnectionString"]));
 
@@ -28,7 +39,7 @@ builder.Services.AddSwaggerGen(c =>
     );
 
     c.IncludeXmlComments(Assembly.GetExecutingAssembly());
-    
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -97,6 +108,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
