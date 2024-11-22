@@ -1,19 +1,37 @@
 import { Component } from "@angular/core";
+import { Location, NgOptimizedImage } from "@angular/common";
 
 @Component({
   selector: "app-under-construction",
-  imports: [],
+  imports: [NgOptimizedImage],
   template: `
-    <section class="m-6 h-full">
-      <h2 class="text-3xl">Under construction</h2>
-      <img
-        src="under-construction.svg"
-        alt="Under construction"
-        class="my-6 max-w-[45rem]"
-      />
-      <p>This page is under construction, please come back later.</p>
-    </section>
+    <div class="hero min-h-screen bg-base-200">
+      <div class="hero-content flex-col">
+        <img
+          ngSrc="under-construction.svg"
+          alt="Shoes"
+          width="400"
+          height="360"
+          class="rounded-xl"
+        />
+        <div class="text-center">
+          <h1 class="text-5xl font-bold">Under construction</h1>
+          <p class="py-6">
+            This page is not ready yet, please try again later.
+          </p>
+          <button class="btn btn-primary" (click)="goToPreviousPage()">
+            Back to the previous page
+          </button>
+        </div>
+      </div>
+    </div>
   `,
   styles: ``,
 })
-export class UnderConstructionComponent {}
+export class UnderConstructionComponent {
+  constructor(private location: Location) {}
+
+  goToPreviousPage(): void {
+    this.location.back();
+  }
+}

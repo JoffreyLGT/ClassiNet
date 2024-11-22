@@ -8,7 +8,7 @@ import { SidebarComponent } from "./shared/sidebar/sidebar.component";
   template: `
     <div class="flex">
       <app-sidebar />
-      <div class="bg-base-200 container px-2">
+      <div class="container bg-base-200">
         <router-outlet></router-outlet>
         <div></div>
       </div>
