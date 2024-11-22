@@ -1,4 +1,4 @@
-import { MenuItem } from "./shared/sidebar/menu-item/menu-item";
+import { MenuItem } from "./shared/sidebar/menu-item.model";
 
 export const DASHBOARD_HOME_ROUTE = "dashboard/home";
 export const DASHBOARD_DATA_VISUALIZATION_ROUTE =
@@ -15,8 +15,14 @@ export const ADMIN_PRODUCTS_ROUTE = "admin/products";
 
 export const MENU_ITEM_LOGIN: MenuItem = {
   icon: "logout",
-  label: "Login",
+  label: "Log in",
   link: USER_LOGIN_ROUTE,
+};
+
+export const MENU_ITEM_LOGOUT: MenuItem = {
+  icon: "logout",
+  label: "Log out",
+  link: "",
 };
 
 export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
