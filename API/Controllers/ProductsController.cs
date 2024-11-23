@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using API.Models;
 using API.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
 /// <summary>
-/// Controller with all the routes to manage products in database.
+///     Controller with all the routes to manage products in database.
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
@@ -17,7 +17,7 @@ public class ProductsController : ControllerBase
     private readonly AppDbContext _context;
 
     /// <summary>
-    /// Default constructor, store objects from dependency injection.
+    ///     Default constructor, store objects from dependency injection.
     /// </summary>
     /// <param name="context">database context to communicate with database</param>
     public ProductsController(AppDbContext context)
@@ -26,18 +26,19 @@ public class ProductsController : ControllerBase
     }
 
     /// <summary>
-    /// Get the list of products.
+    ///     Get the list of products.
     /// </summary>
     /// <returns>list of products</returns>
     // GET: api/Product
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+    public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] int skip = 0,
+        [FromQuery] int take = 100)
     {
-        return await _context.Products.ToListAsync();
+        return await _context.Products.Skip(skip).Take(take).Include(product => product.Category).ToListAsync();
     }
 
     /// <summary>
-    /// Get the product with the specified id.
+    ///     Get the product with the specified id.
     /// </summary>
     /// <param name="id">identifier of the product</param>
     /// <returns>the product and its properties</returns>
@@ -47,16 +48,13 @@ public class ProductsController : ControllerBase
     {
         var product = await _context.Products.FindAsync(id);
 
-        if (product == null)
-        {
-            return NotFound();
-        }
+        if (product == null) return NotFound();
 
         return product;
     }
 
     /// <summary>
-    /// Update a product.
+    ///     Update a product.
     /// </summary>
     /// <param name="id">identifier of the product</param>
     /// <param name="product">product information</param>
@@ -65,10 +63,7 @@ public class ProductsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutProduct(int id, Product product)
     {
-        if (id != product.Id)
-        {
-            return BadRequest();
-        }
+        if (id != product.Id) return BadRequest();
 
         _context.Entry(product).State = EntityState.Modified;
 
@@ -78,21 +73,16 @@ public class ProductsController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!ProductHelper.ProductExists(_context, id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            if (!ProductHelper.ProductExists(_context, id)) return NotFound();
+
+            throw;
         }
 
         return NoContent();
     }
 
     /// <summary>
-    /// Add a new product in database.
+    ///     Add a new product in database.
     /// </summary>
     /// <param name="product">to add</param>
     /// <returns>product information</returns>
@@ -107,7 +97,7 @@ public class ProductsController : ControllerBase
     }
 
     /// <summary>
-    /// Delete a product from database.
+    ///     Delete a product from database.
     /// </summary>
     /// <param name="id">identifier of the product</param>
     /// <returns>a status code indicating the operation status</returns>
@@ -116,15 +106,11 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> DeleteProduct(int id)
     {
         var product = await _context.Products.FindAsync(id);
-        if (product == null)
-        {
-            return NotFound();
-        }
+        if (product == null) return NotFound();
 
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
 
         return NoContent();
     }
-
 }
