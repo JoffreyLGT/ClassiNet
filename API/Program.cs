@@ -10,14 +10,16 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders().AddConsole();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         policy =>
         {
             policy.WithOrigins("http://localhost:4200",
-                                "https://localhost:7052")
-                                .AllowAnyHeader();
+                    "https://localhost:7052")
+                .AllowAnyHeader();
         });
 });
 
@@ -40,7 +42,7 @@ builder.Services.AddSwaggerGen(c =>
 
     c.IncludeXmlComments(Assembly.GetExecutingAssembly());
 
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         In = ParameterLocation.Header,
@@ -87,14 +89,11 @@ builder.Services.AddAuthentication(opt =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings.GetValue<string>("Issuer"),
         ValidAudience = jwtSettings.GetValue<string>("Audience"),
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetValue<string>("Key")!)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetValue<string>("Key")!))
     };
 });
 
-builder.Services.AddAuthorization(opt =>
-{
-    opt.AddPolicy("OnlyAdminUsers", policy => policy.RequireRole("Admin"));
-});
+builder.Services.AddAuthorization(opt => { opt.AddPolicy("OnlyAdminUsers", policy => policy.RequireRole("Admin")); });
 
 builder.Services.AddSingleton<JwtHandler>();
 
