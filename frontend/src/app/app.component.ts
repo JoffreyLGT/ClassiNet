@@ -10,7 +10,6 @@ import { SidebarComponent } from "./shared/sidebar/sidebar.component";
       <app-sidebar />
       <div class="container bg-base-200">
         <router-outlet></router-outlet>
-        <div></div>
       </div>
     </div>
   `,

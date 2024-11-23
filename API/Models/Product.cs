@@ -3,7 +3,7 @@ namespace API.Models;
 /// <summary>
 ///     Product sold on an e-commerce platform.
 /// </summary>
-public class Product
+public class Product : BaseEntity
 {
     /// <summary>
     ///     Unique identifier of the product.

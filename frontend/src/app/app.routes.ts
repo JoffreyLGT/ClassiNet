@@ -12,6 +12,7 @@ import {
 } from "./app.static-data";
 import { UnderConstructionComponent } from "./shared/under-construction/under-construction.component";
 import { isLoggedInGuard } from "./guards/is-logged-in.guard";
+import { HomeComponent } from "./dashboard/home/home.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -26,7 +27,7 @@ export const routes: Routes = [
   // DASHBOARD ROUTES
   {
     path: DASHBOARD_HOME_ROUTE,
-    component: UnderConstructionComponent,
+    component: HomeComponent,
     canActivate: [isLoggedInGuard],
   },
   {

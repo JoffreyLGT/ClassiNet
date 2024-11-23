@@ -36,6 +36,45 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
     public DbSet<Product> Products { get; init; }
 
     /// <summary>
+    ///     Automatically set CreatedDate and UpdatedDate when saving
+    ///     entities inheriting BaseEntity.
+    /// </summary>
+    /// <returns></returns>
+    public override int SaveChanges()
+    {
+        SetBaseEntityDates();
+        return base.SaveChanges();
+    }
+
+    /// <summary>
+    ///     Automatically set CreatedDate and UpdatedDate when saving
+    ///     entities inheriting BaseEntity.
+    /// </summary>
+    /// <returns></returns>
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        SetBaseEntityDates();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void SetBaseEntityDates()
+    {
+        var entries = ChangeTracker
+            .Entries()
+            .Where(e => e.Entity is BaseEntity && (
+                e.State == EntityState.Added
+                || e.State == EntityState.Modified));
+
+        foreach (var entityEntry in entries)
+        {
+            ((BaseEntity)entityEntry.Entity).UpdatedDate = DateTime.Now.ToUniversalTime();
+
+            if (entityEntry.State == EntityState.Added)
+                ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.Now.ToUniversalTime();
+        }
+    }
+
+    /// <summary>
     ///     Seed database if it is empty.
     /// </summary>
     /// <param name="builder"></param>

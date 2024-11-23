@@ -3,7 +3,7 @@ namespace API.Models;
 /// <summary>
 ///     Category of a product.
 /// </summary>
-public class Category
+public class Category : BaseEntity
 {
     /// <summary>
     ///     Unique identifier.
