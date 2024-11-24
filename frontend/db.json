@@ -1,0 +1,89 @@
+{
+  "categories-repartition": [
+    {
+      "id": 1,
+      "name": "Littérature",
+      "nbProducts": 100
+    },
+    {
+      "id": 2,
+      "name": "Jeux vidéos",
+      "nbProducts": 1000
+    },
+    {
+      "id": 3,
+      "name": "Produits dérivés",
+      "nbProducts": 2000
+    },
+    {
+      "id": 4,
+      "name": "Cartes à collectionner",
+      "nbProducts": 235
+    },
+    {
+      "id": 5,
+      "name": "Jouets",
+      "nbProducts": 2000
+    },
+    {
+      "id": 6,
+      "name": "Jouets pour enfants",
+      "nbProducts": 2400
+    },
+    {
+      "id": 7,
+      "name": "Objets télécommandés",
+      "nbProducts": 20
+    },
+    {
+      "id": 8,
+      "name": "Hobbies",
+      "nbProducts": 3000
+    },
+    {
+      "id": 9,
+      "name": "Activités extérieures",
+      "nbProducts": 2345
+    },
+    {
+      "id": 10,
+      "name": "Jardinage",
+      "nbProducts": 942
+    },
+    {
+      "id": 11,
+      "name": "Accessoires et vêtements bas-âges",
+      "nbProducts": 1500
+    },
+    {
+      "id": 12,
+      "name": "Décorations d'intérieur",
+      "nbProducts": 300
+    },
+    {
+      "id": 13,
+      "name": "Epicerie",
+      "nbProducts": 1000
+    },
+    {
+      "id": 14,
+      "name": "Accessoires animaux de compagnie",
+      "nbProducts": 1000
+    },
+    {
+      "id": 15,
+      "name": "Magazine",
+      "nbProducts": 3556
+    },
+    {
+      "id": 16,
+      "name": "Bureautique",
+      "nbProducts": 1123
+    },
+    {
+      "id": 17,
+      "name": "Piscine",
+      "nbProducts": 4512
+    }
+  ]
+}

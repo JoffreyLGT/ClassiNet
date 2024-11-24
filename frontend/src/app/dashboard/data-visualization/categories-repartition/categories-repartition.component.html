@@ -1,0 +1,9 @@
+<div class="m-4 card bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title">Répartition des produits par catégorie</h2>
+    <p>Ce graphique permet de mettre en lumière un éventuel déséquilibre dans les données.</p>
+    <p>Par exemple, une catégorie trop représentée pourrait créer des biais lors de l'entraînement du modèle et diminuer
+      ses performances.</p>
+    <div echarts [options]="options()"></div>
+  </div>
+</div>
