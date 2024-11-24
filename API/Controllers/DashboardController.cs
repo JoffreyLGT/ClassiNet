@@ -25,7 +25,6 @@ public class DashboardController : ControllerBase
     ///     Get basic stats to display in the dashboard.
     /// </summary>
     /// <returns>A JSON object containing the stats</returns>
-    [AllowAnonymous] // FIXME Must be removed before commit
     [HttpGet("basic-stats")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BasicStatsDto))]
