@@ -10,10 +10,17 @@ import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { Subscription } from "rxjs";
 import { UserService } from "../../services/user/user.service";
 import { NgOptimizedImage } from "@angular/common";
+import { SvgIconComponent } from "angular-svg-icon";
 
 @Component({
   selector: "app-sidebar",
-  imports: [UserCardComponent, NgOptimizedImage, RouterLink, RouterLinkActive],
+  imports: [
+    UserCardComponent,
+    NgOptimizedImage,
+    RouterLink,
+    RouterLinkActive,
+    SvgIconComponent,
+  ],
   template: `
     <nav
       class="flex h-dvh w-64 flex-col gap-4 border-r border-neutral bg-accent"
@@ -42,11 +49,10 @@ import { NgOptimizedImage } from "@angular/common";
                       routerLink="{{ item.link }}"
                       routerLinkActive="active"
                       ariaCurrentWhenActive="page"
-                      ><img
-                        ngSrc="{{ item.icon }}.svg"
-                        width="24"
-                        height="24"
-                        alt="{{ item.label }} icon"
+                    >
+                      <svg-icon
+                        src="icons/{{ item.icon }}.svg"
+                        svgClass="w-6 h-6"
                       />
                       {{ item.label }}</a
                     >
@@ -68,21 +74,18 @@ import { NgOptimizedImage } from "@angular/common";
                 routerLink="{{ menu_login.link }}"
                 routerLinkActive="active"
                 ariaCurrentWhenActive="page"
-                ><img
-                  ngSrc="{{ menu_login.icon }}.svg"
-                  width="24"
-                  height="24"
-                  alt="{{ menu_login.label }} icon"
+              >
+                <svg-icon
+                  src="icons/{{ menu_login.icon }}.svg"
+                  svgClass="w-6 h-6"
                 />
                 {{ menu_login.label }}</a
               >
             } @else {
               <button (click)="logout()" class="menu rounded-box">
-                <img
-                  ngSrc="{{ menu_logout.icon }}.svg"
-                  width="24"
-                  height="24"
-                  alt="{{ menu_logout.label }} icon"
+                <svg-icon
+                  src="icons/{{ menu_logout.icon }}.svg"
+                  svgClass="w-6 h-6"
                 />
                 {{ menu_logout.label }}
               </button>

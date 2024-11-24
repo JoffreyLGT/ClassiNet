@@ -11,10 +11,11 @@ import { User } from "../../models/user";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { DASHBOARD_HOME_ROUTE } from "../../app.static-data";
+import { SvgIconComponent } from "angular-svg-icon";
 
 @Component({
   selector: "app-login",
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SvgIconComponent],
   template: `
     <div class="flex min-h-screen items-center justify-center">
       <div class="card w-96 bg-base-100 shadow-xl">
@@ -32,11 +33,7 @@ import { DASHBOARD_HOME_ROUTE } from "../../app.static-data";
                 "
                 class="input input-bordered flex items-center gap-2"
               >
-                <img
-                  src="email.svg"
-                  alt="Email icon"
-                  class="h-4 w-4 opacity-70"
-                />
+                <svg-icon src="icons/email.svg" svgClass="h-4 w-4 opacity-70" />
                 <input
                   type="email"
                   formControlName="email"
@@ -72,10 +69,9 @@ import { DASHBOARD_HOME_ROUTE } from "../../app.static-data";
                 "
                 class="input input-bordered flex items-center gap-2"
               >
-                <img
-                  src="password.svg"
-                  alt="Password icon"
-                  class="h-4 w-4 opacity-70"
+                <svg-icon
+                  src="icons/password.svg"
+                  svgClass="h-4 w-4 opacity-70"
                 />
                 <input
                   type="password"
