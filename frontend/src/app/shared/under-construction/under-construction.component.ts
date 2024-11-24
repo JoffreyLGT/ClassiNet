@@ -1,18 +1,16 @@
 import { Component } from "@angular/core";
-import { Location, NgOptimizedImage } from "@angular/common";
+import { Location } from "@angular/common";
+import { SvgIconComponent } from "angular-svg-icon";
 
 @Component({
   selector: "app-under-construction",
-  imports: [NgOptimizedImage],
+  imports: [SvgIconComponent],
   template: `
     <div class="hero min-h-screen bg-base-200">
       <div class="hero-content flex-col">
-        <img
-          ngSrc="under-construction.svg"
-          alt="Shoes"
-          width="400"
-          height="360"
-          class="rounded-xl"
+        <svg-icon
+          src="icons/under-construction.svg"
+          svgClass="w-4 opacity-70 w-96 h-80"
         />
         <div class="text-center">
           <h1 class="text-5xl font-bold">Under construction</h1>
