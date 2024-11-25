@@ -1,6 +1,18 @@
 <div class="m-4 ">
-  <section class="prose max-w-full">
+  <section class="prose max-w-full flex flex-col gap-4">
     <h1>Categories</h1>
+    <div>
+      <div class="stats shadow">
+        <div class="stat">
+          <div class="stat-figure text-secondary">
+            <svg-icon src="icons/archive-2-line.svg" svgClass="h-8 w-8"></svg-icon>
+          </div>
+          <div class="stat-title">Categories</div>
+          <div class="stat-value">{{ dashboardService.basicStats()?.nbCategories }}</div>
+          <div class="stat-desc">&nbsp;</div>
+        </div>
+      </div>
+    </div>
     <app-categories-distribution class="not-prose"
                                  [categoriesDistributionItems]="dashboardService.categoriesDistributionItems() ?? []" />
   </section>

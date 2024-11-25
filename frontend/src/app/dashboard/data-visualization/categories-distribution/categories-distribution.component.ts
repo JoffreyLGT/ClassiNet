@@ -37,7 +37,8 @@ export class CategoriesDistributionComponent {
         },
       },
       legend: {
-        show: false,
+        show: true,
+        right: "10%", // To not overlap with the toolbox
       },
       tooltip: {
         trigger: "item",
@@ -47,6 +48,7 @@ export class CategoriesDistributionComponent {
         {
           name: this.seriesName,
           type: "pie",
+          top: "25%",
           radius: [20, 140],
           center: ["50%", "50%"],
           roseType: "area",
