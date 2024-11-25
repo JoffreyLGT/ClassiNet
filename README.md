@@ -72,3 +72,4 @@ erDiagram
 - [TailwindCSS documentation](https://tailwindcss.com/)
 - [DaisyUI documentation](https://daisyui.com/)
 - [echarts API documentation](https://echarts.apache.org/en/option.html#title)
+- [Remix icons](https://remixicon.com/)

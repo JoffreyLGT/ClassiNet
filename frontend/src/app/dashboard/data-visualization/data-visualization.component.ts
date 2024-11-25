@@ -8,7 +8,6 @@ import { SvgIconComponent } from "angular-svg-icon";
   selector: "app-data-visualization",
   imports: [CategoriesDistributionComponent, SvgIconComponent],
   templateUrl: "./data-visualization.component.html",
-  styleUrl: "./data-visualization.component.css",
 })
 export class DataVisualizationComponent implements OnDestroy {
   dashboardService: DashboardService;

@@ -1,4 +1,4 @@
-import { Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from "@angular/core";
 import { BasicStats, CategoriesDistributionItem } from "./dashboard.model";
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, tap } from "rxjs";
@@ -12,6 +12,21 @@ export class DashboardService {
   private MOCK_DB_BASE_URL = "http://localhost:3000";
 
   basicStats = signal<BasicStats | undefined>(undefined);
+  activatedUsersPercentage = computed(() =>
+    this.basicStats() == undefined
+      ? ""
+      : ((this.basicStats()?.nbActiveUsers ?? 0) /
+          (this.basicStats()?.nbUsers ?? 0)) *
+        100,
+  );
+  productsIncreasePercentage = computed(() =>
+    this.basicStats() == undefined
+      ? ""
+      : ((this.basicStats()?.nbProductsCreatedLastMonth ?? 0) /
+          (this.basicStats()?.nbProducts ?? 0)) *
+        100,
+  );
+
   categoriesDistributionItems = signal<
     CategoriesDistributionItem[] | undefined
   >(undefined);
