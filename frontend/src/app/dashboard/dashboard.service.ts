@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { BasicStats, CategoriesRepartitionItem } from "./dashboard.model";
+import { BasicStats, CategoriesDistributionItem } from "./dashboard.model";
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, tap } from "rxjs";
 
@@ -12,9 +12,9 @@ export class DashboardService {
   private MOCK_DB_BASE_URL = "http://localhost:3000";
 
   basicStats = signal<BasicStats | undefined>(undefined);
-  categoriesRepartitionItems = signal<CategoriesRepartitionItem[] | undefined>(
-    undefined,
-  );
+  categoriesDistributionItems = signal<
+    CategoriesDistributionItem[] | undefined
+  >(undefined);
 
   constructor(private http: HttpClient) {}
 
@@ -28,20 +28,20 @@ export class DashboardService {
   }
 
   getCategoriesRepartition(): Observable<
-    CategoriesRepartitionItem[] | undefined
+    CategoriesDistributionItem[] | undefined
   > {
     // TODO @JoffreyLgt: Change MOCK_DB_BASE_URL into BASE_URL when API route is created
     return this.http
       .get<
-        CategoriesRepartitionItem[] | undefined
-      >(`${this.MOCK_DB_BASE_URL}/categories-repartition`)
+        CategoriesDistributionItem[] | undefined
+      >(`${this.MOCK_DB_BASE_URL}/categories-distribution`)
       .pipe(
-        tap((result: CategoriesRepartitionItem[] | undefined) => {
-          this.categoriesRepartitionItems.set(
-            result as CategoriesRepartitionItem[],
+        tap((result: CategoriesDistributionItem[] | undefined) => {
+          this.categoriesDistributionItems.set(
+            result as CategoriesDistributionItem[],
           );
         }),
-        map((_) => this.categoriesRepartitionItems()),
+        map((_) => this.categoriesDistributionItems()),
       );
   }
 }

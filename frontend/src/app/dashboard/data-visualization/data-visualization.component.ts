@@ -1,11 +1,11 @@
 import { Component } from "@angular/core";
-import { CategoriesRepartitionComponent } from "./categories-repartition/categories-repartition.component";
+import { CategoriesDistributionComponent } from "./categories-distribution/categories-distribution.component";
 import { DashboardService } from "../dashboard.service";
 import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-data-visualization",
-  imports: [CategoriesRepartitionComponent],
+  imports: [CategoriesDistributionComponent],
   templateUrl: "./data-visualization.component.html",
   styleUrl: "./data-visualization.component.css",
 })

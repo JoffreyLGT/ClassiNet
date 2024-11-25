@@ -6,8 +6,9 @@ export interface BasicStats {
   nbCategories: number;
 }
 
-export interface CategoriesRepartitionItem {
+export interface CategoriesDistributionItem {
   id: number;
   name: string;
   nbProducts: number;
+  percentage: number;
 }

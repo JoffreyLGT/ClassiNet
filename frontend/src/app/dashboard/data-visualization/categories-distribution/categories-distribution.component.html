@@ -1,0 +1,11 @@
+<div class="card bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title">Products distribution by category</h2>
+    <p>This section helps to highlight a possible imbalance in the data. For example, a
+      category
+      too represented could create biases when training the model and reduce
+      its performance.</p>
+    <div echarts [options]="piePlotOptions()"></div>
+    <div echarts [options]="barPlotOptions()"></div>
+  </div>
+</div>
