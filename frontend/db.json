@@ -1,0 +1,106 @@
+{
+  "categories-distribution": [
+    {
+      "id": 1,
+      "name": "Littérature",
+      "nbProducts": 100,
+      "percentage": 0.37
+    },
+    {
+      "id": 2,
+      "name": "Jeux vidéos",
+      "nbProducts": 1000,
+      "percentage": 3.7
+    },
+    {
+      "id": 3,
+      "name": "Produits dérivés",
+      "nbProducts": 2000,
+      "percentage": 7.4
+    },
+    {
+      "id": 4,
+      "name": "Cartes à collectionner",
+      "nbProducts": 235,
+      "percentage": 0.87
+    },
+    {
+      "id": 5,
+      "name": "Jouets",
+      "nbProducts": 2000,
+      "percentage": 7.4
+    },
+    {
+      "id": 6,
+      "name": "Jouets pour enfants",
+      "nbProducts": 2400,
+      "percentage": 8.88
+    },
+    {
+      "id": 7,
+      "name": "Objets télécommandés",
+      "nbProducts": 20,
+      "percentage": 0.07
+    },
+    {
+      "id": 8,
+      "name": "Hobbies",
+      "nbProducts": 3000,
+      "percentage": 11.1
+    },
+    {
+      "id": 9,
+      "name": "Activités extérieures",
+      "nbProducts": 2345,
+      "percentage": 8.67
+    },
+    {
+      "id": 10,
+      "name": "Jardinage",
+      "nbProducts": 942,
+      "percentage": 3.48
+    },
+    {
+      "id": 11,
+      "name": "Accessoires et vêtements bas-âges",
+      "nbProducts": 1500,
+      "percentage": 5.55
+    },
+    {
+      "id": 12,
+      "name": "Décorations d'intérieur",
+      "nbProducts": 300,
+      "percentage": 1.11
+    },
+    {
+      "id": 13,
+      "name": "Epicerie",
+      "nbProducts": 1000,
+      "percentage": 3.7
+    },
+    {
+      "id": 14,
+      "name": "Accessoires animaux de compagnie",
+      "nbProducts": 1000,
+      "percentage": 3.7
+    },
+    {
+      "id": 15,
+      "name": "Magazine",
+      "nbProducts": 3556,
+      "percentage": 13.15
+    },
+    {
+      "id": 16,
+      "name": "Bureautique",
+      "nbProducts": 1123,
+      "percentage": 4.15
+    },
+    {
+      "id": 17,
+      "name": "Piscine",
+      "nbProducts": 4512,
+      "percentage": 16.69
+    }
+  ]
+}

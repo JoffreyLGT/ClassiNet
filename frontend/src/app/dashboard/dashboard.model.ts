@@ -5,3 +5,10 @@ export interface BasicStats {
   nbProductsCreatedLastMonth: number;
   nbCategories: number;
 }
+
+export interface CategoriesDistributionItem {
+  id: number;
+  name: string;
+  nbProducts: number;
+  percentage: number;
+}

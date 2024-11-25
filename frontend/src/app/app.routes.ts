@@ -13,6 +13,7 @@ import {
 import { UnderConstructionComponent } from "./shared/under-construction/under-construction.component";
 import { isLoggedInGuard } from "./guards/is-logged-in.guard";
 import { HomeComponent } from "./dashboard/home/home.component";
+import { DataVisualizationComponent } from "./dashboard/data-visualization/data-visualization.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -32,7 +33,7 @@ export const routes: Routes = [
   },
   {
     path: DASHBOARD_DATA_VISUALIZATION_ROUTE,
-    component: UnderConstructionComponent,
+    component: DataVisualizationComponent,
     canActivate: [isLoggedInGuard],
   },
   {

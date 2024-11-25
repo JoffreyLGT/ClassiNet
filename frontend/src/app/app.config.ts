@@ -5,6 +5,7 @@ import { routes } from "./app.routes";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { authTokenInterceptor } from "./interceptors/auth-token.interceptor";
 import { provideAngularSvgIcon } from "angular-svg-icon";
+import { provideEcharts } from "ngx-echarts";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,5 +13,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAngularSvgIcon(),
+    provideEcharts(),
   ],
 };

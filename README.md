@@ -63,3 +63,12 @@ erDiagram
         string Password
     }
 ```
+
+## Resources
+
+### Front
+
+- [Angular documentation](https://angular.dev/)
+- [TailwindCSS documentation](https://tailwindcss.com/)
+- [DaisyUI documentation](https://daisyui.com/)
+- [echarts API documentation](https://echarts.apache.org/en/option.html#title)
