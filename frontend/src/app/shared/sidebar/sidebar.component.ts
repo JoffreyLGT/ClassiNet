@@ -23,7 +23,7 @@ import { SvgIconComponent } from "angular-svg-icon";
   ],
   template: `
     <nav
-      class="flex h-dvh w-64 flex-col gap-4 border-r border-neutral bg-accent"
+      class="sticky top-0 flex h-screen w-64 flex-col gap-4 border-r border-neutral bg-accent"
     >
       <h1 class="mx-auto mt-4">
         <img

@@ -9,9 +9,9 @@ import { NgxEchartsDirective } from "ngx-echarts";
   template: `
     <div class="flex">
       <app-sidebar />
-      <div class="container bg-base-200">
+      <main class="container overflow-auto bg-base-200">
         <router-outlet></router-outlet>
-      </div>
+      </main>
     </div>
   `,
   styleUrl: "./app.component.css",
