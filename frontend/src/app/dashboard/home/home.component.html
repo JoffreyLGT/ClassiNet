@@ -8,7 +8,7 @@
         <div class="stat-title">Users</div>
         <div class="stat-value">{{ dashboardService.basicStats()?.nbUsers }}</div>
         <div
-          class="stat-desc">{{ activatedUsersPercentage() }}% of active users
+          class="stat-desc">{{ dashboardService.activatedUsersPercentage() }}% of active users
         </div>
       </div>
 
@@ -19,7 +19,7 @@
         <div class="stat-title">Products</div>
         <div class="stat-value">{{ dashboardService.basicStats()?.nbProducts }}</div>
         <div class="stat-desc">↗︎ {{ dashboardService.basicStats()?.nbProductsCreatedLastMonth }}
-          ({{ productsIncreasePercentage() }}%)
+          ({{ dashboardService.productsIncreasePercentage() }}%)
         </div>
       </div>
 
