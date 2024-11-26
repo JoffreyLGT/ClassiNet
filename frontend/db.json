@@ -102,5 +102,12 @@
       "nbProducts": 4512,
       "percentage": 16.69
     }
-  ]
+  ],
+  "data-completeness": {
+    "complete": 60000,
+    "incomplete": 24000,
+    "missingDescriptionOnly": 10000,
+    "missingImageOnly": 14000,
+    "missingDescriptionAndImage": 3000
+  }
 }

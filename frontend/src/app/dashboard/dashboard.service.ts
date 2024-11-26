@@ -1,5 +1,9 @@
 import { computed, Injectable, signal } from "@angular/core";
-import { BasicStats, CategoriesDistributionItem } from "./dashboard.model";
+import {
+  BasicStats,
+  CategoriesDistributionItem,
+  DataCompletenessStats,
+} from "./dashboard.model";
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, tap } from "rxjs";
 
@@ -30,6 +34,7 @@ export class DashboardService {
   categoriesDistributionItems = signal<
     CategoriesDistributionItem[] | undefined
   >(undefined);
+  dataCompletenessStats = signal<DataCompletenessStats | undefined>(undefined);
 
   constructor(private http: HttpClient) {}
 
@@ -45,7 +50,7 @@ export class DashboardService {
   getCategoriesRepartition(): Observable<
     CategoriesDistributionItem[] | undefined
   > {
-    // TODO @JoffreyLgt: Change MOCK_DB_BASE_URL into BASE_URL when API route is created
+    // TODO: Change MOCK_DB_BASE_URL into BASE_URL when API route is created
     return this.http
       .get<
         CategoriesDistributionItem[] | undefined
@@ -57,6 +62,20 @@ export class DashboardService {
           );
         }),
         map((_) => this.categoriesDistributionItems()),
+      );
+  }
+
+  getDataCompletenessStats(): Observable<DataCompletenessStats | undefined> {
+    // TODO: Change MOCK_DB_BASE_URL into BASE_URL when API route is created
+    return this.http
+      .get<
+        DataCompletenessStats | undefined
+      >(`${this.MOCK_DB_BASE_URL}/data-completeness`)
+      .pipe(
+        tap((result: DataCompletenessStats | undefined) => {
+          this.dataCompletenessStats.set(result as DataCompletenessStats);
+        }),
+        map((_) => this.dataCompletenessStats()),
       );
   }
 }

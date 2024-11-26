@@ -12,3 +12,11 @@ export interface CategoriesDistributionItem {
   nbProducts: number;
   percentage: number;
 }
+
+export interface DataCompletenessStats {
+  complete: number;
+  incomplete: number;
+  missingDescriptionOnly: number;
+  missingImageOnly: number;
+  missingDescriptionAndImage: number;
+}

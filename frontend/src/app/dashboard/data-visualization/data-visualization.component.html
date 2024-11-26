@@ -33,5 +33,6 @@
     <app-categories-distribution
       [categoriesDistributionItems]="dashboardService.categoriesDistributionItems() ?? []" />
 
+    <app-data-completeness [dataCompletenessStats]="dashboardService.dataCompletenessStats()" />
   </section>
 </div>
