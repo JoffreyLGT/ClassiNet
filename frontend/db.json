@@ -109,5 +109,223 @@
     "missingDescriptionOnly": 10000,
     "missingImageOnly": 14000,
     "missingDescriptionAndImage": 3000
+  },
+  "text-variable-stats-designation": {
+    "variableName": "Designation",
+    "nbWordsBeforeProcessing": 980000,
+    "nbWords": 500000,
+    "longestWords": [
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      }
+    ],
+    "wordsCount": [
+      {
+        "word": "Sam S Club",
+        "count": 10000
+      },
+      {
+        "word": "Macys",
+        "count": 6181
+      },
+      {
+        "word": "Amy Schumer",
+        "count": 4386
+      },
+      {
+        "word": "Jurassic World",
+        "count": 4055
+      },
+      {
+        "word": "Charter Communications",
+        "count": 2467
+      },
+      {
+        "word": "Chick Fil A",
+        "count": 2244
+      },
+      {
+        "word": "Planet Fitness",
+        "count": 1898
+      },
+      {
+        "word": "Pitch Perfect",
+        "count": 1484
+      },
+      {
+        "word": "Express",
+        "count": 1112
+      },
+      {
+        "word": "Home",
+        "count": 965
+      },
+      {
+        "word": "Johnny Depp",
+        "count": 847
+      },
+      {
+        "word": "Lena Dunham",
+        "count": 582
+      },
+      {
+        "word": "Lewis Hamilton",
+        "count": 555
+      },
+      {
+        "word": "KXAN",
+        "count": 550
+      },
+      {
+        "word": "Mary Ellen Mark",
+        "count": 462
+      },
+      {
+        "word": "Farrah Abraham",
+        "count": 366
+      },
+      {
+        "word": "Rita Ora",
+        "count": 360
+      },
+      {
+        "word": "Serena Williams",
+        "count": 282
+      },
+      {
+        "word": "NCAA baseball tournament",
+        "count": 273
+      },
+      {
+        "word": "Point Break",
+        "count": 265
+      }
+    ]
+  },
+  "text-variable-stats-description": {
+    "variableName": "Description",
+    "nbWordsBeforeProcessing": 980000,
+    "nbWords": 500000,
+    "longestWords": [
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      },
+      {
+        "word": "Helloworldhowareyoutoday",
+        "nbChars": 24
+      }
+    ],
+    "wordsCount": [
+      {
+        "word": "Sam S Club",
+        "count": 10000
+      },
+      {
+        "word": "Macys",
+        "count": 6181
+      },
+      {
+        "word": "Amy Schumer",
+        "count": 4386
+      },
+      {
+        "word": "Jurassic World",
+        "count": 4055
+      },
+      {
+        "word": "Charter Communications",
+        "count": 2467
+      },
+      {
+        "word": "Chick Fil A",
+        "count": 2244
+      },
+      {
+        "word": "Planet Fitness",
+        "count": 1898
+      },
+      {
+        "word": "Pitch Perfect",
+        "count": 1484
+      },
+      {
+        "word": "Express",
+        "count": 1112
+      },
+      {
+        "word": "Home",
+        "count": 965
+      },
+      {
+        "word": "Johnny Depp",
+        "count": 847
+      },
+      {
+        "word": "Lena Dunham",
+        "count": 582
+      },
+      {
+        "word": "Lewis Hamilton",
+        "count": 555
+      },
+      {
+        "word": "KXAN",
+        "count": 550
+      },
+      {
+        "word": "Mary Ellen Mark",
+        "count": 462
+      },
+      {
+        "word": "Farrah Abraham",
+        "count": 366
+      },
+      {
+        "word": "Rita Ora",
+        "count": 360
+      },
+      {
+        "word": "Serena Williams",
+        "count": 282
+      },
+      {
+        "word": "NCAA baseball tournament",
+        "count": 273
+      },
+      {
+        "word": "Point Break",
+        "count": 265
+      }
+    ]
   }
 }
