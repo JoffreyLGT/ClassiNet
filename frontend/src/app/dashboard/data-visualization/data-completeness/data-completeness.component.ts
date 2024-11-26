@@ -34,8 +34,8 @@ export class DataCompletenessComponent {
         {
           name: "Data completeness",
           type: "pie",
-          radius: ["50%", "80%"],
-          center: ["50%", "70%"],
+          radius: ["80%", "120%"],
+          center: ["50%", "100%"],
           // adjust the start and end angle
           startAngle: 180,
           endAngle: 360,
