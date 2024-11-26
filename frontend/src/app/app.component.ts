@@ -1,11 +1,10 @@
 import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { SidebarComponent } from "./shared/sidebar/sidebar.component";
-import { NgxEchartsDirective } from "ngx-echarts";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, SidebarComponent, NgxEchartsDirective],
+  imports: [RouterOutlet, SidebarComponent],
   template: `
     <div class="flex">
       <app-sidebar />
