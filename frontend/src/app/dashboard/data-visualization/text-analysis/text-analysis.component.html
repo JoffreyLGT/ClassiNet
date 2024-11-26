@@ -1,0 +1,61 @@
+<div class="text-center">
+  <div
+    class="text-left stats stats-vertical lg:stats-horizontal shadow w-fit mb-4">
+    <div class="stat">
+      <div class="stat-figure text-secondary">
+        <svg-icon src="icons/article-line.svg" svgClass="h-8 w-8" />
+      </div>
+      <div class="stat-title">Words before processing</div>
+      <div class="stat-value">{{ this.textVariableStats()?.nbWordsBeforeProcessing?.toLocaleString("fr") }}</div>
+      <div class="stat-desc">&nbsp;</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-secondary">
+        <svg-icon src="icons/scissors-cut-line.svg" svgClass="h-8 w-8" />
+      </div>
+      <div class="stat-title">Words after processing</div>
+      <div class="stat-value">{{ this.textVariableStats()?.nbWords?.toLocaleString("fr") }}</div>
+      <div class="stat-desc">
+        ↘ {{ wordsCountDecrease() }}%
+      </div>
+    </div>
+  </div>
+</div>
+<div class="flex flex-wrap gap-4 justify-center">
+  <div class="card bg-base-100 shadow-xl grow lg:shrink">
+    <div class="card-body">
+      <h3 class="card-title">Longest words in {{ textVariableStats()?.variableName }}</h3>
+      <!--    TODO: Add more explanation regarding the data processing done on the text-->
+      <div class="overflow-x-auto">
+        <table class="table table-zebra">
+          <thead>
+          <tr>
+            <th>Word</th>
+            <th>Number of letters</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (word of this.textVariableStats()?.longestWords; track word.word) {
+              <tr>
+                <td>{{ word.word }}</td>
+                <td>{{ word.nbChars }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card bg-base-100 shadow-xl grow">
+    <div class="card-body">
+      <h3 class="card-title">Longest words in {{ textVariableStats()?.variableName }}</h3>
+      <div class="grow min-w-80">
+        @if (textVariableStats() !== undefined) {
+          <div echarts [loading]="textVariableStats() === undefined" [options]="wordCloudOptions()"
+               class="min-h-80 w-full"></div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

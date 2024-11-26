@@ -3,6 +3,8 @@ import {
   BasicStats,
   CategoriesDistributionItem,
   DataCompletenessStats,
+  TextVariableStats,
+  WordCount,
 } from "./dashboard.model";
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, tap } from "rxjs";
@@ -35,6 +37,8 @@ export class DashboardService {
     CategoriesDistributionItem[] | undefined
   >(undefined);
   dataCompletenessStats = signal<DataCompletenessStats | undefined>(undefined);
+  designationVariableStats = signal<TextVariableStats | undefined>(undefined);
+  descriptionVariableStats = signal<TextVariableStats | undefined>(undefined);
 
   constructor(private http: HttpClient) {}
 
@@ -76,6 +80,36 @@ export class DashboardService {
           this.dataCompletenessStats.set(result as DataCompletenessStats);
         }),
         map((_) => this.dataCompletenessStats()),
+      );
+  }
+
+  getDesignationVariableStats(): Observable<TextVariableStats | undefined> {
+    // TODO: Change MOCK_DB_BASE_URL into BASE_URL when API route is created
+    // TODO: Change the suffix of the url when API route is created
+    return this.http
+      .get<
+        TextVariableStats | undefined
+      >(`${this.MOCK_DB_BASE_URL}/text-variable-stats-designation`)
+      .pipe(
+        tap((result: TextVariableStats | undefined) => {
+          this.designationVariableStats.set(result as TextVariableStats);
+        }),
+        map((_) => this.designationVariableStats()),
+      );
+  }
+
+  getDescriptionVariableStats(): Observable<TextVariableStats | undefined> {
+    // TODO: Change MOCK_DB_BASE_URL into BASE_URL when API route is created
+    // TODO: Change the suffix of the url when API route is created
+    return this.http
+      .get<
+        TextVariableStats | undefined
+      >(`${this.MOCK_DB_BASE_URL}/text-variable-stats-description`)
+      .pipe(
+        tap((result: TextVariableStats | undefined) => {
+          this.descriptionVariableStats.set(result as TextVariableStats);
+        }),
+        map((_) => this.descriptionVariableStats()),
       );
   }
 }

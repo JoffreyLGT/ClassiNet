@@ -20,6 +20,7 @@
     "@angular/router": "^19.0.0",
     "angular-svg-icon": "^19.0.0",
     "echarts": "^5.5.1",
+    "echarts-wordcloud": "^2.1.0",
     "json-server": "^1.0.0-beta.3",
     "ngx-echarts": "^18.0.0",
     "rxjs": "~7.8.0",

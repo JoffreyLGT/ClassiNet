@@ -4,6 +4,7 @@ import { DashboardService } from "../dashboard.service";
 import { Subscription } from "rxjs";
 import { SvgIconComponent } from "angular-svg-icon";
 import { DataCompletenessComponent } from "./data-completeness/data-completeness.component";
+import { TextAnalysisComponent } from "./text-analysis/text-analysis.component";
 
 @Component({
   selector: "app-data-visualization",
@@ -11,6 +12,7 @@ import { DataCompletenessComponent } from "./data-completeness/data-completeness
     CategoriesDistributionComponent,
     SvgIconComponent,
     DataCompletenessComponent,
+    TextAnalysisComponent,
   ],
   templateUrl: "./data-visualization.component.html",
 })
@@ -20,6 +22,8 @@ export class DataVisualizationComponent implements OnDestroy {
   private getCategoriesRepartition: Subscription | null = null;
   private getBasicStatsSubscription: Subscription | null = null;
   private getDataCompletenessSubscription: Subscription | null = null;
+  private getDesignationVariableStatsSubscription: Subscription | null = null;
+  private getDescriptionVariableStatsSubscription: Subscription | null = null;
 
   constructor(dashboardService: DashboardService) {
     this.dashboardService = dashboardService;
@@ -32,11 +36,19 @@ export class DataVisualizationComponent implements OnDestroy {
     this.getDataCompletenessSubscription = dashboardService
       .getDataCompletenessStats()
       .subscribe();
+    this.getDesignationVariableStatsSubscription = dashboardService
+      .getDesignationVariableStats()
+      .subscribe();
+    this.getDescriptionVariableStatsSubscription = dashboardService
+      .getDescriptionVariableStats()
+      .subscribe();
   }
 
   ngOnDestroy() {
     this.getCategoriesRepartition?.unsubscribe();
     this.getBasicStatsSubscription?.unsubscribe();
     this.getDataCompletenessSubscription?.unsubscribe();
+    this.getDesignationVariableStatsSubscription?.unsubscribe();
+    this.getDescriptionVariableStatsSubscription?.unsubscribe();
   }
 }

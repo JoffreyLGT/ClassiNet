@@ -20,3 +20,32 @@ export interface DataCompletenessStats {
   missingImageOnly: number;
   missingDescriptionAndImage: number;
 }
+
+export interface TextVariableStats {
+  variableName: string;
+  nbWordsBeforeProcessing: number;
+  nbWords: number;
+  longestWords: [
+    {
+      word: string;
+      nbChars: number;
+    },
+  ];
+  wordsLengthStats: WordsLengthStats;
+  wordsCount: WordCount[];
+}
+
+export interface WordsLengthStats {
+  average: number;
+  standardDeviation: number;
+  minimum: number;
+  maximum: number;
+  quartile25: number;
+  quartile50: number;
+  quartile75: number;
+}
+
+export interface WordCount {
+  word: string;
+  count: number;
+}

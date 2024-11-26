@@ -1,38 +1,46 @@
 <div class="m-4 flex flex-col gap-16 ">
-  <section class="max-w-full flex flex-col gap-4">
-    <h2 class="text-4xl font-bold">Products</h2>
-    <div class="text-center">
-      <div class="stats shadow text-left">
-        <div class="stat">
-          <div class="stat-figure text-secondary">
-            <svg-icon src="icons/shopping-cart-line.svg" svgClass="h-8 w-8"></svg-icon>
+  <section class="max-w-full flex flex-col gap-8">
+    <h2 class="text-4xl font-bold">Data visualization</h2>
+    <h3 class="text-3xl font-semibold text-primary-content">Products</h3>
+    <div class="flex gap-4 flex-col">
+      <div class="text-center">
+        <div class="stats stats-vertical lg:stats-horizontal shadow text-left">
+          <div class="stat">
+            <div class="stat-figure text-secondary">
+              <svg-icon src="icons/shopping-cart-line.svg" svgClass="h-8 w-8"></svg-icon>
+            </div>
+            <div class="stat-title">Total</div>
+            <div class="stat-value">{{ dashboardService.basicStats()?.nbProducts?.toLocaleString("fr") }}</div>
+            <div class="stat-desc">&nbsp;</div>
           </div>
-          <div class="stat-title">Total</div>
-          <div class="stat-value">{{ dashboardService.basicStats()?.nbProducts }}</div>
-          <div class="stat-desc">&nbsp;</div>
-        </div>
-        <div class="stat">
-          <div class="stat-figure text-secondary">
-            <svg-icon src="icons/line-chart-line.svg" svgClass="h-8 w-8"></svg-icon>
+          <div class="stat">
+            <div class="stat-figure text-secondary">
+              <svg-icon src="icons/line-chart-line.svg" svgClass="h-8 w-8"></svg-icon>
+            </div>
+            <div class="stat-title">Last 30 days</div>
+            <div class="stat-value">
+              +{{ dashboardService.basicStats()?.nbProductsCreatedLastMonth?.toLocaleString("fr") }}
+            </div>
+            <div class="stat-desc">↗︎ {{ dashboardService.productsIncreasePercentage() }}%
+            </div>
           </div>
-          <div class="stat-title">Last 30 days</div>
-          <div class="stat-value">+{{ dashboardService.basicStats()?.nbProductsCreatedLastMonth }}</div>
-          <div class="stat-desc">↗︎ {{ dashboardService.productsIncreasePercentage() }}%
+          <div class="stat">
+            <div class="stat-figure text-secondary">
+              <svg-icon src="icons/price-tag-3-line.svg" svgClass="h-8 w-8"></svg-icon>
+            </div>
+            <div class="stat-title">Categories</div>
+            <div class="stat-value">{{ dashboardService.basicStats()?.nbCategories }}</div>
+            <div class="stat-desc">&nbsp;</div>
           </div>
-        </div>
-        <div class="stat">
-          <div class="stat-figure text-secondary">
-            <svg-icon src="icons/price-tag-3-line.svg" svgClass="h-8 w-8"></svg-icon>
-          </div>
-          <div class="stat-title">Categories</div>
-          <div class="stat-value">{{ dashboardService.basicStats()?.nbCategories }}</div>
-          <div class="stat-desc">&nbsp;</div>
         </div>
       </div>
+      <app-categories-distribution
+        [categoriesDistributionItems]="dashboardService.categoriesDistributionItems() ?? []" />
+      <app-data-completeness [dataCompletenessStats]="dashboardService.dataCompletenessStats()" />
     </div>
-    <app-categories-distribution
-      [categoriesDistributionItems]="dashboardService.categoriesDistributionItems() ?? []" />
-
-    <app-data-completeness [dataCompletenessStats]="dashboardService.dataCompletenessStats()" />
+    <h3 class="text-3xl font-semibold">Analysis of the variable "Designation"</h3>
+    <app-text-analysis [textVariableStats]="dashboardService.designationVariableStats()" />
+    <h3 class="text-3xl font-semibold">Analysis of the variable "Description"</h3>
+    <app-text-analysis [textVariableStats]="dashboardService.descriptionVariableStats()" />
   </section>
 </div>
