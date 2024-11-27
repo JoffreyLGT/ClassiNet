@@ -1,6 +1,8 @@
 import { Routes } from "@angular/router";
 import { LoginComponent } from "./user/login/login.component";
 import {
+  ADMIN_ADD_USER_ROUTE,
+  ADMIN_EDIT_USER_ROUTE,
   ADMIN_PRODUCTS_ROUTE,
   ADMIN_USERS_ROUTE,
   CATEGORIZATION_PRODUCT_ROUTE,
@@ -14,6 +16,8 @@ import { UnderConstructionComponent } from "./shared/under-construction/under-co
 import { isLoggedInGuard } from "./guards/is-logged-in.guard";
 import { HomeComponent } from "./dashboard/home/home.component";
 import { DataVisualizationComponent } from "./dashboard/data-visualization/data-visualization.component";
+import { UsersManagementComponent } from "./user/users-management/users-management.component";
+import { EditUserComponent } from "./user/edit-user/edit-user.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -55,7 +59,17 @@ export const routes: Routes = [
   },
   {
     path: ADMIN_USERS_ROUTE,
-    component: UnderConstructionComponent,
+    component: UsersManagementComponent,
+    canActivate: [isLoggedInGuard],
+  },
+  {
+    path: `${ADMIN_EDIT_USER_ROUTE}/:id`,
+    component: EditUserComponent,
+    canActivate: [isLoggedInGuard],
+  },
+  {
+    path: ADMIN_ADD_USER_ROUTE,
+    component: EditUserComponent,
     canActivate: [isLoggedInGuard],
   },
 ];

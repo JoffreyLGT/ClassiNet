@@ -11,6 +11,8 @@ export const USER_LOGOUT_ROUTE = "user/logout";
 export const CATEGORIZATION_PRODUCT_ROUTE = "categorization/product";
 
 export const ADMIN_USERS_ROUTE = "admin/users";
+export const ADMIN_ADD_USER_ROUTE = "admin/users/add";
+export const ADMIN_EDIT_USER_ROUTE = "admin/users/edit";
 export const ADMIN_PRODUCTS_ROUTE = "admin/products";
 
 export const MENU_ITEM_LOGIN: MenuItem = {

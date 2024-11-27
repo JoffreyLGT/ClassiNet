@@ -8,7 +8,7 @@ import {
 } from "../../app.static-data";
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { Subscription } from "rxjs";
-import { UserService } from "../../services/user/user.service";
+import { UserService } from "../../user/user.service";
 import { NgOptimizedImage } from "@angular/common";
 import { SvgIconComponent } from "angular-svg-icon";
 
