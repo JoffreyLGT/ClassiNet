@@ -14,36 +14,8 @@
         <input type="text" class="grow" placeholder="Search" [formControl]="search" />
         <svg-icon src="icons/search-line.svg" svgClass="h-4 w-4" />
       </label>
-      <div class="join">
-        @if (currentPage() === 1) {
-          <button class="btn btn-disabled join-item min-w-14"><</button>
-        } @else {
-          <button class="btn join-item min-w-14" (click)="previousPage()">
-            <
-          </button>
-        }
-        @for (pageNumber of pageList(); track $index) {
-          @if (currentPage() === pageNumber) {
-            <button class="btn btn-disabled join-item min-w-14">
-              {{ pageNumber }}
-            </button>
-          } @else if (pageNumber === null) {
-            <button class="btn join-item min-w-14">...</button>
-          } @else {
-            <button
-              class="btn join-item min-w-14"
-              (click)="changePage(pageNumber)"
-            >
-              {{ pageNumber }}
-            </button>
-          }
-        }
-        @if (currentPage() === lastPage()) {
-          <button class="btn btn-disabled join-item min-w-14">></button>
-        } @else {
-          <button class="btn join-item min-w-14" (click)="nextPage()">></button>
-        }
-      </div>
+      <app-paginator [currentPage]="currentPage()" [lastPage]="lastPage()"
+                     (changePage)="changePage($event)"></app-paginator>
     </div>
     <table class="table table-pin-rows table-pin-cols">
       <thead>

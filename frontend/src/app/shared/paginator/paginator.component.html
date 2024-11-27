@@ -1,0 +1,30 @@
+<div class="join">
+  @if (currentPage() === 1) {
+    <button class="btn btn-disabled join-item min-w-14"><</button>
+  } @else {
+    <button class="btn join-item min-w-14" (click)="changePage.emit(currentPage() - 1)">
+      <
+    </button>
+  }
+  @for (pageNumber of pageList(); track $index) {
+    @if (currentPage() === pageNumber) {
+      <button class="btn btn-disabled join-item min-w-14">
+        {{ pageNumber }}
+      </button>
+    } @else if (pageNumber === null) {
+      <button class="btn join-item min-w-14">...</button>
+    } @else {
+      <button
+        class="btn join-item min-w-14"
+        (click)="changePage.emit(pageNumber)"
+      >
+        {{ pageNumber }}
+      </button>
+    }
+  }
+  @if (currentPage() === lastPage()) {
+    <button class="btn btn-disabled join-item min-w-14">></button>
+  } @else {
+    <button class="btn join-item min-w-14" (click)="changePage.emit(currentPage() + 1)">></button>
+  }
+</div>
