@@ -6,8 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { UserService } from "../user.service";
-import { LoginRequest } from "../../models/login-request";
-import { UserModel } from "../user.model";
+import { UserModel, LoginRequest } from "../user.model";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { DASHBOARD_HOME_ROUTE } from "../../app.static-data";
@@ -128,10 +127,10 @@ export class LoginComponent implements OnDestroy {
       password: this.loginForm.controls["password"].value ?? "",
     };
     this.loginSubscription = this.userService.login(credentials).subscribe({
-      next: (result: UserModel | null | undefined) => {
+      next: (_: UserModel | null | undefined) => {
         this.navigateHome();
       },
-      error: (error) => {
+      error: (_) => {
         this.invalidCredentials = true;
       },
     });

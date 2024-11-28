@@ -1,4 +1,4 @@
-import { MenuItem } from "./shared/sidebar/menu-item.model";
+import { MenuItem } from "./shared/shared.model";
 
 export const PAGE_NOT_FOUND_ROUTE = "404";
 export const DASHBOARD_HOME_ROUTE = "dashboard/home";
