@@ -2,8 +2,7 @@
   <div class="mb-8 flex flex-wrap justify-between gap-8">
     <h2 class="text-4xl font-bold">User management</h2>
     <div class="grow text-right">
-      <button
-        class="btn btn-primary" (click)="addUser()">
+      <button class="btn btn-primary" (click)="addUser()">
         <svg-icon src="icons/user-add-line.svg" svgClass="h-4 w-4" />
         Add user
       </button>
@@ -12,24 +11,32 @@
   <div class="flex flex-col gap-4 overflow-x-auto">
     <div class="m-1 flex flex-wrap justify-between gap-4">
       <label class="input input-bordered flex items-center gap-2">
-        <input type="text" class="grow" placeholder="Search" [formControl]="search" />
+        <input
+          type="text"
+          class="grow"
+          placeholder="Search"
+          [formControl]="search"
+        />
         <svg-icon src="icons/search-line.svg" svgClass="h-4 w-4" />
       </label>
-      <app-paginator [currentPage]="currentPage()" [lastPage]="lastPage()"
-                     (changePage)="changePage($event)"></app-paginator>
+      <app-paginator
+        [currentPage]="currentPage()"
+        [lastPage]="lastPage()"
+        (changePage)="changePage($event)"
+      ></app-paginator>
     </div>
     <table class="table table-pin-rows table-pin-cols">
       <thead>
-      <tr>
-        <td>Email</td>
-        <td>Name</td>
-        <td>Company</td>
-        <td>Role</td>
-        <td>Activated</td>
-        <td>Disabled</td>
-        <td>Number of logins</td>
-        <td>Actions</td>
-      </tr>
+        <tr>
+          <th>Email</th>
+          <td>Name</td>
+          <td>Company</td>
+          <td>Role</td>
+          <td>Activated</td>
+          <td>Disabled</td>
+          <td>Number of logins</td>
+          <td>Actions</td>
+        </tr>
       </thead>
       <tbody>
         @for (user of userService.userList()?.data; track user.id) {
@@ -38,39 +45,36 @@
             <td>{{ user.userName }}</td>
             <td>{{ user.company }}</td>
             <td>{{ user.role }}</td>
-            <td>@if (user.activated) {
-              <svg-icon src="icons/checkbox-line.svg" svgClass="h-6 w-6" />
-            } @else {
-              <svg-icon src="icons/checkbox-blank-line.svg" svgClass="h-6 w-6" />
-            }</td>
-            <td>@if (user.disabled) {
-              <svg-icon src="icons/checkbox-line.svg" svgClass="h-6 w-6" />
-            } @else {
-              <svg-icon src="icons/checkbox-blank-line.svg" svgClass="h-6 w-6" />
-            }</td>
+            <td>
+              @if (user.activated) {
+                <svg-icon src="icons/checkbox-line.svg" svgClass="h-6 w-6" />
+              } @else {
+                <svg-icon
+                  src="icons/checkbox-blank-line.svg"
+                  svgClass="h-6 w-6"
+                />
+              }
+            </td>
+            <td>
+              @if (user.disabled) {
+                <svg-icon src="icons/checkbox-line.svg" svgClass="h-6 w-6" />
+              } @else {
+                <svg-icon
+                  src="icons/checkbox-blank-line.svg"
+                  svgClass="h-6 w-6"
+                />
+              }
+            </td>
             <td>{{ user.numberOfLogins }}</td>
             <td class="flex gap-2">
               <div class="tooltip" data-tip="Edit user">
-                <button class="btn btn-outline btn-secondary btn-sm" (click)="editUser(user.id)">
+                <button
+                  class="btn btn-outline btn-secondary btn-sm"
+                  (click)="editUser(user.id)"
+                >
                   <svg-icon src="icons/edit-line.svg" svgClass="h-4 w-4" />
                 </button>
               </div>
-              @if (user.disabled) {
-                <div class="tooltip" data-tip="Enable user">
-                  <button class="btn btn-outline btn-warning btn-sm">
-                    <svg-icon
-                      src="icons/lock-unlock-line.svg"
-                      svgClass="h-4 w-4"
-                    />
-                  </button>
-                </div>
-              } @else {
-                <div class="tooltip" data-tip="Disable user">
-                  <button class="btn btn-outline btn-error btn-sm">
-                    <svg-icon src="icons/lock-line.svg" svgClass="h-4 w-4" />
-                  </button>
-                </div>
-              }
             </td>
           </tr>
         }
