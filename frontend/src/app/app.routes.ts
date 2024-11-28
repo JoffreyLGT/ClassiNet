@@ -61,15 +61,18 @@ export const routes: Routes = [
     path: ADMIN_USERS_ROUTE,
     component: UsersManagementComponent,
     canActivate: [isLoggedInGuard],
+    title: "User management",
   },
   {
     path: `${ADMIN_EDIT_USER_ROUTE}/:id`,
     component: EditUserComponent,
     canActivate: [isLoggedInGuard],
+    title: "Edit user",
   },
   {
     path: ADMIN_ADD_USER_ROUTE,
     component: EditUserComponent,
     canActivate: [isLoggedInGuard],
+    title: "Add user",
   },
 ];

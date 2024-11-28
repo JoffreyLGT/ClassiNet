@@ -74,3 +74,5 @@ export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
     ],
   },
 ];
+
+export const USER_ROLES = ["User", "Admin"];

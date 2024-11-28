@@ -328,7 +328,29 @@
       }
     ]
   },
-  "users": {
+  "users": [
+    {
+      "id": "5b6f60c6-fb81-451c-85c0-a051865aefc2",
+      "userName": "Admin",
+      "company": "ACME Incorporated",
+      "email": "admin@test.fr",
+      "role": "Admin",
+      "activated": true,
+      "disabled": false,
+      "numberOfLogins": 20
+    },
+    {
+      "id": "a1cbe68f-06e5-4439-a99f-b2089955dfff",
+      "userName": "User",
+      "company": "ACME Subsidiary",
+      "email": "user@test.fr",
+      "role": "User",
+      "activated": true,
+      "disabled": true,
+      "numberOfLogins": 9
+    }
+  ],
+  "get-user-list": {
     "nbTotalUsers": 2,
     "nbPages": 1,
     "data": [

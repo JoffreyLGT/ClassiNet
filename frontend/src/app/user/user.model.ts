@@ -1,12 +1,13 @@
 export interface UserModel {
-  id: string;
+  id?: string;
   email: string;
+  password?: string;
   userName?: string;
   company?: string;
   role?: string;
   activated: boolean;
   disabled: boolean;
-  numberOfLogins: number;
+  numberOfLogins?: number;
   token?: string;
 }
 
