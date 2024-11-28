@@ -26,13 +26,13 @@
       ></app-paginator>
     </div>
     <div class="overflow-x-auto">
-      <table class="table table-zebra table-pin-rows">
+      <table class="table table-zebra table-pin-rows table-fixed">
         <thead>
           <tr>
-            <td>Designation</td>
-            <td>Description</td>
-            <td>Category</td>
-            <td>Actions</td>
+            <td class="w-44">Designation</td>
+            <td class="w-44 md:w-full">Description</td>
+            <td class="w-44">Category</td>
+            <td class="w-20">Actions</td>
           </tr>
         </thead>
         <tbody>
@@ -41,13 +41,21 @@
             track product.id
           ) {
             <tr>
-              <td class="text-ellipsis">
-                {{ product.designation.slice(0, 50) }}
+              <td>
+                <div class="tooltip" [attr.data-tip]="product.designation">
+                  <span class="line-clamp-1 text-left">{{
+                    product.designation
+                  }}</span>
+                </div>
               </td>
-              <td class="overflow-hidden text-ellipsis">
-                {{ product.description?.slice(0, 120) }}
+              <td>
+                <div class="tooltip" [attr.data-tip]="product.description">
+                  <span class="line-clamp-1 text-left">{{
+                    product.description
+                  }}</span>
+                </div>
               </td>
-              <td class="">{{ product.category }}</td>
+              <td>{{ product.category }}</td>
               <td class="flex gap-2">
                 <div class="tooltip" data-tip="Edit user">
                   <button
