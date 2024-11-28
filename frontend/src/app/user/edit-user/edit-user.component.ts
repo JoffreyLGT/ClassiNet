@@ -13,7 +13,6 @@ import { ADMIN_USER_LIST_ROUTE, USER_ROLES } from "../../app.static-data";
 import { UserModel } from "../user.model";
 import { Subscription } from "rxjs";
 
-// TODO: handle the usercase where the user id is not found in db
 @Component({
   selector: "app-edit-user",
   imports: [FormsModule, ReactiveFormsModule, SvgIconComponent],
@@ -63,6 +62,9 @@ export class EditUserComponent implements OnDestroy {
           this.userForm
             .get("disabled")
             ?.setValue(result.disabled ?? this.DISABLED_DEFAULT_VALUE);
+        },
+        error: (_) => {
+          this.router.navigate(["/404"], { skipLocationChange: true }).then();
         },
       });
     } else {

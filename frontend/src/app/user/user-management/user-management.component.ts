@@ -11,7 +11,7 @@ import {
 } from "../../app.static-data";
 import { PaginatorComponent } from "../../shared/paginator/paginator.component";
 import { Location } from "@angular/common";
-import { GetUserListResponse, UserModel } from "../user.model";
+import { GetUserListResponse } from "../user.model";
 
 @Component({
   selector: "app-user-management",

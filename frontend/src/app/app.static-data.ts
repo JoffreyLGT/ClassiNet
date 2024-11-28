@@ -1,5 +1,6 @@
 import { MenuItem } from "./shared/sidebar/menu-item.model";
 
+export const PAGE_NOT_FOUND_ROUTE = "404";
 export const DASHBOARD_HOME_ROUTE = "dashboard/home";
 export const DASHBOARD_DATA_VISUALIZATION_ROUTE =
   "dashboard/data-visualization";

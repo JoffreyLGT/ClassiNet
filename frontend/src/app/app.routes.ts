@@ -11,6 +11,7 @@ import {
   DASHBOARD_DATA_VISUALIZATION_ROUTE,
   DASHBOARD_HOME_ROUTE,
   DASHBOARD_MODEL_PERFORMANCE_ROUTE,
+  PAGE_NOT_FOUND_ROUTE,
   USER_LOGIN_ROUTE,
   USER_LOGOUT_ROUTE,
 } from "./app.static-data";
@@ -22,6 +23,7 @@ import { UserManagementComponent } from "./user/user-management/user-management.
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
 import { ProductManagementComponent } from "./product/product-management/product-management.component";
 import { EditProductComponent } from "./product/edit-product/edit-product.component";
+import { NotFoundComponent } from "./shared/not-found/not-found.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -91,5 +93,14 @@ export const routes: Routes = [
     component: EditUserComponent,
     canActivate: [isLoggedInGuard],
     title: "Add user",
+  },
+  {
+    path: PAGE_NOT_FOUND_ROUTE,
+    component: NotFoundComponent,
+  },
+  {
+    path: "**",
+    component: NotFoundComponent,
+    title: "Page not found",
   },
 ];
