@@ -16,8 +16,6 @@ export class PaginatorComponent {
   });
 
   pageList = computed((): (number | null)[] => {
-    // TODO: The content of this function could be set in a utilities file
-    // TODO: This function is hardcored and should be simplified with recursion
     const currentPage = this.currentPage();
 
     const nbButtons = 7;

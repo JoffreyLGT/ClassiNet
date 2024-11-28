@@ -41,7 +41,6 @@ export class EditUserComponent implements OnDestroy {
     name: new FormControl(""),
   });
 
-  // TODO: ensure we need variables form DI
   constructor(
     private userService: UserService,
     route: ActivatedRoute,
