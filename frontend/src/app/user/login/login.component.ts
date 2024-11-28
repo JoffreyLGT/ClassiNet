@@ -17,8 +17,8 @@ import { SvgIconComponent } from "angular-svg-icon";
   selector: "app-login",
   imports: [ReactiveFormsModule, SvgIconComponent],
   template: `
-    <div class="flex min-h-screen items-center justify-center">
-      <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="mb-10 mt-0 flex md:mt-5 md:items-center md:justify-center">
+      <div class="card w-full bg-base-100 shadow-xl md:w-96">
         <div class="card-body">
           <h2 class="card-title mb-6 text-2xl font-bold">Login</h2>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

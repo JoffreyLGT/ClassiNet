@@ -6,31 +6,47 @@
           <svg-icon src="icons/group-line.svg" svgClass="h-8 w-8"></svg-icon>
         </div>
         <div class="stat-title">Users</div>
-        <div class="stat-value">{{ dashboardService.basicStats()?.nbUsers }}</div>
-        <div
-          class="stat-desc">{{ dashboardService.activatedUsersPercentage() }}% of active users
+        <div class="stat-value">
+          {{ dashboardService.basicStats()?.nbUsers }}
+        </div>
+        <div class="stat-desc">
+          {{ dashboardService.activatedUsersPercentage() }}% of active users
         </div>
       </div>
 
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <svg-icon src="icons/shopping-cart-line.svg" svgClass="h-8 w-8"></svg-icon>
+          <svg-icon
+            src="icons/shopping-cart-line.svg"
+            svgClass="h-8 w-8"
+          ></svg-icon>
         </div>
         <div class="stat-title">Products</div>
-        <div class="stat-value">{{ dashboardService.basicStats()?.nbProducts }}</div>
-        <div class="stat-desc">↗︎ {{ dashboardService.basicStats()?.nbProductsCreatedLastMonth }}
-          ({{ dashboardService.productsIncreasePercentage() }}%)
+        <div class="stat-value">
+          {{ dashboardService.basicStats()?.nbProducts }}
+        </div>
+        <div class="stat-desc">
+          ↗︎
+          {{ dashboardService.basicStats()?.nbProductsCreatedLastMonth }} ({{
+            dashboardService.productsIncreasePercentage()
+          }}%)
         </div>
       </div>
 
       <div class="stat">
         <div class="stat-figure text-secondary">
-          <svg-icon src="icons/archive-2-line.svg" svgClass="h-8 w-8"></svg-icon>
+          <svg-icon
+            src="icons/archive-2-line.svg"
+            svgClass="h-8 w-8"
+          ></svg-icon>
         </div>
         <div class="stat-title">Categories</div>
-        <div class="stat-value">{{ dashboardService.basicStats()?.nbCategories }}</div>
+        <div class="stat-value">
+          {{ dashboardService.basicStats()?.nbCategories }}
+        </div>
         <div class="stat-desc">&nbsp;</div>
       </div>
     </div>
   </div>
+  <app-under-construction />
 </section>

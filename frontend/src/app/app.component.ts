@@ -1,19 +1,12 @@
 import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { SidebarComponent } from "./shared/sidebar/sidebar.component";
+import { NavbarComponent } from "./shared/navbar/navbar.component";
 
 @Component({
   selector: "app-root",
-  imports: [RouterOutlet, SidebarComponent],
-  template: `
-    <div class="flex">
-      <app-sidebar />
-      <main class="container overflow-auto bg-base-200">
-        <router-outlet></router-outlet>
-      </main>
-    </div>
-  `,
-  styleUrl: "./app.component.css",
+  imports: [RouterOutlet, SidebarComponent, NavbarComponent],
+  templateUrl: "./app.component.html",
 })
 export class AppComponent {
   title = "Product classification";
