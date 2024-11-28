@@ -73,6 +73,7 @@ export class EditUserComponent implements OnDestroy {
 
   onSubmit() {
     const user: UserModel = {
+      id: "",
       email: this.userForm.controls["email"].value ?? "",
       password: this.userForm.controls["password"].value ?? "",
       company: this.userForm.controls["company"].value ?? "",
