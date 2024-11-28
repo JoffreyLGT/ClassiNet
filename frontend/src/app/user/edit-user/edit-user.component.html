@@ -1,0 +1,147 @@
+<div class="flex min-h-screen lg:items-center lg:justify-center">
+  <div class="card w-full bg-base-100 shadow-xl lg:w-1/2">
+    <div class="card-body">
+      <h2 class="card-title mb-6 text-2xl font-bold">
+        {{ userId === null ? "New user" : "Edit user" }}
+      </h2>
+      @if (success) {
+        <div role="alert" class="alert alert-success">
+          <svg-icon src="icons/checkbox-circle-line.svg" svgClass="h-6 w-6" />
+          <span>{{
+            this.userId === null
+              ? "User has been added!"
+              : "User has been edited!"
+          }}</span>
+        </div>
+      }
+      @if (errorMessage !== null) {
+        <div role="alert" class="alert alert-error">
+          <svg-icon src="icons/error-warning-line.svg" svgClass="h-6 w-6" />
+          <span>{{ this.errorMessage }}</span>
+        </div>
+      }
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Email*</span>
+          </label>
+          <label
+            [class.input-error]="
+              !userForm.controls['email'].untouched &&
+              userForm.controls['email'].invalid
+            "
+            class="input input-bordered flex items-center gap-2"
+          >
+            <svg-icon src="icons/email.svg" svgClass="h-4 w-4 opacity-70" />
+            <input
+              type="email"
+              formControlName="email"
+              class="grow"
+              placeholder="email@example.com"
+            />
+          </label>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text"
+              >Password{{ this.userId === null ? "*" : "" }}</span
+            >
+          </label>
+          <label
+            [class.input-error]="
+              !userForm.controls['password'].untouched &&
+              userForm.controls['password'].invalid
+            "
+            class="input input-bordered flex items-center gap-2"
+          >
+            <svg-icon src="icons/password.svg" svgClass="h-4 w-4 opacity-70" />
+            <input
+              type="password"
+              formControlName="password"
+              class="grow"
+              [placeholder]="
+                this.userId === null
+                  ? 'Enter password'
+                  : 'Leave empty to not change the password'
+              "
+            />
+          </label>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Name</span>
+          </label>
+          <label class="input input-bordered flex items-center gap-2">
+            <svg-icon src="icons/user-line.svg" svgClass="h-4 w-4 opacity-70" />
+            <input
+              type="text"
+              formControlName="name"
+              class="grow"
+              placeholder="Jean Dupond"
+            />
+          </label>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Company</span>
+          </label>
+          <label class="input input-bordered flex items-center gap-2">
+            <svg-icon
+              src="icons/building-4-line.svg"
+              svgClass="h-4 w-4 opacity-70"
+            />
+            <input
+              type="text"
+              formControlName="company"
+              class="grow"
+              placeholder="ACME Corporation"
+            />
+          </label>
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Role</span>
+          </label>
+
+          <select class="select select-bordered w-full" formControlName="role">
+            <option disabled selected>Select a role</option>
+            @for (role of USER_ROLES; track $index) {
+              <option>{{ role }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Is activated?</span>
+          </label>
+
+          <input
+            type="checkbox"
+            class="toggle toggle-success toggle-lg"
+            formControlName="activated"
+          />
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Is disabled?</span>
+          </label>
+
+          <input
+            type="checkbox"
+            class="toggle toggle-error toggle-lg"
+            formControlName="disabled"
+          />
+        </div>
+
+        <div class="form-control mt-6">
+          <button [disabled]="!userForm.valid" class="btn btn-primary">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

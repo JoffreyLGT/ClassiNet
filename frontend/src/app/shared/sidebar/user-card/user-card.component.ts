@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { User } from "../../../models/user";
+import { UserModel } from "../../../user/user.model";
 
 @Component({
   selector: "app-user-card",
@@ -32,5 +32,5 @@ import { User } from "../../../models/user";
   `,
 })
 export class UserCardComponent {
-  user = input<User | null | undefined>();
+  user = input<UserModel | null | undefined>();
 }
