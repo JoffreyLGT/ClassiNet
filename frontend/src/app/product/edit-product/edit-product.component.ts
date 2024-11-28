@@ -13,7 +13,6 @@ import { Subscription } from "rxjs";
 import { ProductService } from "../product.service";
 import { ProductModel } from "../product.model";
 
-// TODO: handle the usecase where the product id is not found in db
 @Component({
   selector: "app-edit-product",
   imports: [FormsModule, ReactiveFormsModule, SvgIconComponent],
@@ -64,6 +63,9 @@ export class EditProductComponent implements OnDestroy {
             this.productForm
               .get("category")
               ?.setValue(result.category?.id ?? null);
+          },
+          error: (_) => {
+            this.router.navigate(["/404"], { skipLocationChange: true }).then();
           },
         });
     }

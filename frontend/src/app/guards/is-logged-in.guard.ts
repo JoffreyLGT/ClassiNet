@@ -4,7 +4,7 @@ import { inject } from "@angular/core";
 import { USER_LOGIN_ROUTE } from "../app.static-data";
 import { catchError, map } from "rxjs";
 
-export const isLoggedInGuard: CanActivateFn = (route, state) => {
+export const isLoggedInGuard: CanActivateFn = (_, __) => {
   const userService = inject(UserService);
   const router = inject(Router);
 
@@ -13,7 +13,7 @@ export const isLoggedInGuard: CanActivateFn = (route, state) => {
       map((_) => {
         return true;
       }),
-      catchError((_) => router.navigate([USER_LOGIN_ROUTE])),
+      catchError((_) => router.navigate([USER_LOGIN_ROUTE]).then()),
     );
   }
   if (userService.user() === null) {

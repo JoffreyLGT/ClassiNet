@@ -11,6 +11,7 @@ import {
   DASHBOARD_DATA_VISUALIZATION_ROUTE,
   DASHBOARD_HOME_ROUTE,
   DASHBOARD_MODEL_PERFORMANCE_ROUTE,
+  PAGE_NOT_FOUND_ROUTE,
   USER_LOGIN_ROUTE,
   USER_LOGOUT_ROUTE,
 } from "./app.static-data";
@@ -92,6 +93,10 @@ export const routes: Routes = [
     component: EditUserComponent,
     canActivate: [isLoggedInGuard],
     title: "Add user",
+  },
+  {
+    path: PAGE_NOT_FOUND_ROUTE,
+    component: NotFoundComponent,
   },
   {
     path: "**",
