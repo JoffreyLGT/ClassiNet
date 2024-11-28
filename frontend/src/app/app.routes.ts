@@ -1,7 +1,9 @@
 import { Routes } from "@angular/router";
 import { LoginComponent } from "./user/login/login.component";
 import {
+  ADMIN_ADD_PRODUCT_ROUTE,
   ADMIN_ADD_USER_ROUTE,
+  ADMIN_EDIT_PRODUCT_ROUTE,
   ADMIN_EDIT_USER_ROUTE,
   ADMIN_PRODUCT_LIST_ROUTE,
   ADMIN_USER_LIST_ROUTE,
@@ -19,6 +21,7 @@ import { DataVisualizationComponent } from "./dashboard/data-visualization/data-
 import { UserManagementComponent } from "./user/user-management/user-management.component";
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
 import { ProductManagementComponent } from "./product/product-management/product-management.component";
+import { EditProductComponent } from "./product/edit-product/edit-product.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -58,6 +61,18 @@ export const routes: Routes = [
     component: ProductManagementComponent,
     canActivate: [isLoggedInGuard],
     title: "Product management",
+  },
+  {
+    path: `${ADMIN_EDIT_PRODUCT_ROUTE}/:id`,
+    component: EditProductComponent,
+    canActivate: [isLoggedInGuard],
+    title: "Edit product",
+  },
+  {
+    path: ADMIN_ADD_PRODUCT_ROUTE,
+    component: EditProductComponent,
+    canActivate: [isLoggedInGuard],
+    title: "Add product",
   },
   {
     path: ADMIN_USER_LIST_ROUTE,
