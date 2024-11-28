@@ -3,7 +3,7 @@ import { LoginComponent } from "./user/login/login.component";
 import {
   ADMIN_ADD_USER_ROUTE,
   ADMIN_EDIT_USER_ROUTE,
-  ADMIN_PRODUCTS_ROUTE,
+  ADMIN_PRODUCT_LIST_ROUTE,
   ADMIN_USER_LIST_ROUTE,
   CATEGORIZATION_PRODUCT_ROUTE,
   DASHBOARD_DATA_VISUALIZATION_ROUTE,
@@ -18,6 +18,7 @@ import { HomeComponent } from "./dashboard/home/home.component";
 import { DataVisualizationComponent } from "./dashboard/data-visualization/data-visualization.component";
 import { UserManagementComponent } from "./user/user-management/user-management.component";
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
+import { ProductManagementComponent } from "./product/product-management/product-management.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -53,9 +54,10 @@ export const routes: Routes = [
   },
   // ADMINISTRATION ROUTES
   {
-    path: ADMIN_PRODUCTS_ROUTE,
-    component: UnderConstructionComponent,
+    path: ADMIN_PRODUCT_LIST_ROUTE,
+    component: ProductManagementComponent,
     canActivate: [isLoggedInGuard],
+    title: "Product management",
   },
   {
     path: ADMIN_USER_LIST_ROUTE,

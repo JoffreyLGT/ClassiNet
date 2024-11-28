@@ -13,7 +13,9 @@ export const CATEGORIZATION_PRODUCT_ROUTE = "categorization/product";
 export const ADMIN_USER_LIST_ROUTE = "admin/users";
 export const ADMIN_ADD_USER_ROUTE = "admin/users/add";
 export const ADMIN_EDIT_USER_ROUTE = "admin/users/edit";
-export const ADMIN_PRODUCTS_ROUTE = "admin/products";
+export const ADMIN_PRODUCT_LIST_ROUTE = "admin/products";
+export const ADMIN_ADD_PRODUCT_ROUTE = "admin/products/add";
+export const ADMIN_EDIT_PRODUCT_ROUTE = "admin/products/edit";
 
 export const MENU_ITEM_LOGIN: MenuItem = {
   icon: "logout",
@@ -69,7 +71,7 @@ export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
       {
         icon: "barcode",
         label: "Products",
-        link: ADMIN_PRODUCTS_ROUTE,
+        link: ADMIN_PRODUCT_LIST_ROUTE,
       },
     ],
   },
