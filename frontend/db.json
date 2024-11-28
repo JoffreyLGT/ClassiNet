@@ -375,5 +375,81 @@
         "numberOfLogins": 9
       }
     ]
+  },
+  "categories": [
+    {
+      "id": "1",
+      "name": "Video Game"
+    },
+    {
+      "id": "2",
+      "name": "Watch"
+    },
+    {
+      "id": "3",
+      "name": "Phone"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "designation": "Super Mario Wonder",
+      "description": "Nintendo Switch game",
+      "category": {
+        "id": "1",
+        "name": "Video Game"
+      }
+    },
+    {
+      "id": "2",
+      "designation": "Garmin vívoactive 5 - Montre connectée GPS Sport et santé",
+      "description": "Autonomie : allant jusqu’à 11 jours en mode montre connectée\nSuivi santé : fréquence cardiaque, coach de sommeil, détection des siestes, rapport matinal, pas, cardio poignet, suivi du stress et de la respiration, Body Battery et bien plus\nMultisports : GPS intégré avec plus de 30 sports intégrés dont la marche, vélo, natation, HIIT, yoga, course à pied, golf, et bien plus encore\nFonctions d'entraînement : des programmes d’entraînements spécifiques gratuits avec Garmin Coach et des entraînements préchargés afin de mieux optimiser vos séances et récupérations\nMode fauteuil roulant : enregistre les poussées au lieu des pas et inclut des activités spécifiques avec des entraînements préchargés, des entraînements animés pour les personnes à mobilité réduite\nFonctions connectées : suivi des appels et SMS, Garmin Pay, stockage musique (Compatible Spotify, Deezer, Amazon Music), détection d'incident et assistance\n",
+      "category": {
+        "id": "2",
+        "name": "Watch"
+      }
+    },
+    {
+      "id": "3",
+      "designation": "Google Pixel 9 – Smartphone Android débloqué avec Gemini, Appareil Photo avancé, 24 Heures d'autonomie et écran Actua 6,3 Pouces – Noir Volcanique, 128GB",
+      "description": "",
+      "category": {
+        "id": "3",
+        "name": "Phone"
+      }
+    }
+  ],
+  "get-product-list": {
+    "nbTotalProducts": 2,
+    "nbPages": 1,
+    "data": [
+      {
+        "id": "1",
+        "designation": "Super Mario Wonder",
+        "description": "Nintendo Switch game",
+        "category": {
+          "id": "1",
+          "name": "Video Game"
+        }
+      },
+      {
+        "id": "2",
+        "designation": "Garmin vívoactive 5 - Montre connectée GPS Sport et santé",
+        "description": "Autonomie : allant jusqu’à 11 jours en mode montre connectée\nSuivi santé : fréquence cardiaque, coach de sommeil, détection des siestes, rapport matinal, pas, cardio poignet, suivi du stress et de la respiration, Body Battery et bien plus\nMultisports : GPS intégré avec plus de 30 sports intégrés dont la marche, vélo, natation, HIIT, yoga, course à pied, golf, et bien plus encore\nFonctions d'entraînement : des programmes d’entraînements spécifiques gratuits avec Garmin Coach et des entraînements préchargés afin de mieux optimiser vos séances et récupérations\nMode fauteuil roulant : enregistre les poussées au lieu des pas et inclut des activités spécifiques avec des entraînements préchargés, des entraînements animés pour les personnes à mobilité réduite\nFonctions connectées : suivi des appels et SMS, Garmin Pay, stockage musique (Compatible Spotify, Deezer, Amazon Music), détection d'incident et assistance\n",
+        "category": {
+          "id": "2",
+          "name": "Watch"
+        }
+      },
+      {
+        "id": "3",
+        "designation": "Google Pixel 9 – Smartphone Android débloqué avec Gemini, Appareil Photo avancé, 24 Heures d'autonomie et écran Actua 6,3 Pouces – Noir Volcanique, 128GB",
+        "description": "",
+        "category": {
+          "id": "3",
+          "name": "Phone"
+        }
+      }
+    ]
   }
 }
