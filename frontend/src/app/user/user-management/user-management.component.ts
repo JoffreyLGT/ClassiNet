@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import {
   ADMIN_ADD_USER_ROUTE,
   ADMIN_EDIT_USER_ROUTE,
-  ADMIN_USERS_ROUTE,
+  ADMIN_USER_LIST_ROUTE,
 } from "../../app.static-data";
 import { PaginatorComponent } from "../../shared/paginator/paginator.component";
 import { Location } from "@angular/common";
@@ -15,12 +15,12 @@ import { Location } from "@angular/common";
 // TODO: handle the case where the page in the query doesn't exist.
 //  For example: page=100 but there is only 1 page
 @Component({
-  selector: "app-users-management",
+  selector: "app-user-management",
   imports: [SvgIconComponent, ReactiveFormsModule, PaginatorComponent],
-  templateUrl: "./users-management.component.html",
+  templateUrl: "./user-management.component.html",
   styles: ``,
 })
-export class UsersManagementComponent implements OnDestroy {
+export class UserManagementComponent implements OnDestroy {
   private getUserListSubscription: Subscription | null = null;
 
   currentPage = signal<number>(1);
@@ -74,7 +74,7 @@ export class UsersManagementComponent implements OnDestroy {
 
   updateUrlQuery() {
     this.location.replaceState(
-      ADMIN_USERS_ROUTE,
+      ADMIN_USER_LIST_ROUTE,
       `page=${this.currentPage()}&search=${this.search.value}`,
     );
   }

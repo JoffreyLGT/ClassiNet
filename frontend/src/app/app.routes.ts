@@ -4,7 +4,7 @@ import {
   ADMIN_ADD_USER_ROUTE,
   ADMIN_EDIT_USER_ROUTE,
   ADMIN_PRODUCTS_ROUTE,
-  ADMIN_USERS_ROUTE,
+  ADMIN_USER_LIST_ROUTE,
   CATEGORIZATION_PRODUCT_ROUTE,
   DASHBOARD_DATA_VISUALIZATION_ROUTE,
   DASHBOARD_HOME_ROUTE,
@@ -16,7 +16,7 @@ import { UnderConstructionComponent } from "./shared/under-construction/under-co
 import { isLoggedInGuard } from "./guards/is-logged-in.guard";
 import { HomeComponent } from "./dashboard/home/home.component";
 import { DataVisualizationComponent } from "./dashboard/data-visualization/data-visualization.component";
-import { UsersManagementComponent } from "./user/users-management/users-management.component";
+import { UserManagementComponent } from "./user/user-management/user-management.component";
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
 
 export const routes: Routes = [
@@ -58,8 +58,8 @@ export const routes: Routes = [
     canActivate: [isLoggedInGuard],
   },
   {
-    path: ADMIN_USERS_ROUTE,
-    component: UsersManagementComponent,
+    path: ADMIN_USER_LIST_ROUTE,
+    component: UserManagementComponent,
     canActivate: [isLoggedInGuard],
     title: "User management",
   },

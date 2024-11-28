@@ -9,7 +9,7 @@ import {
 import { SvgIconComponent } from "angular-svg-icon";
 import { UserService } from "../user.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ADMIN_USERS_ROUTE, USER_ROLES } from "../../app.static-data";
+import { ADMIN_USER_LIST_ROUTE, USER_ROLES } from "../../app.static-data";
 import { UserModel } from "../user.model";
 import { Subscription } from "rxjs";
 
@@ -90,7 +90,7 @@ export class EditUserComponent implements OnDestroy {
         this.errorMessage = null;
         this.success = true;
         setTimeout(() => {
-          this.router.navigate([ADMIN_USERS_ROUTE]).then();
+          this.router.navigate([ADMIN_USER_LIST_ROUTE]).then();
         }, 1500);
       },
       error: (error) => {
