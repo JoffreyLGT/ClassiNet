@@ -22,6 +22,7 @@ import { UserManagementComponent } from "./user/user-management/user-management.
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
 import { ProductManagementComponent } from "./product/product-management/product-management.component";
 import { EditProductComponent } from "./product/edit-product/edit-product.component";
+import { NotFoundComponent } from "./shared/not-found/not-found.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -91,5 +92,10 @@ export const routes: Routes = [
     component: EditUserComponent,
     canActivate: [isLoggedInGuard],
     title: "Add user",
+  },
+  {
+    path: "**",
+    component: NotFoundComponent,
+    title: "Page not found",
   },
 ];
