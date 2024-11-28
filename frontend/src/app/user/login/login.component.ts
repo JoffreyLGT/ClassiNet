@@ -28,7 +28,7 @@ import { SvgIconComponent } from "angular-svg-icon";
               </label>
               <label
                 [class.input-error]="
-                  loginForm.controls['email'].touched &&
+                  !loginForm.controls['email'].untouched &&
                   loginForm.controls['email'].invalid
                 "
                 class="input input-bordered flex items-center gap-2"
@@ -42,7 +42,7 @@ import { SvgIconComponent } from "angular-svg-icon";
                 />
               </label>
               @if (
-                loginForm.controls["email"].touched &&
+                !loginForm.controls["email"].untouched &&
                 loginForm.controls["email"].invalid
               ) {
                 @if (loginForm.controls["email"].hasError("required")) {
@@ -64,7 +64,7 @@ import { SvgIconComponent } from "angular-svg-icon";
               </label>
               <label
                 [class.input-error]="
-                  loginForm.controls['password'].touched &&
+                  !loginForm.controls['password'].untouched &&
                   loginForm.controls['password'].invalid
                 "
                 class="input input-bordered flex items-center gap-2"
@@ -80,7 +80,7 @@ import { SvgIconComponent } from "angular-svg-icon";
                   placeholder="Enter password"
                 />
               </label>
-              @if (loginForm.controls["password"].touched) {
+              @if (!loginForm.controls["password"].untouched) {
                 @if (loginForm.controls["password"].hasError("required")) {
                   <p class="mt-2 text-sm italic text-red-500">
                     Password is required.
@@ -138,7 +138,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   navigateHome() {
-    this.router.navigate([DASHBOARD_HOME_ROUTE]);
+    this.router.navigate([DASHBOARD_HOME_ROUTE]).then();
   }
 
   ngOnDestroy(): void {
