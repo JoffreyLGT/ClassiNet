@@ -1,0 +1,68 @@
+<!--suppress XmlInvalidId -->
+<div class="navbar sticky top-0 z-[1] border-b bg-base-200">
+  <div class="flex-none">
+    <label for="drawer" class="btn btn-ghost drawer-button m-4 lg:hidden">
+      <svg-icon src="icons/menu-line.svg" svgClass="h-4 w-4" />
+    </label>
+  </div>
+  <div class="flex-1">
+    <h1 class="flex lg:hidden xl:hidden">
+      <img
+        ngSrc="logo-small.png"
+        width="150"
+        height="67"
+        alt="Product Categorization"
+      />
+    </h1>
+  </div>
+  <div class="flex-none gap-2">
+    @if (userService.user() === null || userService.user() === undefined) {
+      <button
+        (click)="login()"
+        class="menu btn-ghost flex flex-row justify-center gap-2 rounded-box align-middle"
+      >
+        <span class="my-auto">{{ menu_login.label }}</span>
+        <svg-icon src="icons/{{ menu_login.icon }}.svg" svgClass="w-6 h-6" />
+      </button>
+    } @else {
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="avatar btn btn-circle btn-ghost">
+          <div class="avatar placeholder">
+            <div class="w-10 rounded-full bg-primary text-neutral-content">
+              <span class="text-xl">{{
+                userService.user()?.userName?.charAt(0)?.toUpperCase() ?? "G"
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <ul
+          tabindex="0"
+          class="menu dropdown-content z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+        >
+          <div class="m-4 flex flex-col gap-2 text-lg">
+            <div>{{ userService.user()?.userName }}</div>
+            @if (userService.user()?.company !== null) {
+              <div>
+                {{ userService.user()?.company }}
+              </div>
+            }
+            <div class="badge badge-accent">
+              {{ userService.user()?.role ?? "User" }}
+            </div>
+          </div>
+          <p class="m-2"></p>
+
+          <li>
+            <button (click)="logout()" class="menu rounded-box">
+              <svg-icon
+                src="icons/{{ menu_logout.icon }}.svg"
+                svgClass="w-6 h-6"
+              />
+              {{ menu_logout.label }}
+            </button>
+          </li>
+        </ul>
+      </div>
+    }
+  </div>
+</div>
