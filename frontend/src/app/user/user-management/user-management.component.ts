@@ -11,9 +11,8 @@ import {
 } from "../../app.static-data";
 import { PaginatorComponent } from "../../shared/paginator/paginator.component";
 import { Location } from "@angular/common";
+import { GetUserListResponse, UserModel } from "../user.model";
 
-// TODO: handle the case where the page in the query doesn't exist.
-//  For example: page=100 but there is only 1 page
 @Component({
   selector: "app-user-management",
   imports: [SvgIconComponent, ReactiveFormsModule, PaginatorComponent],
@@ -41,7 +40,20 @@ export class UserManagementComponent implements OnDestroy {
         this.usersPerPage,
         this.search.value ?? "",
       )
-      .subscribe();
+      .subscribe({
+        next: (response: GetUserListResponse | undefined) => {
+          // Reset the current page number to 1 if the requested page
+          // is above the number of pages
+          if (
+            this.currentPage !== undefined &&
+            response !== undefined &&
+            this.currentPage() > response.nbPages
+          ) {
+            this.currentPage.set(1);
+            this.updateUrlQuery();
+          }
+        },
+      });
   }
 
   constructor(
