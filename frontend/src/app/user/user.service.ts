@@ -1,9 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, signal } from "@angular/core";
 import { map, Observable, tap } from "rxjs";
-import { LoginResponse } from "../models/login-response";
-import { LoginRequest } from "../models/login-request";
-import { GetUserListResponse, UserModel } from "./user.model";
+import {
+  GetUserListResponse,
+  LoginRequest,
+  LoginResponse,
+  UserModel,
+} from "./user.model";
 
 @Injectable({
   providedIn: "root",
@@ -44,7 +47,7 @@ export class UserService {
   logout(): Observable<null> {
     // TODO @JoffreyLGT: change the API call to a proper logout
     return this.http.get("https://localhost:7052/api/status").pipe(
-      tap((result: any) => {
+      tap((_: any) => {
         localStorage.removeItem("token");
         this.user.set(null);
       }),
