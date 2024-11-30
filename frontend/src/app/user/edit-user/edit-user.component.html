@@ -69,9 +69,15 @@
         </div>
         <div class="form-control">
           <label class="label">
-            <span class="label-text">Name</span>
+            <span class="label-text">Name*</span>
           </label>
-          <label class="input input-bordered flex items-center gap-2">
+          <label
+            [class.input-error]="
+              !userForm.controls['name'].untouched &&
+              userForm.controls['name'].invalid
+            "
+            class="input input-bordered flex items-center gap-2"
+          >
             <svg-icon src="icons/user-line.svg" svgClass="h-4 w-4 opacity-70" />
             <input
               type="text"
