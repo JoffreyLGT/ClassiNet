@@ -84,8 +84,14 @@ public class AccountsController : ControllerBase
         if (user is null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password!))
         {
             return Unauthorized(new AuthResponseDto
-            { IsAuthSuccessful = false, ErrorMessage = "Invalid authentication" });
-        }
+                { IsAuthSuccessful = false, ErrorMessage = "Invalid authentication" });
+
+        if (user.EmailConfirmed == false || user.LockoutEnabled)
+            return Unauthorized(new AuthResponseDto
+                { IsAuthSuccessful = false, ErrorMessage = "User not activated or disabled!" });
+
+        user.NumberOfLogins += 1;
+        await _userManager.UpdateAsync(user);
 
         var roles = await _userManager.GetRolesAsync(user);
 
