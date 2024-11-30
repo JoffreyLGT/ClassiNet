@@ -96,7 +96,7 @@ public class UsersController : ControllerBase
     /// <param name="userForRegistrationDto">user data</param>
     /// <returns>A status code indicating if the user was created</returns>
     /// <response code="201">user is created</response>
-    /// <response code="400">request is invalid</response>
+    /// <response code="400">request is invalid or email already exist in database</response>
     [HttpPost]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status201Created)]
