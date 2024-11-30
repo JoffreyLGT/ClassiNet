@@ -1,37 +1,48 @@
-# Product Classification API
+# Product Categorization
 
 ## About this project
 
-The goal is this project is to build the same API as done in the project [JoffreyLGT/e-commerce-mlops](https://github.com/JoffreyLGT/e-commerce-mlops?tab=readme-ov-file#backend-q&a) but using .NET instead of Python.
+The goal is this project is to build a service to categorize products for an e-commerce platform.<br />
+The service can be consumed through an API and managed with a Dashboard.
 
-It is purely an experiment to see if the performance would be better.
+> 🚀 Powered by the most up-to-date versions of .NET and Angular!
 
-The API is fully documentation using OpenAPI / Swagger.
+### Features
+
+-  REST API fully documented with OpenAPI standards.
+  - SwaggerUI is activated to test the API in the browser.
+- Dashboard to manage the service:
+  - Data visualization with charts and KPI.
+  - Data management: Users and Products
+- (Soon) Deep learning model for automatic categorization.
+
+> [!TIP]
+> Head to the [Issues](https://github.com/JoffreyLGT/Product-categorization/issues) to see what is currently developed.
 
 ### Tech Stack
 
+#### API
+
 - Language: C#
-- Framework: .NET 8.0
+- Framework: .NET 9.0
 - ORM: Entity Framework Core
+
+#### Dashboard
+
+- Language: TypeScript
+- Framework: Angular 19
+
+#### Other
+
 - Database: PostgreSQL
-- Other:
-  - Docker for containers management
+- Containers management: Docker
 
-### Library used
+## Developer notes
 
-| Name                                                                                                          | Reason                                            |
-|---------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
-| [Microsoft.EntityFrameworkCore](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore)                 | ORM to interract with the database.               |
-| [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL) | EFCore Driver to connect to PostgreSQL databases. |
-| [Swashbuckle.AspNetCore](https://www.nuget.org/packages/Swashbuckle.AspNetCore) | Swagger tools for documenting APIs built on ASP.NET Core |
-| [Swashbuckle.AspNetCore.Annotations](https://www.nuget.org/packages/Swashbuckle.AspNetCore.Annotations) | Provides custom attributes that can be applied to controllers, actions and models to enrich the generated Swagger |
+> [!NOTE]
+> This section is purely a notepad for developers.
 
-## Requirements
-
-- Docker
-- [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-
-## Start database
+### Database setup
 
 - Open the project directory in your terminal and type the commands:
 ```bash
@@ -43,7 +54,10 @@ dotnet ef database update
 
 Note: There are currently no migration saved in the project since it has yet to reach a release version.
 
-## Database
+### Database modeling
+
+> [!CAUTION]
+> This is outdated, an update will be provided before the release.
 
 ```mermaid
 erDiagram
@@ -64,9 +78,9 @@ erDiagram
     }
 ```
 
-## Resources
+### Resources
 
-### Front
+#### Dashboard
 
 - [Angular documentation](https://angular.dev/)
 - [TailwindCSS documentation](https://tailwindcss.com/)
