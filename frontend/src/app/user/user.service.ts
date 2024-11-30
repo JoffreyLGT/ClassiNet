@@ -7,15 +7,14 @@ import {
   LoginResponse,
   UserModel,
 } from "./user.model";
+import { HEADER_PAGINATOR_KEY } from "../app.static-data";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
   // TODO: fetch url from environment variable or configuration
-  private BASE_URL = "https://localhost:7052/api/accounts";
-  // TODO: remove mock url and replace all calls with the correct route form api
-  private MOCK_DB_BASE_URL = "http://localhost:3000";
+  private BASE_URL = "https://localhost:7052/api/users";
 
   user = signal<UserModel | null | undefined>(undefined);
   userList = signal<GetUserListResponse | undefined>(undefined);
@@ -59,26 +58,43 @@ export class UserService {
     usersPerPage: number,
     search: string = "",
   ): Observable<GetUserListResponse | undefined> {
-    const skip = page * usersPerPage;
+    const skip = (page - 1) * usersPerPage;
     return this.http
       .get(
-        `${this.MOCK_DB_BASE_URL}/get-user-list?skip=${skip}&take=${usersPerPage}&search=${search}`,
+        `${this.BASE_URL}?skip=${skip}&take=${usersPerPage}&search=${search}`,
+        { observe: "response" },
       )
       .pipe(
-        tap((result: any) => this.userList.set(result as GetUserListResponse)),
+        tap((result: any) => {
+          const pagination = JSON.parse(
+            result.headers.get(HEADER_PAGINATOR_KEY),
+          );
+          return this.userList.set({
+            nbPages: pagination.TotalPages,
+            nbTotalUsers: pagination.TotalRecords,
+            data: result.body,
+          });
+        }),
         map((_) => this.userList()),
       );
   }
 
   postUser(user: UserModel): Observable<UserModel | undefined> {
-    return this.http.post(`${this.MOCK_DB_BASE_URL}/users`, user).pipe(
+    return this.http.post(`${this.BASE_URL}`, user).pipe(
+      tap((result: any) => this.editedUser.set(result as UserModel)),
+      map((_) => this.editedUser()),
+    );
+  }
+
+  updateUser(user: UserModel): Observable<UserModel | undefined> {
+    return this.http.patch(`${this.BASE_URL}`, user).pipe(
       tap((result: any) => this.editedUser.set(result as UserModel)),
       map((_) => this.editedUser()),
     );
   }
 
   getUser(id: string): Observable<UserModel | undefined> {
-    return this.http.get(`${this.MOCK_DB_BASE_URL}/users/${id}`).pipe(
+    return this.http.get(`${this.BASE_URL}/${id}`).pipe(
       tap((result: any) => this.editedUser.set(result as UserModel)),
       map((_) => this.editedUser()),
     );

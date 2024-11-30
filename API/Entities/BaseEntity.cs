@@ -1,4 +1,4 @@
-namespace API.Models;
+namespace API.Entity;
 
 /// <summary>
 ///     Contains properties to apply to all entities.

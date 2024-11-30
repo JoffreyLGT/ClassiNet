@@ -3,14 +3,19 @@ using System.ComponentModel.DataAnnotations;
 namespace API.Models;
 
 /// <summary>
-///     DTO for user registration.
+///     DTO containing the properties to update a user.
 /// </summary>
-public class UserForRegistrationDto
+public class UserForPatchDto
 {
+    /// <summary>
+    ///     User unique identifier.
+    /// </summary>
+    [Required]
+    public string Id { get; set; }
+
     /// <summary>
     ///     User name, max 32 characters.
     /// </summary>
-    [Required(ErrorMessage = "UserName is required")]
     [MaxLength(32)]
     public string? UserName { get; set; }
 
@@ -23,27 +28,25 @@ public class UserForRegistrationDto
     /// <summary>
     ///     User email.
     /// </summary>
-    [Required(ErrorMessage = "Email is required")]
     public string? Email { get; set; }
 
     /// <summary>
     ///     User password to log in.
     /// </summary>
-    [Required(ErrorMessage = "Password is required")]
     public string? Password { get; set; }
 
     /// <summary>
     ///     User role, default is "User".
     /// </summary>
-    public string? Role { get; set; } = "User";
+    public string? Role { get; set; }
 
     /// <summary>
     ///     True to set the user as activated.
     /// </summary>
-    public bool Activated { get; set; } = false;
+    public bool? Activated { get; set; }
 
     /// <summary>
     ///     True to disable the user account and block them from logging in.
     /// </summary>
-    public bool Disabled { get; set; } = false;
+    public bool? Disabled { get; set; }
 }

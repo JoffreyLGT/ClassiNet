@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using API;
+using API.Entity;
 using API.Models;
 using API.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,7 +20,9 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:4200",
                     "https://localhost:7052")
-                .AllowAnyHeader();
+                .WithExposedHeaders(PaginatorHeader.HeaderName)
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         });
 });
 
@@ -34,7 +37,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1",
         new OpenApiInfo
         {
-            Title = "Product Classification API",
+            Title = "Product Categorization API",
             Description = "Use deep learning model to categorize your products.",
             Version = "v1"
         }
@@ -66,7 +69,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddIdentity<User, Role>(opt =>
+builder.Services.AddIdentity<UserEntity, RoleEntity>(opt =>
     {
         opt.Password.RequiredLength = 7;
         opt.Password.RequireDigit = false;

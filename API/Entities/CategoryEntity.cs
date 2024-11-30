@@ -1,9 +1,9 @@
-namespace API.Models;
+namespace API.Entity;
 
 /// <summary>
 ///     Category of a product.
 /// </summary>
-public class Category : BaseEntity
+public class CategoryEntity : BaseEntity
 {
     /// <summary>
     ///     Unique identifier.

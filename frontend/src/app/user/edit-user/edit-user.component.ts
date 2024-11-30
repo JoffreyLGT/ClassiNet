@@ -32,12 +32,12 @@ export class EditUserComponent implements OnDestroy {
 
   userForm = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
+    name: new FormControl("", [Validators.required, Validators.maxLength(32)]),
     password: new FormControl(""),
-    company: new FormControl(""),
+    company: new FormControl("", Validators.maxLength(32)),
     role: new FormControl("User"),
     activated: new FormControl(this.ACTIVATED_DEFAULT_VALUE),
     disabled: new FormControl(this.DISABLED_DEFAULT_VALUE),
-    name: new FormControl(""),
   });
 
   constructor(
@@ -74,7 +74,7 @@ export class EditUserComponent implements OnDestroy {
 
   onSubmit() {
     const user: UserModel = {
-      id: "",
+      id: this.userId ?? "",
       email: this.userForm.controls["email"].value ?? "",
       password: this.userForm.controls["password"].value ?? "",
       company: this.userForm.controls["company"].value ?? "",
@@ -86,19 +86,38 @@ export class EditUserComponent implements OnDestroy {
         this.userForm.controls["disabled"].value ?? this.DISABLED_DEFAULT_VALUE,
       userName: this.userForm.controls["name"].value ?? "",
     };
-    this.editedUserSubscription = this.userService.postUser(user).subscribe({
-      next: (_: UserModel | null | undefined) => {
-        this.errorMessage = null;
-        this.success = true;
-        setTimeout(() => {
-          this.router.navigate([ADMIN_USER_LIST_ROUTE]).then();
-        }, 1500);
-      },
-      error: (error) => {
-        this.errorMessage = error.error;
-        this.success = false;
-      },
-    });
+    if (this.userId === null) {
+      this.editedUserSubscription = this.userService.postUser(user).subscribe({
+        next: (_: UserModel | null | undefined) => {
+          this.errorMessage = null;
+          this.success = true;
+          setTimeout(() => {
+            this.router.navigate([ADMIN_USER_LIST_ROUTE]).then();
+          }, 1500);
+        },
+        error: (error) => {
+          this.errorMessage = Object.values(error.error.errors).join(", ");
+          this.success = false;
+        },
+      });
+    } else {
+      this.editedUserSubscription = this.userService
+        .updateUser(user)
+        .subscribe({
+          next: (_: UserModel | null | undefined) => {
+            this.errorMessage = null;
+            this.success = true;
+            setTimeout(() => {
+              this.router.navigate([ADMIN_USER_LIST_ROUTE]).then();
+            }, 1500);
+          },
+          error: (error) => {
+            console.error(error);
+            this.errorMessage = Object.values(error.error.errors).join(", ");
+            this.success = false;
+          },
+        });
+    }
   }
 
   ngOnDestroy() {
