@@ -74,6 +74,9 @@ builder.Services.AddIdentity<UserEntity, RoleEntity>(opt =>
         opt.Password.RequiredLength = 7;
         opt.Password.RequireDigit = false;
         opt.Password.RequireUppercase = false;
+        opt.User.RequireUniqueEmail = true;
+        // Add the possibility to have spaces in user names
+        opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
     })
     .AddEntityFrameworkStores<AppDbContext>();
 

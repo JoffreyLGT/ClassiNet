@@ -24,7 +24,7 @@ public class UserForRegistrationDto
     ///     User email.
     /// </summary>
     [Required(ErrorMessage = "Email is required")]
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
     /// <summary>
     ///     User password to log in.
