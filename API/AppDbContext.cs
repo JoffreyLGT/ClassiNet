@@ -1,4 +1,4 @@
-using API.Models;
+using API.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ namespace API;
 ///     Bridge between Entity Framework and Database.
 ///     Provides access to the database tables.
 /// </summary>
-public class AppDbContext : IdentityDbContext<User, Role, string>
+public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
 {
     private readonly IConfigurationSection _seededAdminSection;
     private readonly IConfigurationSection _seededUserSection;
@@ -28,12 +28,12 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
     /// <summary>
     ///     Access to the Category table.
     /// </summary>
-    public DbSet<Category> Categories { get; init; }
+    public DbSet<CategoryEntity> Categories { get; init; }
 
     /// <summary>
     ///     Access to the Products table.
     /// </summary>
-    public DbSet<Product> Products { get; init; }
+    public DbSet<ProductEntity> Products { get; init; }
 
     /// <summary>
     ///     Automatically set CreatedDate and UpdatedDate when saving
@@ -84,11 +84,11 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
         // Generate roles and insert them in database
         var adminRole = GetAdminRole();
         var userRole = GetUserRole();
-        builder.Entity<Role>().HasData(adminRole, userRole);
+        builder.Entity<RoleEntity>().HasData(adminRole, userRole);
         // Generate the first users and insert them in database
         var adminUser = GenerateAdminUser();
         var standardUser = GenerateStandardUser();
-        builder.Entity<User>().HasData(adminUser, standardUser);
+        builder.Entity<UserEntity>().HasData(adminUser, standardUser);
         // Insert user roles in database
         builder.Entity<IdentityUserRole<string>>().HasData(
             new IdentityUserRole<string>
@@ -103,16 +103,16 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
             });
 
         // Generate the product categories and insert them in database
-        builder.Entity<Category>().HasData(GenerateCategories());
+        builder.Entity<CategoryEntity>().HasData(GenerateCategories());
     }
 
     /// <summary>
     ///     Generate the list of categories to seed the database.
     /// </summary>
     /// <returns>list of categories</returns>
-    private static List<Category> GenerateCategories()
+    private static List<CategoryEntity> GenerateCategories()
     {
-        return new List<Category>
+        return new List<CategoryEntity>
         {
             new() { Id = 1, Name = "Littérature" },
             new() { Id = 2, Name = "Jeux vidéos" },
@@ -139,10 +139,10 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
     ///     Generate the first admin user based on secret data.
     /// </summary>
     /// <returns></returns>
-    private User GenerateAdminUser()
+    private UserEntity GenerateAdminUser()
     {
-        var passwordHasher = new PasswordHasher<User>();
-        return new User
+        var passwordHasher = new PasswordHasher<UserEntity>();
+        return new UserEntity
         {
             Id = Guid.NewGuid().ToString(),
             UserName = _seededAdminSection["UserName"],
@@ -158,10 +158,10 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
     ///     Generate the first standard user based on secret data.
     /// </summary>
     /// <returns></returns>
-    private User GenerateStandardUser()
+    private UserEntity GenerateStandardUser()
     {
-        var passwordHasher = new PasswordHasher<User>();
-        return new User
+        var passwordHasher = new PasswordHasher<UserEntity>();
+        return new UserEntity
         {
             Id = Guid.NewGuid().ToString(),
             UserName = _seededUserSection["UserName"],
@@ -177,9 +177,9 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
     ///     Create a Role object for the admin role.
     /// </summary>
     /// <returns>admin role object</returns>
-    private Role GetAdminRole()
+    private RoleEntity GetAdminRole()
     {
-        return new Role
+        return new RoleEntity
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Admin",
@@ -192,9 +192,9 @@ public class AppDbContext : IdentityDbContext<User, Role, string>
     ///     Create a Role object for the user role.
     /// </summary>
     /// <returns>user role object</returns>
-    private Role GetUserRole()
+    private RoleEntity GetUserRole()
     {
-        return new Role
+        return new RoleEntity
         {
             Id = Guid.NewGuid().ToString(),
             Name = "User",

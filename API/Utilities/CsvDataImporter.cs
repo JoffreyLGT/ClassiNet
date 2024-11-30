@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Net;
+using API.Entity;
 using API.Models;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -53,7 +54,7 @@ public static class CsvDataImporter
     /// <param name="context">database context</param>
     /// <returns>List of products in the CSV file</returns>
     /// <exception cref="ApplicationException"></exception>
-    public static List<Product> ImportProductData(string csvPath, AppDbContext context)
+    public static List<ProductEntity> ImportProductData(string csvPath, AppDbContext context)
     {
         var categories = CsvToDbCategories();
 
@@ -66,7 +67,7 @@ public static class CsvDataImporter
         using var csv = new CsvReader(reader, config);
 
         var records = csv.GetRecords<CsvProductLine>();
-        var products = records.Select(record => new Product
+        var products = records.Select(record => new ProductEntity
         {
             Id = record.ProductId,
             Designation = WebUtility.HtmlDecode(record.Designation),

@@ -1,9 +1,9 @@
-namespace API.Models;
+namespace API.Entity;
 
 /// <summary>
 ///     Product sold on an e-commerce platform.
 /// </summary>
-public class Product : BaseEntity
+public class ProductEntity : BaseEntity
 {
     /// <summary>
     ///     Unique identifier of the product.
@@ -28,5 +28,5 @@ public class Product : BaseEntity
     /// <summary>
     ///     Category of the product.
     /// </summary>
-    public Category Category { get; set; }
+    public CategoryEntity Category { get; set; }
 }

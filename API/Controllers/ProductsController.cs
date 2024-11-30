@@ -1,4 +1,4 @@
-using API.Models;
+using API.Entity;
 using API.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +31,7 @@ public class ProductsController : ControllerBase
     /// <returns>list of products</returns>
     // GET: api/Product
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] int skip = 0,
+    public async Task<ActionResult<IEnumerable<ProductEntity>>> GetProducts([FromQuery] int skip = 0,
         [FromQuery] int take = 100)
     {
         return await _context.Products.Skip(skip).Take(take).Include(product => product.Category).ToListAsync();
@@ -44,7 +44,7 @@ public class ProductsController : ControllerBase
     /// <returns>the product and its properties</returns>
     // GET: api/Product/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> GetProduct(int id)
+    public async Task<ActionResult<ProductEntity>> GetProduct(int id)
     {
         var product = await _context.Products.FindAsync(id);
 
@@ -61,7 +61,7 @@ public class ProductsController : ControllerBase
     /// <returns>a status code indicating the operation status</returns>
     // PUT: api/Product/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutProduct(int id, Product product)
+    public async Task<IActionResult> PutProduct(int id, ProductEntity product)
     {
         if (id != product.Id) return BadRequest();
 
@@ -88,7 +88,7 @@ public class ProductsController : ControllerBase
     /// <returns>product information</returns>
     // POST: api/Product
     [HttpPost]
-    public async Task<ActionResult<Product>> PostProduct(Product product)
+    public async Task<ActionResult<ProductEntity>> PostProduct(ProductEntity product)
     {
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
