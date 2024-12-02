@@ -31,18 +31,7 @@ export interface TextVariableStats {
       nbChars: number;
     },
   ];
-  wordsLengthStats: WordsLengthStats;
   wordsCount: WordCount[];
-}
-
-export interface WordsLengthStats {
-  average: number;
-  standardDeviation: number;
-  minimum: number;
-  maximum: number;
-  quartile25: number;
-  quartile50: number;
-  quartile75: number;
 }
 
 export interface WordCount {

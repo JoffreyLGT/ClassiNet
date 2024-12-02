@@ -1,12 +1,19 @@
 <div class="text-center">
   <div
-    class="text-left stats stats-vertical lg:stats-horizontal shadow w-fit mb-4">
+    class="stats stats-vertical mb-4 w-fit text-left shadow lg:stats-horizontal"
+  >
     <div class="stat">
       <div class="stat-figure text-secondary">
         <svg-icon src="icons/article-line.svg" svgClass="h-8 w-8" />
       </div>
       <div class="stat-title">Words before processing</div>
-      <div class="stat-value">{{ this.textVariableStats()?.nbWordsBeforeProcessing?.toLocaleString("fr") }}</div>
+      <div class="stat-value">
+        {{
+          this.textVariableStats()?.nbWordsBeforeProcessing?.toLocaleString(
+            "fr"
+          )
+        }}
+      </div>
       <div class="stat-desc">&nbsp;</div>
     </div>
 
@@ -15,30 +22,37 @@
         <svg-icon src="icons/scissors-cut-line.svg" svgClass="h-8 w-8" />
       </div>
       <div class="stat-title">Words after processing</div>
-      <div class="stat-value">{{ this.textVariableStats()?.nbWords?.toLocaleString("fr") }}</div>
-      <div class="stat-desc">
-        ↘ {{ wordsCountDecrease() }}%
+      <div class="stat-value">
+        {{ this.textVariableStats()?.nbWords?.toLocaleString("fr") }}
       </div>
+      <div class="stat-desc">↘ {{ wordsCountDecrease() }}%</div>
     </div>
   </div>
 </div>
-<div class="flex flex-wrap gap-4 justify-center">
-  <div class="card bg-base-100 shadow-xl grow lg:shrink">
+<div class="flex grid-cols-2 flex-wrap justify-center gap-4 lg:grid">
+  <div class="card grow bg-base-100 shadow-xl lg:shrink">
     <div class="card-body">
-      <h3 class="card-title">Longest words in {{ textVariableStats()?.variableName }}</h3>
+      <h3 class="card-title">
+        Longest words in {{ textVariableStats()?.variableName }}
+      </h3>
       <!--    TODO: Add more explanation regarding the data processing done on the text-->
-      <div class="overflow-x-auto">
-        <table class="table table-zebra">
+      <div class="">
+        <table class="table table-zebra w-full table-fixed">
           <thead>
-          <tr>
-            <th>Word</th>
-            <th>Number of letters</th>
-          </tr>
+            <tr>
+              <th class="">Word</th>
+              <th class="">Number of letters</th>
+            </tr>
           </thead>
           <tbody>
-            @for (word of this.textVariableStats()?.longestWords; track word.word) {
+            @for (
+              word of this.textVariableStats()?.longestWords;
+              track word.word
+            ) {
               <tr>
-                <td>{{ word.word }}</td>
+                <td class="overflow-hidden text-ellipsis">
+                  {{ word.word }}
+                </td>
                 <td>{{ word.nbChars }}</td>
               </tr>
             }
@@ -47,13 +61,19 @@
       </div>
     </div>
   </div>
-  <div class="card bg-base-100 shadow-xl grow">
+  <div class="card grow bg-base-100 shadow-xl">
     <div class="card-body">
-      <h3 class="card-title">Longest words in {{ textVariableStats()?.variableName }}</h3>
-      <div class="grow min-w-80">
+      <h3 class="card-title">
+        Longest words in {{ textVariableStats()?.variableName }}
+      </h3>
+      <div class="min-w-80 grow">
         @if (textVariableStats() !== undefined) {
-          <div echarts [loading]="textVariableStats() === undefined" [options]="wordCloudOptions()"
-               class="min-h-80 w-full"></div>
+          <div
+            echarts
+            [loading]="textVariableStats() === undefined"
+            [options]="wordCloudOptions()"
+            class="min-h-80 w-full"
+          ></div>
         }
       </div>
     </div>
