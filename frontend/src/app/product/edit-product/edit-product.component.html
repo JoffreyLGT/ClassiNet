@@ -2,13 +2,13 @@
   <div class="card w-full bg-base-100 shadow-xl xl:w-2/3 2xl:w-1/2">
     <div class="card-body">
       <h2 class="card-title mb-6 text-2xl font-bold">
-        {{ productId === null ? "New product" : "Edit product" }}
+        {{ formMode === "add" ? "New product" : "Edit product" }}
       </h2>
       @if (success) {
         <div role="alert" class="alert alert-success">
           <svg-icon src="icons/checkbox-circle-line.svg" svgClass="h-6 w-6" />
           <span>{{
-            this.productId === null
+            formMode === "add"
               ? "Product has been added!"
               : "Product has been edited!"
           }}</span>

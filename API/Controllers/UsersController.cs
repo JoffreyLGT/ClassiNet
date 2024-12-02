@@ -9,6 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
+// TODO: refactor the code to be closer to the code of ProductController
+//  and return ProblemDetails objects.
+//  https://github.com/JoffreyLGT/Product-categorization/issues/63
+
 /// <summary>
 ///     Controller with all the routes to manage user accounts.
 /// </summary>
@@ -39,8 +43,8 @@ public class UsersController : ControllerBase
     /// </summary>
     /// <param name="id">identifier of the user</param>
     /// <returns>the user and its properties</returns>
-    // GET: api/users/5
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<UserDto>> GetUser(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
@@ -67,9 +71,11 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> GetUsers(int take = 10, int skip = 0)
+    public async Task<IActionResult> GetUsers(
+        [FromQuery] int take = 10,
+        [FromQuery] int skip = 0)
     {
-        if (take < 100) take = 100;
+        if (take > 100) take = 100;
         var users = await _userManager.Users.OrderBy(user => user.Email).Skip(skip).Take(take).ToListAsync();
         var usersDto = new List<UserDto>();
         foreach (var user in users)

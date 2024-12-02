@@ -22,6 +22,7 @@ import { GetProductListResponse } from "../product.model";
 export class ProductManagementComponent implements OnDestroy {
   private getProductListSubscription: Subscription | null = null;
 
+  isLoading = signal(false);
   currentPage = signal<number>(1);
 
   search = new FormControl("");
@@ -33,6 +34,7 @@ export class ProductManagementComponent implements OnDestroy {
   lastPage = computed(() => this.productService.productList()?.nbPages ?? 1);
 
   private refreshList() {
+    this.isLoading.set(true);
     this.getProductListSubscription?.unsubscribe();
     this.getProductListSubscription = this.productService
       .getProductList(
@@ -52,6 +54,10 @@ export class ProductManagementComponent implements OnDestroy {
             this.currentPage.set(1);
             this.updateUrlQuery();
           }
+          this.isLoading.set(false);
+        },
+        error: (_) => {
+          this.isLoading.set(false);
         },
       });
   }
