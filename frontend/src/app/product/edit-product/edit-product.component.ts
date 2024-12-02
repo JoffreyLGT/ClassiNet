@@ -11,7 +11,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { ADMIN_PRODUCT_LIST_ROUTE } from "../../app.static-data";
 import { Subscription } from "rxjs";
 import { ProductService } from "../product.service";
-import { ProductModel } from "../product.model";
+import {
+  PatchProductPayload,
+  PostProductPayload,
+  Product,
+} from "../product.model";
 
 @Component({
   selector: "app-edit-product",
@@ -20,7 +24,9 @@ import { ProductModel } from "../product.model";
   styles: ``,
 })
 export class EditProductComponent implements OnDestroy {
-  categoriesSubscription: Subscription | null = null;
+  formMode: "add" | "edit" = "add";
+
+  categoriesSubscription: Subscription;
   editedProductSubscription: Subscription | null = null;
   errorMessage: string | null = null;
   success: boolean = false;
@@ -49,6 +55,7 @@ export class EditProductComponent implements OnDestroy {
 
     this.productId = route.snapshot.paramMap.get("id");
     if (this.productId !== null) {
+      this.formMode = "edit";
       this.editedProductSubscription = productService
         .getProduct(this.productId)
         .subscribe({
@@ -62,7 +69,7 @@ export class EditProductComponent implements OnDestroy {
               ?.setValue(result.description ?? "");
             this.productForm
               .get("category")
-              ?.setValue(result.category?.id ?? null);
+              ?.setValue(result.category?.id.toString() ?? null);
           },
           error: (_) => {
             this.router.navigate(["/404"], { skipLocationChange: true }).then();
@@ -72,32 +79,71 @@ export class EditProductComponent implements OnDestroy {
   }
 
   onSubmit() {
-    const product: ProductModel = {
-      id: 0,
-      designation: this.productForm.controls["designation"].value ?? "",
-      description: this.productForm.controls["description"].value ?? "",
-      category: this.productService
-        .categoryList()
-        ?.find(
-          (category) =>
-            category.id === this.productForm.controls["category"].value,
+    if (
+      this.productForm.controls["category"].value === null ||
+      this.productForm.controls["designation"].value === null ||
+      this.productForm.controls["description"].value === null
+    ) {
+      console.error("Invalid form");
+      return;
+    }
+
+    if (this.formMode === "add") {
+      const product: PostProductPayload = {
+        designation: this.productForm.controls["designation"].value,
+        description: this.productForm.controls["description"].value,
+        categoryId: Number.parseInt(
+          this.productForm.controls["category"].value,
         ),
-    };
-    this.editedProductSubscription = this.productService
-      .postProduct(product)
-      .subscribe({
-        next: (_: ProductModel | null | undefined) => {
-          this.errorMessage = null;
-          this.success = true;
-          setTimeout(() => {
-            this.router.navigate([ADMIN_PRODUCT_LIST_ROUTE]).then();
-          }, 1500);
-        },
-        error: (error) => {
-          this.errorMessage = error.error;
-          this.success = false;
-        },
-      });
+      };
+
+      this.editedProductSubscription = this.productService
+        .postProduct(product)
+        .subscribe({
+          next: (_: Product | null | undefined) => {
+            this.errorMessage = null;
+            this.success = true;
+            this.redirectToProductList();
+          },
+          error: (error) => {
+            this.errorMessage = error.error;
+            this.success = false;
+          },
+        });
+    } else {
+      if (this.productId === null) {
+        console.error("Can't update product without productId");
+        return;
+      }
+
+      const product: PatchProductPayload = {
+        id: Number.parseInt(this.productId),
+        designation: this.productForm.controls["designation"].value,
+        description: this.productForm.controls["description"].value,
+        categoryId: Number.parseInt(
+          this.productForm.controls["category"].value,
+        ),
+      };
+      this.editedProductSubscription = this.productService
+        .updateProduct(product)
+        .subscribe({
+          next: (_) => {
+            this.errorMessage = null;
+            this.success = true;
+            this.redirectToProductList();
+          },
+          error: (error) => {
+            this.errorMessage = error.error;
+            this.success = false;
+          },
+        });
+    }
+  }
+
+  redirectToProductList() {
+    setTimeout(() => {
+      this.router.navigate([ADMIN_PRODUCT_LIST_ROUTE]).then();
+    }, 1500);
   }
 
   ngOnDestroy() {

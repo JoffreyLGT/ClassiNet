@@ -10,15 +10,20 @@
   </div>
   <div class="flex flex-col gap-4 overflow-x-auto">
     <div class="m-1 flex flex-wrap justify-between gap-4">
-      <label class="input input-bordered flex items-center gap-2">
-        <input
-          type="text"
-          class="grow"
-          placeholder="Search"
-          [formControl]="search"
-        />
-        <svg-icon src="icons/search-line.svg" svgClass="h-4 w-4" />
-      </label>
+      <div class="flex flex-row flex-wrap gap-4">
+        <label class="input input-bordered flex items-center gap-2">
+          <input
+            type="text"
+            class="grow"
+            placeholder="Search"
+            [formControl]="search"
+          />
+          <svg-icon src="icons/search-line.svg" svgClass="h-4 w-4" />
+        </label>
+        @if (isLoading()) {
+          <span class="loading loading-infinity loading-lg text-accent"></span>
+        }
+      </div>
       <app-paginator
         [currentPage]="currentPage()"
         [lastPage]="lastPage()"
