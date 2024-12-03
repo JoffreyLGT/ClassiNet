@@ -1,9 +1,10 @@
-using API.Entity;
+using Database.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
-namespace API;
+namespace Database;
 
 /// <summary>
 ///     Bridge between Entity Framework and Database.
@@ -11,18 +12,19 @@ namespace API;
 /// </summary>
 public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
 {
+    private readonly string _connectionString;
     private readonly IConfigurationSection _seededAdminSection;
     private readonly IConfigurationSection _seededUserSection;
 
     /// <summary>
     ///     Default constructor.
     /// </summary>
-    /// <param name="options">db context options</param>
     /// <param name="configuration">app configuration</param>
-    public AppDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+    public AppDbContext(IConfiguration configuration)
     {
         _seededAdminSection = configuration.GetSection("SeededAdmin");
         _seededUserSection = configuration.GetSection("SeededUser");
+        _connectionString = configuration["ConnectionString"];
     }
 
     /// <summary>
@@ -34,6 +36,11 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
     ///     Access to the Products table.
     /// </summary>
     public DbSet<ProductEntity> Products { get; init; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseNpgsql(_connectionString);
+    }
 
     /// <summary>
     ///     Automatically set CreatedDate and UpdatedDate when saving

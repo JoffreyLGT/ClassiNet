@@ -1,4 +1,4 @@
-namespace API.Entity;
+namespace Database.Entities;
 
 /// <summary>
 ///     Contains properties to apply to all entities.

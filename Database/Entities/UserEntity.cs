@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace API.Entity;
+namespace Database.Entities;
 
 /// <summary>
 ///     Define a UserEntity account object.

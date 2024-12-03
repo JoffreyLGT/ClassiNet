@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{142467CA-6875-4763-AFC1-39BDF23051EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineLearning", "MachineLearning\MachineLearning.csproj", "{9BA0000E-D82C-4915-BF33-ABD729F2D05A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{170BC70C-D52D-452D-B157-F4FB57DAA980}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{142467CA-6875-4763-AFC1-39BDF23051EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{142467CA-6875-4763-AFC1-39BDF23051EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{142467CA-6875-4763-AFC1-39BDF23051EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA0000E-D82C-4915-BF33-ABD729F2D05A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA0000E-D82C-4915-BF33-ABD729F2D05A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA0000E-D82C-4915-BF33-ABD729F2D05A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA0000E-D82C-4915-BF33-ABD729F2D05A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{170BC70C-D52D-452D-B157-F4FB57DAA980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{170BC70C-D52D-452D-B157-F4FB57DAA980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{170BC70C-D52D-452D-B157-F4FB57DAA980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{170BC70C-D52D-452D-B157-F4FB57DAA980}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
