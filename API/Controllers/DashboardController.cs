@@ -1,5 +1,7 @@
 using System.Net.Mime;
 using API.Models;
+using Database;
+using MachineLearning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -130,6 +132,8 @@ public class DashboardController : ControllerBase
     /// <summary>
     ///     Get stats regarding the products data completeness.
     /// </summary>
+    /// <param name="nbTopWords">Number of top words to return</param>
+    /// <param name="nbLongestWords">Number of longest words to return</param>
     /// <returns>List of categories with their stats.</returns>
     /// <response code="200">All went well</response>
     /// <response code="401">User not authorized</response>
@@ -137,9 +141,9 @@ public class DashboardController : ControllerBase
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<TextVariableStats>> GetTextVariableStats(string type)
+    public async Task<ActionResult<TextVariableStats>> GetTextVariableStats(string type,
+        [FromQuery] int nbTopWords = 30, [FromQuery] int nbLongestWords = 5)
     {
-        // TODO: get real data when available
         if (type != "designation" && type != "description")
             return BadRequest(new ProblemDetails
             {
@@ -149,47 +153,75 @@ public class DashboardController : ControllerBase
                 Instance = HttpContext.Request.Path
             });
 
+        var wordCount = new Dictionary<string, int>();
+        var processedWordCount = new Dictionary<string, int>();
+
+        foreach (var batch in FetchDataInBatches(_context, 1000, type))
+            TextProcessing.GetTextData(batch, ref processedWordCount, ref wordCount);
+
+
+        var topWords = processedWordCount
+            .OrderByDescending(word => word.Value)
+            .Take(nbTopWords)
+            .Select(word =>
+                new WordCount
+                {
+                    Word = word.Key,
+                    Count = word.Value
+                })
+            .ToArray();
+
+        var longestWords = processedWordCount
+            .OrderByDescending(word => word.Key.Length)
+            .Take(nbLongestWords)
+            .Select(
+                word =>
+                    new WordCharacterCount
+                    {
+                        Word = word.Key,
+                        NbChars = word.Key.Length
+                    })
+            .ToArray();
+
         return Ok(new TextVariableStats
         {
             VariableName = type,
-            NbWords = 23000,
-            NbWordsBeforeProcessing = 40000,
-            WordsCount =
-            [
-                new WordCount
-                {
-                    Word = "Produit",
-                    Count = 25
-                },
-                new WordCount
-                {
-                    Word = "Hello",
-                    Count = 32
-                },
-                new WordCount
-                {
-                    Word = "World",
-                    Count = 10
-                }
-            ],
-            LongestWords =
-            [
-                new WordCharacterCount
-                {
-                    Word = "ProduitProduitProduitProduitProduitProduitProduitProduitProduitProduitProduit",
-                    NbChars = 8
-                },
-                new WordCharacterCount
-                {
-                    Word = "Hello",
-                    NbChars = 5
-                },
-                new WordCharacterCount
-                {
-                    Word = "Sac",
-                    NbChars = 3
-                }
-            ]
+            NbWordsBeforeProcessing = wordCount.Sum(kv => kv.Value),
+            NbWords = processedWordCount.Sum(kv => kv.Value),
+            WordsCount = topWords,
+            LongestWords = longestWords
         });
+    }
+
+    /// <summary>
+    /// Fetch data from DB in batches.
+    /// </summary>
+    /// <param name="dbContext">Database context</param>
+    /// <param name="batchSize">Number of products to return</param>
+    /// <param name="type">Field to select. either designation or description</param>
+    /// <returns>List of string with the values</returns>
+    private static IEnumerable<List<string>> FetchDataInBatches(AppDbContext dbContext, int batchSize, string type)
+    {
+        var offset = 0;
+        while (true)
+        {
+            var query = dbContext.Products
+                .OrderBy(row => row.Id) // Ensure consistent ordering
+                .Skip(offset)
+                .Take(batchSize)
+                .AsNoTracking();
+
+            var batch = new List<string>();
+            if (type == "designation")
+                batch = query.Select(product => product.Designation ?? "").ToList();
+            else
+                batch = query.Select(product => product.Description ?? "").ToList();
+
+            if (batch.Count == 0)
+                yield break;
+
+            yield return batch;
+            offset += batchSize;
+        }
     }
 }

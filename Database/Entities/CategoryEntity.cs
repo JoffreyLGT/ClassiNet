@@ -1,4 +1,4 @@
-namespace API.Entity;
+namespace Database.Entities;
 
 /// <summary>
 ///     Category of a product.

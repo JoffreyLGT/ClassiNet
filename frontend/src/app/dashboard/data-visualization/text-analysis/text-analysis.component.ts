@@ -18,7 +18,10 @@ export class TextAnalysisComponent {
       const wordsBeforeProcessing =
         this.textVariableStats()?.nbWordsBeforeProcessing ?? 0;
       const wordsAfterProcessing = this.textVariableStats()?.nbWords ?? 0;
-      return ((wordsAfterProcessing / wordsBeforeProcessing) * 100).toFixed(2);
+      return (
+        100 -
+        (wordsAfterProcessing / wordsBeforeProcessing) * 100
+      ).toFixed(2);
     }
     return 0;
   });

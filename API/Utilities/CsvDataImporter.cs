@@ -1,9 +1,10 @@
 using System.Globalization;
 using System.Net;
-using API.Entity;
 using API.Models;
 using CsvHelper;
 using CsvHelper.Configuration;
+using Database;
+using Database.Entities;
 
 namespace API.Utilities;
 

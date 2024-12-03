@@ -1,6 +1,7 @@
 using System.Net.Mime;
 using System.Text;
 using API.Utilities;
+using Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

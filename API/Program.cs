@@ -1,11 +1,10 @@
 using System.Reflection;
 using System.Text;
-using API;
-using API.Entity;
 using API.Models;
 using API.Utilities;
+using Database;
+using Database.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -27,7 +26,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration["ConnectionString"]));
+builder.Services.AddDbContext<AppDbContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

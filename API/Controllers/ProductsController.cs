@@ -1,6 +1,7 @@
-using API.Entity;
 using API.Models;
 using API.Utilities;
+using Database;
+using Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

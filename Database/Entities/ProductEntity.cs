@@ -1,4 +1,4 @@
-namespace API.Entity;
+namespace Database.Entities;
 
 /// <summary>
 ///     Product sold on an e-commerce platform.
