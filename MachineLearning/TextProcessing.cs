@@ -39,34 +39,34 @@ public static class TextProcessing
         }));
 
         // Normalize text => Tokenize into words => Remove French stop words => Remove English stop words
-        var textPipeline = mlContext.Transforms.Text
-            .NormalizeText(
-                "NormalizedText",
-                "Text",
-                TextNormalizingEstimator.CaseMode.Lower,
-                false,
-                false,
-                false)
-            .Append(mlContext.Transforms.Text.TokenizeIntoWords(
-                "Words",
-                "NormalizedText"))
-            .Append(mlContext.Transforms.Text.RemoveDefaultStopWords(
-                "WordsWithoutFrenchStopWords",
-                "Words",
-                StopWordsRemovingEstimator.Language.French))
-            .Append(mlContext.Transforms.Text.RemoveDefaultStopWords(
-                "WordsWithoutEnglishStopWords",
-                "WordsWithoutFrenchStopWords"))
-            .Append(mlContext.Transforms.Text.RemoveStopWords(
-                "WordsWithoutStopWords",
-                "WordsWithoutEnglishStopWords", "m", "dm", "cm", "mm", "le", "n", "n\u00b0", "rc"))
-            .Append(mlContext.Transforms.Text.ProduceWordBags(
-                "BagOfWordsWithoutStopWords",
-                "WordsWithoutStopWords",
-                1,
-                useAllLengths: false,
-                weighting: NgramExtractingEstimator.WeightingCriteria.Tf
-            ));
+        // var textPipeline = mlContext.Transforms.Text
+        //     .NormalizeText(
+        //         "NormalizedText",
+        //         "Text",
+        //         TextNormalizingEstimator.CaseMode.Lower,
+        //         false,
+        //         false,
+        //         false)
+        //     .Append(mlContext.Transforms.Text.TokenizeIntoWords(
+        //         "Words",
+        //         "NormalizedText"))
+        //     .Append(mlContext.Transforms.Text.RemoveDefaultStopWords(
+        //         "WordsWithoutFrenchStopWords",
+        //         "Words",
+        //         StopWordsRemovingEstimator.Language.French))
+        //     .Append(mlContext.Transforms.Text.RemoveDefaultStopWords(
+        //         "WordsWithoutEnglishStopWords",
+        //         "WordsWithoutFrenchStopWords"))
+        //     .Append(mlContext.Transforms.Text.RemoveStopWords(
+        //         "WordsWithoutStopWords",
+        //         "WordsWithoutEnglishStopWords", "m", "dm", "cm", "mm", "le", "n", "n\u00b0", "rc"))
+        var textPipeline = TextCleaningEstimator(mlContext).Append(mlContext.Transforms.Text.ProduceWordBags(
+            "BagOfWordsWithoutStopWords",
+            "WordsWithoutStopWords",
+            1,
+            useAllLengths: false,
+            weighting: NgramExtractingEstimator.WeightingCriteria.Tf
+        ));
 
         var transformedData = textPipeline.Fit(dataView).Transform(dataView);
         var preview = transformedData.Preview(nbValues);
@@ -88,5 +88,30 @@ public static class TextProcessing
                         processedWordCount[pair.Value.ToString()] =
                             processedWordCount.GetValueOrDefault(pair.Value.ToString(), 0) + 1;
         }
+    }
+
+    public static EstimatorChain<CustomStopWordsRemovingTransformer> TextCleaningEstimator(MLContext mlContext)
+    {
+        return mlContext.Transforms.Text
+            .NormalizeText(
+                "NormalizedText",
+                "Text",
+                TextNormalizingEstimator.CaseMode.Lower,
+                false,
+                false,
+                false)
+            .Append(mlContext.Transforms.Text.TokenizeIntoWords(
+                "Words",
+                "NormalizedText"))
+            .Append(mlContext.Transforms.Text.RemoveDefaultStopWords(
+                "WordsWithoutFrenchStopWords",
+                "Words",
+                StopWordsRemovingEstimator.Language.French))
+            .Append(mlContext.Transforms.Text.RemoveDefaultStopWords(
+                "WordsWithoutEnglishStopWords",
+                "WordsWithoutFrenchStopWords"))
+            .Append(mlContext.Transforms.Text.RemoveStopWords(
+                "WordsWithoutStopWords",
+                "WordsWithoutEnglishStopWords", "m", "dm", "cm", "mm", "le", "n", "n\u00b0", "rc"));
     }
 }
