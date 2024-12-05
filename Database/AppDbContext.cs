@@ -2,6 +2,7 @@ using Database.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 
 namespace Database;
@@ -37,9 +38,30 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
     /// </summary>
     public DbSet<ProductEntity> Products { get; init; }
 
+    /// <summary>
+    ///     Access to the PerClassScores table.
+    /// </summary>
+    public DbSet<PerClassScore> PerClassScores { get; init; }
+
+    /// <summary>
+    ///     Access to the ConfusionMatrices table.
+    /// </summary>
+    public DbSet<ConfusionMatrixEntity> ConfusionMatrices { get; init; }
+
+    /// <summary>
+    ///     Access to the ModelStats table.
+    /// </summary>
+    public DbSet<ModelStatsEntity> ModelStats { get; init; }
+
+    /// <summary>
+    ///     Access to the ClassificationModels table.
+    /// </summary>
+    public DbSet<ClassificationModelEntity> ClassificationModels { get; init; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(_connectionString);
+        optionsBuilder.ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning));
+        optionsBuilder.UseNpgsql(_connectionString, b => b.MigrationsAssembly("API"));
     }
 
     /// <summary>
