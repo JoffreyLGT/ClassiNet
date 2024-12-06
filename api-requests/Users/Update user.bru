@@ -1,0 +1,24 @@
+meta {
+  name: Update user
+  type: http
+  seq: 2
+}
+
+patch {
+  url: https://localhost:7052/api/users/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": "2320663c-10f1-4fa0-990f-367c13026448",
+    "userName": "Rex",
+    "company": "Salvagers Inc.",
+    "email": "rex@test.fr",
+    "password": "User1!",
+    "role": "User",
+    "activated": true,
+    "disabled": false
+  }
+}

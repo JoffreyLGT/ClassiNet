@@ -1,0 +1,18 @@
+meta {
+  name: Authenticate admin
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://localhost:7052/api/users/authenticate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "admin@test.fr",
+    "password": "Admin1!"
+  }
+}

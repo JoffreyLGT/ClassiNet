@@ -1,0 +1,15 @@
+meta {
+  name: Get user
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://localhost:7052/api/users/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: fb50f195-27a7-4a46-8ebd-6fc097e1d45e
+}

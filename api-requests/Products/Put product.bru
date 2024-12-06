@@ -1,0 +1,28 @@
+meta {
+  name: Put product
+  type: http
+  seq: 2
+}
+
+put {
+  url: https://localhost:7052/api/products/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "createdDate": "2024-12-01T18:30:40.322Z",
+    "updatedDate": "2024-12-01T18:30:40.322Z",
+    "id": 3,
+    "designation": "string",
+    "description": "string",
+    "imageName": "string",
+    "category": {
+      "createdDate": "2024-12-01T18:30:40.322Z",
+      "updatedDate": "2024-12-01T18:30:40.322Z",
+      "id": 0,
+      "name": "string"
+    }
+  }
+}
