@@ -1,0 +1,18 @@
+meta {
+  name: Predict product category
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://localhost:7052/api/predictions/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "designation": "Nouvelle Histoire De La France Moderne - Tome 2 Guerre Civile Et Compromis 1559-1598",
+    "description": ""
+  }
+}
