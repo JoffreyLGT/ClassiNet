@@ -100,6 +100,10 @@ builder.Services.AddAuthentication(opt =>
 
 builder.Services.AddAuthorization(opt => { opt.AddPolicy("OnlyAdminUsers", policy => policy.RequireRole("Admin")); });
 
+// Insert the prediction model in the dependency injection
+builder.Services.AddSingleton<MLModelManager>();
+
+// Insert the JSON Web Token handler in the dependency injection
 builder.Services.AddSingleton<JwtHandler>();
 
 var app = builder.Build();

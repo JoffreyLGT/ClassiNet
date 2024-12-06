@@ -11,6 +11,13 @@ public class ClassificationModelEntity : BaseEntity
     public bool IsActive { get; set; }
     public string? FileName { get; set; }
     public ModelStatsEntity? ModelStats { get; set; }
+
+    /// <summary>
+    ///     Dictionary serialized into JSON for storage.
+    ///     Use the key as the index of an element in the Scores property of PredictionResult
+    ///     and the Category ID as a value.
+    /// </summary>
+    public string? KeyToCategoryMap { get; set; }
 }
 
 public enum ModelStatus

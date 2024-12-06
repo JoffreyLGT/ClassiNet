@@ -6,15 +6,17 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms;
 using Microsoft.ML.Transforms.Text;
+using Newtonsoft.Json;
 using Npgsql;
 
 internal class Program
 {
     /// <summary>
-    ///     For the moment, this is just a console app used to test the text pipeline without starting the API.
-    ///     It'll be used to develop the model.
+    ///     Create and train a machine learning model based on the Product data from datbase.
+    ///     The model is saved in ModelsDirectory and its metrics are stored in database.
     /// </summary>
-    /// <param name="args"></param>
+    /// <param name="args">An array of strings containing the arguments passed to the program from the command line.</param>
+    /// <returns>A Task representing the asynchronous operation of the program.</returns>
     private static async Task Main(string[] args)
     {
         // Build a config object, using env vars and JSON providers.
@@ -27,7 +29,7 @@ internal class Program
         var mlContext = new MLContext();
 
         // Create DB loader
-        var loader = mlContext.Data.CreateDatabaseLoader<ModelInputProduct>();
+        var loader = mlContext.Data.CreateDatabaseLoader<InputData>();
 
         var dbSource = new DatabaseSource(
             NpgsqlFactory.Instance,
@@ -73,9 +75,11 @@ internal class Program
                 "Label",
                 "CategoryId",
                 keyOrdinality: ValueToKeyMappingEstimator.KeyOrdinality.ByValue))
-            .Append(mlContext.MulticlassClassification.Trainers.SdcaMaximumEntropy())
+            .Append(mlContext.MulticlassClassification.Trainers
+                .SdcaMaximumEntropy())
             .Append(mlContext.Transforms.Conversion.MapKeyToValue(
-                "PredictedLabel", "PredictedLabel"));
+                "PredictedCategoryId", "PredictedLabel"));
+
 
         // Add a new ClassificationModels entry in db
         var classificationModelEntity = new ClassificationModelEntity
@@ -89,9 +93,14 @@ internal class Program
         await dbContext.SaveChangesAsync();
 
         // Generate the model path
-        Directory.CreateDirectory(config["ModelsDirectory"]);
+        var modelsDirectory = config["ModelsDirectory"];
+        if (modelsDirectory is null)
+            throw new Exception("ModelsDirectory is not set in appsettings.json.");
         var modelFileName = $"sdcaMaximumEntropyModel-{DateTime.Now.ToUniversalTime():yyyyMMddHHmmss}.zip";
-        var modelFilePath = $"{config["ModelsDirectory"]}/{modelFileName}";
+        var modelFilePath = $"{modelsDirectory}/{modelFileName}";
+
+        // Create the directory to save the model if it doesn't exist yet
+        Directory.CreateDirectory(modelsDirectory);
 
         // Train the model
         var model = pipeline.Fit(splitData.TrainSet);
@@ -112,7 +121,7 @@ internal class Program
         // inserted correctly in the pipeline and I didn't find any other solution...
         // It works like that thanks to "keyOrdinality: ValueToKeyMappingEstimator.KeyOrdinality.ByValue"
         // passed as an argument to "mlContext.Transforms.Conversion.MapValueToKey", but I still find this
-        // solution dirty and hope Microsoft is gonna fix the metadata spreading in the pipeline!
+        // solution dirty and hope Microsoft is going to fix the metadata spreading in the pipeline!
         var categoryIds = splitData.TrainSet.GetColumn<int>("CategoryId")
             .Distinct()
             .OrderBy(id => id)
@@ -120,6 +129,7 @@ internal class Program
         var keyToCategoryMap = categoryIds
             .Select((categoryId, index) => new { Key = index, Value = categoryId })
             .ToDictionary(x => x.Key, x => x.Value);
+        classificationModelEntity.KeyToCategoryMap = JsonConvert.SerializeObject(keyToCategoryMap);
 
         // Create the confusion matrix
         var confusionMatrix = metrics.ConfusionMatrix;
