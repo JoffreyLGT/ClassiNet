@@ -20,65 +20,11 @@
           <span>{{ this.errorMessage }}</span>
         </div>
       }
-      <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-        <div class="form-control">
-          <label class="form-control">
-            <div class="label">
-              <span class="label-text">Designation*</span>
-            </div>
-            <textarea
-              [class.input-error]="
-                !productForm.controls['designation'].untouched &&
-                productForm.controls['designation'].invalid
-              "
-              class="textarea textarea-bordered"
-              formControlName="designation"
-              rows="3"
-              placeholder="Waterproof smartwatch..."
-            ></textarea>
-          </label>
-        </div>
-        <div class="form-control">
-          <label class="form-control">
-            <div class="label">
-              <span class="label-text">Description</span>
-            </div>
-            <textarea
-              [class.input-error]="
-                !productForm.controls['designation'].untouched &&
-                productForm.controls['designation'].invalid
-              "
-              class="textarea textarea-bordered"
-              formControlName="description"
-              rows="5"
-              placeholder="A beautiful watch..."
-            ></textarea>
-          </label>
-        </div>
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Category</span>
-          </label>
-
-          <select
-            class="select select-bordered w-full"
-            formControlName="category"
-          >
-            <option disabled value="">Select a category</option>
-            @for (
-              category of productService.categoryList();
-              track category.id
-            ) {
-              <option value="{{ category.id }}">{{ category.name }}</option>
-            }
-          </select>
-        </div>
-        <div class="form-control mt-6">
-          <button [disabled]="!productForm.valid" class="btn btn-primary">
-            Submit
-          </button>
-        </div>
-      </form>
+      <app-product-form
+        [categories]="productService.categoryList()"
+        [(product)]="productFormValues"
+        (onSubmit)="onSubmit()"
+      />
     </div>
   </div>
 </div>

@@ -1,0 +1,62 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit.emit()">
+  <div class="form-control">
+    <label class="form-control">
+      <div class="label">
+        <span class="label-text">Designation*</span>
+      </div>
+      <textarea
+        [class.textarea-error]="
+          !productForm.controls['designation'].untouched &&
+          productForm.controls['designation'].invalid
+        "
+        class="textarea textarea-bordered"
+        formControlName="designation"
+        rows="3"
+        placeholder="Waterproof smartwatch..."
+      ></textarea>
+    </label>
+  </div>
+  <div class="form-control">
+    <label class="form-control">
+      <div class="label">
+        <span class="label-text">Description</span>
+      </div>
+      <textarea
+        [class.textarea-error]="
+          !productForm.controls['description'].untouched &&
+          productForm.controls['description'].invalid
+        "
+        class="textarea textarea-bordered"
+        formControlName="description"
+        rows="5"
+        placeholder="A beautiful watch..."
+      ></textarea>
+    </label>
+  </div>
+  @if (categories() !== undefined) {
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Category</span>
+      </label>
+
+      <select
+        [class.select-error]="
+          !productForm.controls['category'].untouched &&
+          productForm.controls['category'].invalid
+        "
+        class="select select-bordered w-full"
+        formControlName="category"
+      >
+        <option disabled value="-1">Select a category</option>
+        @for (category of categories(); track category.id) {
+          <option value="{{ category.id }}">{{ category.name }}</option>
+        }
+      </select>
+    </div>
+  }
+  <div class="form-control mt-6">
+    <button [disabled]="!productForm.valid" class="btn btn-primary">
+      Submit
+    </button>
+  </div>
+</form>

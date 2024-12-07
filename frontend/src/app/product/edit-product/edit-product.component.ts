@@ -1,11 +1,5 @@
-import { Component, OnDestroy } from "@angular/core";
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from "@angular/forms";
+import { Component, OnDestroy, signal } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SvgIconComponent } from "angular-svg-icon";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ADMIN_PRODUCT_LIST_ROUTE } from "../../app.static-data";
@@ -15,16 +9,25 @@ import {
   PatchProductPayload,
   PostProductPayload,
   Product,
+  ProductForm,
 } from "../product.model";
+import { ProductFormComponent } from "../product-form/product-form.component";
 
 @Component({
   selector: "app-edit-product",
-  imports: [FormsModule, ReactiveFormsModule, SvgIconComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SvgIconComponent,
+    ProductFormComponent,
+  ],
   templateUrl: "./edit-product.component.html",
   styles: ``,
 })
 export class EditProductComponent implements OnDestroy {
   formMode: "add" | "edit" = "add";
+
+  productFormValues = signal<ProductForm>({});
 
   categoriesSubscription: Subscription;
   editedProductSubscription: Subscription | null = null;
@@ -32,15 +35,6 @@ export class EditProductComponent implements OnDestroy {
   success: boolean = false;
 
   productId: string | null = null;
-
-  productForm = new FormGroup({
-    designation: new FormControl("", [
-      Validators.required,
-      Validators.maxLength(256),
-    ]),
-    description: new FormControl(""),
-    category: new FormControl("", Validators.required),
-  });
 
   productService: ProductService;
 
@@ -63,13 +57,12 @@ export class EditProductComponent implements OnDestroy {
             if (result === undefined) {
               return;
             }
-            this.productForm.get("designation")?.setValue(result.designation);
-            this.productForm
-              .get("description")
-              ?.setValue(result.description ?? "");
-            this.productForm
-              .get("category")
-              ?.setValue(result.category?.id.toString() ?? null);
+            this.productFormValues.set({
+              id: result.id,
+              designation: result.designation,
+              description: result.description,
+              categoryId: result.category.id,
+            });
           },
           error: (_) => {
             this.router.navigate(["/404"], { skipLocationChange: true }).then();
@@ -79,22 +72,11 @@ export class EditProductComponent implements OnDestroy {
   }
 
   onSubmit() {
-    if (
-      this.productForm.controls["category"].value === null ||
-      this.productForm.controls["designation"].value === null ||
-      this.productForm.controls["description"].value === null
-    ) {
-      console.error("Invalid form");
-      return;
-    }
-
     if (this.formMode === "add") {
       const product: PostProductPayload = {
-        designation: this.productForm.controls["designation"].value,
-        description: this.productForm.controls["description"].value,
-        categoryId: Number.parseInt(
-          this.productForm.controls["category"].value,
-        ),
+        designation: this.productFormValues().designation ?? "",
+        description: this.productFormValues().description ?? "",
+        categoryId: this.productFormValues().categoryId ?? 0,
       };
 
       this.editedProductSubscription = this.productService
@@ -118,11 +100,9 @@ export class EditProductComponent implements OnDestroy {
 
       const product: PatchProductPayload = {
         id: Number.parseInt(this.productId),
-        designation: this.productForm.controls["designation"].value,
-        description: this.productForm.controls["description"].value,
-        categoryId: Number.parseInt(
-          this.productForm.controls["category"].value,
-        ),
+        designation: this.productFormValues().designation,
+        description: this.productFormValues().description,
+        categoryId: this.productFormValues().categoryId ?? -1,
       };
       this.editedProductSubscription = this.productService
         .updateProduct(product)
