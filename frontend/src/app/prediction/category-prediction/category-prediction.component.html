@@ -1,8 +1,8 @@
 <div class="m-4 flex flex-col gap-16">
   <section class="flex max-w-full flex-col gap-8">
-    <h2 class="text-4xl font-bold">Categorize a product</h2>
-    <div class="flex w-full">
-      <div class="card w-1/2 grow place-items-center rounded-box">
+    <h2 class="text-3xl font-bold md:text-4xl">Categorize a product</h2>
+    <div class="grid w-full gap-4 md:flex md:gap-0">
+      <div class="card w-full grow place-items-center rounded-box md:w-1/2">
         <app-product-form
           class="w-full"
           [(product)]="product"
@@ -11,31 +11,44 @@
       </div>
       <!--Divider-->
       @if (status() === "loading") {
-        <div class="divider divider-warning divider-horizontal text-warning">
+        <div
+          class="divider divider-warning divider-vertical text-warning md:divider-horizontal"
+        >
           <svg-icon src="icons/brain-line.svg" svgClass="h-6 w-6" />
           <span class="loading loading-ring h-6 w-6"></span>
         </div>
       } @else if (status() === "success") {
-        <div class="divider divider-success divider-horizontal text-success">
+        <div
+          class="divider divider-success divider-vertical text-success md:divider-horizontal"
+        >
           <svg-icon src="icons/brain-line.svg" svgClass="h-6 w-6" />
           <svg-icon src="icons/check-double-line.svg" svgClass="h-6 w-6" />
         </div>
       } @else if (status() === "error") {
-        <div class="divider divider-error divider-horizontal text-error">
+        <div
+          class="divider divider-error divider-vertical text-error md:divider-horizontal"
+        >
           <svg-icon src="icons/brain-line.svg" svgClass="h-6 w-6" />
           <svg-icon src="icons/error-warning-line.svg" svgClass="h-6 w-6" />
         </div>
       } @else {
-        <div class="divider divider-primary divider-horizontal text-primary">
+        <div
+          class="divider divider-primary divider-vertical text-primary md:divider-horizontal"
+        >
           <svg-icon src="icons/brain-line.svg" svgClass="h-6 w-6" />
           <svg-icon src="icons/hotel-bed-line.svg" svgClass="h-6 w-6" />
         </div>
       }
       <!--Result-->
-      <div class="flex w-1/2 grid-rows-2 flex-col content-between rounded-box">
+      <div
+        class="grid flex-col content-between gap-10 rounded-box md:flex md:w-1/2"
+      >
         @if (status() === "default") {
-          <div class="flex place-items-center justify-center">
-            <svg-icon src="icons/undraw-loading.svg" svgClass="h-96" />
+          <div class="flex w-full place-items-center justify-center">
+            <svg-icon
+              src="icons/undraw-loading.svg"
+              svgClass="md:h-96 w-full"
+            />
           </div>
         } @else {
           <div class="h-1/3 content-center">
