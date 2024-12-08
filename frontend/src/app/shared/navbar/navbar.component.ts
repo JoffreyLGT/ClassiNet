@@ -10,6 +10,7 @@ import {
 import { Subscription } from "rxjs";
 import { UserService } from "../../user/user.service";
 import { Router } from "@angular/router";
+import { ThemeManagerService } from "../theme-manager/theme-manager.service";
 
 @Component({
   selector: "app-navbar",
@@ -24,12 +25,15 @@ export class NavbarComponent {
   private logoutSubscription: Subscription | null = null;
 
   userService: UserService;
+  themeManagerService: ThemeManagerService;
 
   constructor(
     userService: UserService,
+    themeManagerService: ThemeManagerService,
     private router: Router,
   ) {
     this.userService = userService;
+    this.themeManagerService = themeManagerService;
   }
 
   login() {
