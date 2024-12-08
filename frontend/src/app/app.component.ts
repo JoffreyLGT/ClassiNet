@@ -9,5 +9,5 @@ import { NavbarComponent } from "./shared/navbar/navbar.component";
   templateUrl: "./app.component.html",
 })
 export class AppComponent {
-  title = "Product classification";
+  title = "ClassiNet";
 }
