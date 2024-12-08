@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
@@ -6,6 +6,7 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
-    themes: ["pastel"],
+    themes: ["pastel", "dracula"],
   },
+  darkMode: ["selector", '[data-theme="dracula"]'],
 };

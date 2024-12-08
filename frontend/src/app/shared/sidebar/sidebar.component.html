@@ -1,12 +1,11 @@
-<nav
-  class="flex min-h-screen w-64 flex-col gap-4 border-r border-neutral bg-accent"
->
+<nav class="flex min-h-screen w-64 flex-col gap-4 border-r bg-neutral">
   <h1 class="mx-auto mt-4">
     <img
-      ngSrc="classinet-logo-small.png"
+      ngSrc="/classinet-logo-small.png"
       width="125"
       height="125"
       alt="Product Categorization"
+      priority
     />
   </h1>
 
@@ -22,7 +21,7 @@
               <li>
                 <a
                   routerLink="{{ item.link }}"
-                  routerLinkActive="active"
+                  routerLinkActive="bg-base-300/30"
                   ariaCurrentWhenActive="page"
                 >
                   <svg-icon

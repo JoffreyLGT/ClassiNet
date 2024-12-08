@@ -1,24 +1,26 @@
-<div class="bg-accent">
-  <div class="mx-auto bg-accent 2xl:container">
-    <div class="drawer min-h-screen lg:drawer-open">
-      <input id="drawer" type="checkbox" class="drawer-toggle" />
-      <div
-        class="drawer-content flex h-full flex-col 2xl:border-r 2xl:border-neutral"
-      >
-        <app-navbar />
-        <main class="grow overflow-auto bg-base-200">
-          <router-outlet></router-outlet>
-        </main>
-      </div>
-      <div class="drawer-side z-[2]">
-        <label
-          for="drawer"
-          aria-label="close sidebar"
-          class="drawer-overlay"
-        ></label>
-        <ul class="menu z-[2] bg-base-200 p-0 text-base-content">
-          <app-sidebar />
-        </ul>
+<div [attr.data-theme]="themeManagerService.selectedTheme()">
+  <div class="bg-neutral">
+    <div class="mx-auto bg-neutral 2xl:container">
+      <div class="drawer min-h-screen lg:drawer-open">
+        <input id="drawer" type="checkbox" class="drawer-toggle" />
+        <div
+          class="drawer-content flex h-full flex-col 2xl:border-r 2xl:border-neutral"
+        >
+          <app-navbar />
+          <main class="grow overflow-auto bg-base-200">
+            <router-outlet></router-outlet>
+          </main>
+        </div>
+        <div class="drawer-side z-[2]">
+          <label
+            for="drawer"
+            aria-label="close sidebar"
+            class="drawer-overlay"
+          ></label>
+          <ul class="menu z-[2] bg-base-200 p-0 text-base-content">
+            <app-sidebar />
+          </ul>
+        </div>
       </div>
     </div>
   </div>
