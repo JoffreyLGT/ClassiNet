@@ -1,7 +1,15 @@
 <div class="card bg-base-100 shadow-xl">
   <div class="card-body">
     <h3 class="card-title">Data completeness</h3>
-    <p class="mb-4">This section shows us how complete the products data are.</p>
-    <div echarts [loading]="completeOptions() === undefined" [options]="completeOptions()" class="h-80"></div>
+    <p class="mb-4">
+      This section shows us how complete the products data are.
+    </p>
+    <div
+      echarts
+      [loading]="completeOptions() === undefined"
+      [options]="completeOptions()"
+      class="h-80"
+      [theme]="themeManagerService.echartsSelectedTheme()"
+    ></div>
   </div>
 </div>

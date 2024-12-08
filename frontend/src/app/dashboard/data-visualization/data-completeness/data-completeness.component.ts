@@ -2,6 +2,7 @@ import { Component, computed, input } from "@angular/core";
 import { NgxEchartsDirective } from "ngx-echarts";
 import { DataCompletenessStats } from "../../dashboard.model";
 import type { EChartsOption } from "echarts";
+import { ThemeManagerService } from "../../../shared/theme-manager/theme-manager.service";
 
 @Component({
   selector: "app-data-completeness",
@@ -9,6 +10,7 @@ import type { EChartsOption } from "echarts";
   templateUrl: "./data-completeness.component.html",
 })
 export class DataCompletenessComponent {
+  themeManagerService: ThemeManagerService;
   dataCompletenessStats = input<DataCompletenessStats | undefined>(undefined);
 
   completeOptions = computed((): EChartsOption => {
@@ -62,5 +64,7 @@ export class DataCompletenessComponent {
     };
   });
 
-  constructor() {}
+  constructor(themeManagerService: ThemeManagerService) {
+    this.themeManagerService = themeManagerService;
+  }
 }

@@ -1,4 +1,5 @@
-import { Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from "@angular/core";
+import { Dracula } from "../echarts-themes";
 
 /**
  * ThemeManagerService is a service responsible for managing the theme selection
@@ -34,6 +35,21 @@ export class ThemeManagerService {
    * updating the UI or saving user preferences.
    */
   selectedTheme = signal<"pastel" | "dracula">("pastel");
+
+  /**
+   * A computed property that determines the selected theme for ECharts visualization.
+   *
+   * This property returns the theme name to be used for ECharts based on the selected
+   * theme specified by the user. If the selected theme is "pastel", it returns the
+   * string "light" as the theme, indicating a preference for a light-themed
+   * visualization. For any other selected theme, it defaults to using the "Dracula"
+   * theme.
+   *
+   * @type {string}
+   */
+  echartsSelectedTheme = computed(() => {
+    return this.selectedTheme() === "pastel" ? "light" : Dracula;
+  });
 
   /**
    * Enables the dark mode theme for the application.

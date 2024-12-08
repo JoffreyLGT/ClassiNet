@@ -1,11 +1,22 @@
 <div class="card bg-base-100 shadow-xl">
   <div class="card-body">
     <h3 class="card-title">Distribution by category</h3>
-    <p class="mb-4">This section helps to highlight a possible imbalance in the data. For example, a
-      category
-      too represented could create biases when training the model and reduce
-      its performance.</p>
-    <div echarts [loading]="categoriesDistributionItems() === []" [options]="piePlotOptions()"></div>
-    <div echarts [loading]="categoriesDistributionItems() === []" [options]="barPlotOptions()"></div>
+    <p class="mb-4">
+      This section helps to highlight a possible imbalance in the data. For
+      example, a category too represented could create biases when training the
+      model and reduce its performance.
+    </p>
+    <div
+      echarts
+      [loading]="categoriesDistributionItems() === []"
+      [options]="piePlotOptions()"
+      [theme]="themeManagerService.echartsSelectedTheme()"
+    ></div>
+    <div
+      echarts
+      [loading]="categoriesDistributionItems() === []"
+      [options]="barPlotOptions()"
+      [theme]="themeManagerService.echartsSelectedTheme()"
+    ></div>
   </div>
 </div>

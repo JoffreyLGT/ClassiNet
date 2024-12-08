@@ -2,6 +2,7 @@ import { Component, computed, input } from "@angular/core";
 import type { EChartsOption } from "echarts";
 import { NgxEchartsDirective } from "ngx-echarts";
 import { CategoriesDistributionItem } from "../../dashboard.model";
+import { ThemeManagerService } from "../../../shared/theme-manager/theme-manager.service";
 
 @Component({
   selector: "app-categories-distribution",
@@ -12,6 +13,12 @@ import { CategoriesDistributionItem } from "../../dashboard.model";
 export class CategoriesDistributionComponent {
   private seriesName = "Product per category";
   categoriesDistributionItems = input<CategoriesDistributionItem[]>([]);
+
+  themeManagerService: ThemeManagerService;
+
+  constructor(themeManagerService: ThemeManagerService) {
+    this.themeManagerService = themeManagerService;
+  }
 
   data = computed(() =>
     this.categoriesDistributionItems()
