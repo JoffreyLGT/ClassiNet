@@ -10,7 +10,7 @@ export const DASHBOARD_MODEL_PERFORMANCE_ROUTE = "dashboard/model-performance";
 export const USER_LOGIN_ROUTE = "user/login";
 export const USER_LOGOUT_ROUTE = "user/logout";
 
-export const CATEGORIZATION_PRODUCT_ROUTE = "categorization/product";
+export const CATEGORY_PREDICTION_ROUTE = "categorization/product";
 
 export const ADMIN_USER_LIST_ROUTE = "admin/users";
 export const ADMIN_ADD_USER_ROUTE = "admin/users/add";
@@ -58,7 +58,7 @@ export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
       {
         icon: "brain",
         label: "Categorize a product",
-        link: CATEGORIZATION_PRODUCT_ROUTE,
+        link: CATEGORY_PREDICTION_ROUTE,
       },
     ],
   },

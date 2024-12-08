@@ -7,7 +7,7 @@ import {
   ADMIN_EDIT_USER_ROUTE,
   ADMIN_PRODUCT_LIST_ROUTE,
   ADMIN_USER_LIST_ROUTE,
-  CATEGORIZATION_PRODUCT_ROUTE,
+  CATEGORY_PREDICTION_ROUTE,
   DASHBOARD_DATA_VISUALIZATION_ROUTE,
   DASHBOARD_HOME_ROUTE,
   DASHBOARD_MODEL_PERFORMANCE_ROUTE,
@@ -24,6 +24,7 @@ import { EditUserComponent } from "./user/edit-user/edit-user.component";
 import { ProductManagementComponent } from "./product/product-management/product-management.component";
 import { EditProductComponent } from "./product/edit-product/edit-product.component";
 import { NotFoundComponent } from "./shared/not-found/not-found.component";
+import { CategoryPredictionComponent } from "./prediction/category-prediction/category-prediction.component";
 
 export const routes: Routes = [
   // USER ROUTES
@@ -53,8 +54,8 @@ export const routes: Routes = [
   },
   // CATEGORIZATION ROUTES
   {
-    path: CATEGORIZATION_PRODUCT_ROUTE,
-    component: UnderConstructionComponent,
+    path: CATEGORY_PREDICTION_ROUTE,
+    component: CategoryPredictionComponent,
     canActivate: [isLoggedInGuard],
   },
   // ADMINISTRATION ROUTES
