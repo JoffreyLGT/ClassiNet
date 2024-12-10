@@ -106,6 +106,20 @@ builder.Services.AddSingleton<MLModelManager>();
 // Insert the JSON Web Token handler in the dependency injection
 builder.Services.AddSingleton<JwtHandler>();
 
+
+// Add the frontend files to the static files
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    var frontendPath = builder.Configuration.GetValue<string>("FrontendPath");
+    if (string.IsNullOrEmpty(frontendPath))
+        Console.WriteLine("frontendPath is not set.");
+    else if (!Directory.Exists(frontendPath))
+        Console.WriteLine($"frontendPath doesn't exist: {frontendPath}");
+    else
+        configuration.RootPath = frontendPath;
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -122,5 +136,9 @@ app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Serve the frontend files
+app.UseSpaStaticFiles();
+app.UseSpa(spa => { });
 
 app.Run();
