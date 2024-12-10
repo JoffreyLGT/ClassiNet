@@ -27,6 +27,11 @@ import { NotFoundComponent } from "./shared/not-found/not-found.component";
 import { CategoryPredictionComponent } from "./prediction/category-prediction/category-prediction.component";
 
 export const routes: Routes = [
+  {
+    path: "",
+    redirectTo: USER_LOGIN_ROUTE,
+    pathMatch: "full",
+  },
   // USER ROUTES
   {
     path: USER_LOGIN_ROUTE,
