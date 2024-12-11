@@ -1,20 +1,34 @@
 name: dpc-dotnet-product-classification
 
 services:
+  api:
+    container_name: classinet-api
+    image: classinet-api
+    build:
+      dockerfile: API/Dockerfile
+    ports:
+      - 8080:8080
+      - 8081:8081
+    env_file:
+      - path: .env
+        required: true # default
+
   db:
-    container_name: dpc-db
+    container_name: classinet-db
     image: postgres
     restart: always
     # set shared memory limit when using docker-compose
     shm_size: 128mb
     # or set shared memory limit when deploy via swarm stack
     #volumes:
-    #  - type: tmpfs
-    #    target: /dev/shm
-    #    tmpfs:
-    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    # - type: tmpfs
+    # target: /dev/shm
+    # tmpfs:
+    # size: 134217728 # 128*2^20 bytes = 128Mb
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
+      POSTGRES_DB: classinet
     ports:
       - 5432:5432
+
