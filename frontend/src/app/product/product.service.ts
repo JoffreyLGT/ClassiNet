@@ -9,14 +9,12 @@ import {
 } from "./product.model";
 import { map, Observable, tap } from "rxjs";
 import { HEADER_PAGINATOR_KEY } from "../app.static-data";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-  // TODO: fetch url from environment variable or configuration
-  private API_BASE_URL = "https://localhost:7052/api";
-
   categoryList = signal<Category[] | undefined>(undefined);
   productList = signal<GetProductListResponse | undefined>(undefined);
   editedProduct = signal<Product | undefined>(undefined);
@@ -24,7 +22,7 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   getCategoryList() {
-    return this.http.get(`${this.API_BASE_URL}/categories`).pipe(
+    return this.http.get(`${environment.api_url}/categories`).pipe(
       tap((result: any) => {
         this.categoryList.set(result as Category[]);
       }),
@@ -40,7 +38,7 @@ export class ProductService {
     const skip = (page - 1) * usersPerPage;
     return this.http
       .get(
-        `${this.API_BASE_URL}/products?skip=${skip}&take=${usersPerPage}&search=${search}`,
+        `${environment.api_url}/products?skip=${skip}&take=${usersPerPage}&search=${search}`,
         { observe: "response" },
       )
       .pipe(
@@ -59,21 +57,21 @@ export class ProductService {
   }
 
   postProduct(product: PostProductPayload): Observable<Product | undefined> {
-    return this.http.post(`${this.API_BASE_URL}/products`, product).pipe(
+    return this.http.post(`${environment.api_url}/products`, product).pipe(
       tap((result: any) => this.editedProduct.set(result as Product)),
       map((_) => this.editedProduct()),
     );
   }
 
   updateProduct(product: PatchProductPayload): Observable<Product | undefined> {
-    return this.http.patch(`${this.API_BASE_URL}/products`, product).pipe(
+    return this.http.patch(`${environment.api_url}/products`, product).pipe(
       tap((result: any) => this.editedProduct.set(result as Product)),
       map((_) => this.editedProduct()),
     );
   }
 
   getProduct(id: string): Observable<Product | undefined> {
-    return this.http.get(`${this.API_BASE_URL}/products/${id}`).pipe(
+    return this.http.get(`${environment.api_url}/products/${id}`).pipe(
       tap((result: any) => this.editedProduct.set(result as Product)),
       map((_) => this.editedProduct()),
     );

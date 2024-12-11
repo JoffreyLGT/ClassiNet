@@ -8,13 +8,13 @@ import {
   UserModel,
 } from "./user.model";
 import { HEADER_PAGINATOR_KEY } from "../app.static-data";
+import { environment } from "../../../src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
-  // TODO: fetch url from environment variable or configuration
-  private BASE_URL = "https://localhost:7052/api/users";
+  private BASE_URL = `${environment.api_url}/users`;
 
   user = signal<UserModel | null | undefined>(undefined);
   userList = signal<GetUserListResponse | undefined>(undefined);
@@ -45,7 +45,7 @@ export class UserService {
 
   logout(): Observable<null> {
     // TODO @JoffreyLGT: change the API call to a proper logout
-    return this.http.get("https://localhost:7052/api/status").pipe(
+    return this.http.get(environment.api_url + "/status").pipe(
       tap((_: any) => {
         localStorage.removeItem("token");
         this.user.set(null);

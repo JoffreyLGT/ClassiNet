@@ -7,13 +7,13 @@ import {
 } from "./dashboard.model";
 import { HttpClient } from "@angular/common/http";
 import { map, Observable, tap } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class DashboardService {
-  // TODO @JoffreyLGT: fetch url from environment variable or configuration
-  private BASE_URL = "https://localhost:7052/api/dashboard";
+  private BASE_URL = `${environment.api_url}/dashboard`;
 
   basicStats = signal<BasicStats | undefined>(undefined);
   activatedUsersPercentage = computed(() =>
