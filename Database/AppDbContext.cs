@@ -25,7 +25,10 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
     {
         _seededAdminSection = configuration.GetSection("SeededAdmin");
         _seededUserSection = configuration.GetSection("SeededUser");
-        _connectionString = configuration["ConnectionString"];
+        var connexionString = configuration["ConnectionString"] ?? throw new Exception("ConnectionString is not set in appsettings.json or as environment variables.");
+        _connectionString = connexionString;
+
+        this.Database.Migrate();
     }
 
     /// <summary>
