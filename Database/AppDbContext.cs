@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace Database;
 
@@ -14,21 +15,24 @@ namespace Database;
 public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
 {
     private readonly string _connectionString;
+    private readonly string _environment;
     private readonly IConfigurationSection _seededAdminSection;
     private readonly IConfigurationSection _seededUserSection;
 
     /// <summary>
     ///     Default constructor.
     /// </summary>
-    /// <param name="configuration">app configuration</param>
     public AppDbContext(IConfiguration configuration)
+
     {
         _seededAdminSection = configuration.GetSection("SeededAdmin");
         _seededUserSection = configuration.GetSection("SeededUser");
         var connexionString = configuration["ConnectionString"] ?? throw new Exception("ConnectionString is not set in appsettings.json or as environment variables.");
         _connectionString = connexionString;
 
-        this.Database.Migrate();
+        _environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
+        Database.Migrate();
     }
 
     /// <summary>
@@ -89,6 +93,10 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
         return base.SaveChangesAsync(cancellationToken);
     }
 
+
+    /// <summary>
+    ///    Set the CreatedDate and UpdatedDate properties of entities inheriting BaseEntity.
+    /// </summary>
     private void SetBaseEntityDates()
     {
         var entries = ChangeTracker
@@ -107,7 +115,7 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
     }
 
     /// <summary>
-    ///     Seed database if it is empty.
+    ///     Seed the database with the first users, roles and categories.
     /// </summary>
     /// <param name="builder"></param>
     protected override void OnModelCreating(ModelBuilder builder)
@@ -117,22 +125,24 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
         var adminRole = GetAdminRole();
         var userRole = GetUserRole();
         builder.Entity<RoleEntity>().HasData(adminRole, userRole);
+
         // Generate the first users and insert them in database
-        var adminUser = GenerateAdminUser();
-        var standardUser = GenerateStandardUser();
-        builder.Entity<UserEntity>().HasData(adminUser, standardUser);
+        var users = new List<UserEntity>{GenerateAdminUser()};
+        var userRoles = new List<IdentityUserRole<string>>{
+            new() { UserId = users[0].Id, RoleId = adminRole.Id}
+            };
+
+        // Generate a standard user only in development environment
+        if (_environment == "Development"){
+            users.Add(GenerateStandardUser());
+            userRoles.Add(new IdentityUserRole<string>{UserId = users[1].Id, RoleId = userRole.Id});
+        }
+
+        // Insert users in database
+        builder.Entity<UserEntity>().HasData(users);
+
         // Insert user roles in database
-        builder.Entity<IdentityUserRole<string>>().HasData(
-            new IdentityUserRole<string>
-            {
-                UserId = adminUser.Id,
-                RoleId = adminRole.Id
-            },
-            new IdentityUserRole<string>
-            {
-                UserId = standardUser.Id,
-                RoleId = adminRole.Id
-            });
+        builder.Entity<IdentityUserRole<string>>().HasData(userRoles);
 
         // Generate the product categories and insert them in database
         builder.Entity<CategoryEntity>().HasData(GenerateCategories());
