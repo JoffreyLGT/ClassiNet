@@ -2,6 +2,11 @@ import * as dotenv from 'dotenv';
 import { writeFileSync } from 'fs';
 import yargs from 'yargs';
 
+// This file is used to generate the environment file based on the environment variable.
+// The environment file is used to store the API URL and other environment-specific configurations.
+// The environment file is generated based on the environment variable passed to the script.
+// The script reads the environment variable from the .env file and generates the environment file accordingly.
+
 dotenv.config();
 
 const argv = yargs(process.argv.slice(2)).argv as { [key: string]: unknown; environment?: string };
