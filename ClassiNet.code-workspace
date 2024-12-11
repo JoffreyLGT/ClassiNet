@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 5432,
+				"driver": "PostgreSQL",
+				"name": "Classinet",
+				"database": "classinet",
+				"username": "admin",
+				"password": "admin"
+			}
+		],
+		"files.exclude": {
+			".git": true,
+			".vs": true,
+			"**/.angular": true,
+			"**/.idea": true,
+			"**/bin": true,
+			"**/dist": true,
+			"**/node_modules": true,
+			"**/obj": true,
+			"api-requests": true
+		}
+	}
+}
