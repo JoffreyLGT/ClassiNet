@@ -19,9 +19,14 @@ internal class Program
     /// <returns>A Task representing the asynchronous operation of the program.</returns>
     private static async Task Main(string[] args)
     {
+
+        // Load the .env file content in the environment variables
+        DotNetEnv.Env.TraversePath().Load();
+
+        var variables = Environment.GetEnvironmentVariables();
+
         // Build a config object, using env vars and JSON providers.
         var config = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
             .Build();
 
@@ -52,9 +57,9 @@ internal class Program
                 "NormalizedText",
                 "Text",
                 TextNormalizingEstimator.CaseMode.Lower,
-                false,
-                false,
-                false))
+                keepDiacritics: false,
+                keepPunctuations: false,
+                keepNumbers: false))
             .Append(mlContext.Transforms.Text.TokenizeIntoWords(
                 "Words",
                 "NormalizedText"))
@@ -150,7 +155,9 @@ internal class Program
                 var predictedCategory = keyToCategoryMap[j]; // Map key to original category ID
                 confusionMatrixEntity.Counts.Add(new CountEntity
                 {
-                    RealClass = realCategory, PredictedClass = predictedCategory, Count = confusionMatrix.Counts[i][j]
+                    RealClass = realCategory,
+                    PredictedClass = predictedCategory,
+                    Count = confusionMatrix.Counts[i][j]
                 });
             }
         }

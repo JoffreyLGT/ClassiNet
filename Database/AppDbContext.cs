@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 
 namespace Database;
 
@@ -31,8 +30,6 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
         _connectionString = connexionString;
 
         _environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-
-        Database.Migrate();
     }
 
     /// <summary>
@@ -127,15 +124,16 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
         builder.Entity<RoleEntity>().HasData(adminRole, userRole);
 
         // Generate the first users and insert them in database
-        var users = new List<UserEntity>{GenerateAdminUser()};
+        var users = new List<UserEntity> { GenerateAdminUser() };
         var userRoles = new List<IdentityUserRole<string>>{
             new() { UserId = users[0].Id, RoleId = adminRole.Id}
             };
 
         // Generate a standard user only in development environment
-        if (_environment == "Development"){
+        if (_environment == "Development")
+        {
             users.Add(GenerateStandardUser());
-            userRoles.Add(new IdentityUserRole<string>{UserId = users[1].Id, RoleId = userRole.Id});
+            userRoles.Add(new IdentityUserRole<string> { UserId = users[1].Id, RoleId = userRole.Id });
         }
 
         // Insert users in database
