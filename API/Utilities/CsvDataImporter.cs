@@ -5,6 +5,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Database;
 using Database.Entities;
+using HtmlAgilityPack;
 
 namespace API.Utilities;
 
@@ -54,7 +55,6 @@ public static class CsvDataImporter
     /// <param name="csvPath">path to the CSV file</param>
     /// <param name="context">database context</param>
     /// <returns>List of products in the CSV file</returns>
-    /// <exception cref="ApplicationException"></exception>
     public static List<ProductEntity> ImportProductData(string csvPath, AppDbContext context)
     {
         var categories = CsvToDbCategories();
@@ -71,11 +71,24 @@ public static class CsvDataImporter
         var products = records.Select(record => new ProductEntity
         {
             Id = record.ProductId,
-            Designation = WebUtility.HtmlDecode(record.Designation),
-            Description = WebUtility.HtmlDecode(record.Description),
+            Designation = HtmlDecodeAndRemoveTags(record.Designation),
+            Description = HtmlDecodeAndRemoveTags(record.Description ?? ""),
             ImageName = $"image_{record.ImageId}_product_{record.ProductId}.jpg",
             Category = context.Categories.Find(categories[record.ProductTypeCode])
         }).ToList();
         return products;
+    }
+
+    /// <summary>
+    ///    Decode HTML entities and remove HTML tags from a string.
+    /// </summary>
+    /// <param name="input">String containing HTML tags that must be cleaned.</param>
+    /// <returns>The same string without any HTML tag.</returns>
+    private static string HtmlDecodeAndRemoveTags(string input)
+    {
+        var decoded = WebUtility.HtmlDecode(input);
+        var doc = new HtmlDocument();
+        doc.LoadHtml(decoded);
+        return doc.DocumentNode.InnerText.Replace('\u00A0', ' ');
     }
 }

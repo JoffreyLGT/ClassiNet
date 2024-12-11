@@ -17,7 +17,7 @@ public class ImportsController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly string _importsDirectory;
-    private readonly string? _importsHistoryFile;
+    private readonly string _importsHistoryFile;
     private readonly ILogger _logger;
 
     /// <summary>
@@ -32,16 +32,13 @@ public class ImportsController : ControllerBase
         _context = context;
         _importsDirectory = config.GetValue<string>("ImportsDirectory")!;
         if (string.IsNullOrWhiteSpace(_importsDirectory))
-            _logger.LogWarning(
-                "ImportsDirectory is missing from configuration. Triggering an import will result in error.");
+            throw new Exception("ImportsDirectory is missing from configuration. Triggering an import will result in error.");
 
         if (!Directory.Exists(_importsDirectory))
-            _logger.LogWarning(
-                $"ImportsDirectory doesn't exist or is not accessible. Triggering an import will result in error. Please check your configuration: ${_importsDirectory}");
+            throw new Exception($"ImportsDirectory doesn't exist or is not accessible. Triggering an import will result in error. Please check your configuration: ${_importsDirectory}");
 
         else
-            _importsHistoryFile = Path.Combine(_importsDirectory,
-                config.GetValue<string>("ImportsHistoryFileName") ?? "imports-history.txt");
+            _importsHistoryFile = Path.Combine(_importsDirectory, config.GetValue<string>("ImportsHistoryFileName") ?? "imports-history.txt");
     }
 
     /// <summary>
@@ -65,7 +62,7 @@ public class ImportsController : ControllerBase
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<string>))]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = null)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<string>>> TriggerImportProducts()
     {
         var alreadyImportedFiles = System.IO.File.Exists(_importsHistoryFile)
