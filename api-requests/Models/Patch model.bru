@@ -1,0 +1,23 @@
+meta {
+  name: Patch model
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost:5267/api/models/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 0193bc7d-71ec-7a61-a353-12896e7a6c9e
+}
+
+body:json {
+  {
+    "id": "0193bc7d-71ec-7a61-a353-12896e7a6c9e",
+    "endDate": "2024-12-11T19:29:49.579853Z",
+    "status": 1
+  }
+}

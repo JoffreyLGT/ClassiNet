@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "C#: API Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/API/API.csproj"
+        },
+        {
             "name": "C#: MachineLearning Debug",
             "type": "dotnet",
             "request": "launch",
