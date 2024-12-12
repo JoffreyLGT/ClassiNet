@@ -2,7 +2,11 @@ import { MenuItem } from "./shared/shared.model";
 
 export const HEADER_PAGINATOR_KEY = "X-Paginator";
 export const PAGE_NOT_FOUND_ROUTE = "404";
-export const DASHBOARD_HOME_ROUTE = "dashboard/home";
+export const HOME_ROUTE = "home";
+export const DISCOVER_ROUTE = "discover";
+export const ABOUT_MODEL_TRAINING_ROUTE = "about-model-training";
+export const CATEGORY_PREDICTION_ROUTE = "product-categorization";
+
 export const DASHBOARD_DATA_VISUALIZATION_ROUTE =
   "dashboard/data-visualization";
 export const DASHBOARD_MODEL_PERFORMANCE_ROUTE = "dashboard/model-performance";
@@ -10,8 +14,7 @@ export const DASHBOARD_MODEL_PERFORMANCE_ROUTE = "dashboard/model-performance";
 export const USER_LOGIN_ROUTE = "user/login";
 export const USER_LOGOUT_ROUTE = "user/logout";
 
-export const CATEGORY_PREDICTION_ROUTE = "categorization/product";
-
+export const ADMIN_MODEL_LIST_ROUTE = "admin/models";
 export const ADMIN_USER_LIST_ROUTE = "admin/users";
 export const ADMIN_ADD_USER_ROUTE = "admin/users/add";
 export const ADMIN_EDIT_USER_ROUTE = "admin/users/edit";
@@ -33,32 +36,42 @@ export const MENU_ITEM_LOGOUT: MenuItem = {
 
 export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
   {
-    name: "Dashboard",
+    name: "ClassiNet",
     items: [
       {
-        icon: "home",
+        icon: "home-4-line",
         label: "Home",
-        link: DASHBOARD_HOME_ROUTE,
+        link: HOME_ROUTE,
       },
       {
-        icon: "chart-pie",
-        label: "Data visualization",
-        link: DASHBOARD_DATA_VISUALIZATION_ROUTE,
+        icon: "planet-line",
+        label: "Discover [soon]",
+        link: DISCOVER_ROUTE,
       },
       {
-        icon: "battery",
-        label: "Model performance",
-        link: DASHBOARD_MODEL_PERFORMANCE_ROUTE,
+        icon: "presentation-line",
+        label: "About model training  [soon]",
+        link: ABOUT_MODEL_TRAINING_ROUTE,
+      },
+      {
+        icon: "box-3-line",
+        label: "Categorize a product",
+        link: CATEGORY_PREDICTION_ROUTE,
       },
     ],
   },
   {
-    name: "Categorization",
+    name: "Dashboard",
     items: [
       {
-        icon: "brain",
-        label: "Categorize a product",
-        link: CATEGORY_PREDICTION_ROUTE,
+        icon: "pie-chart-line",
+        label: "Data visualization",
+        link: DASHBOARD_DATA_VISUALIZATION_ROUTE,
+      },
+      {
+        icon: "battery-line",
+        label: "Model performance [soon]",
+        link: DASHBOARD_MODEL_PERFORMANCE_ROUTE,
       },
     ],
   },
@@ -66,12 +79,17 @@ export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
     name: "Administration",
     items: [
       {
-        icon: "users",
+        icon: "brain-line",
+        label: "Models [soon]",
+        link: ADMIN_MODEL_LIST_ROUTE,
+      },
+      {
+        icon: "group-line",
         label: "Users",
         link: ADMIN_USER_LIST_ROUTE,
       },
       {
-        icon: "barcode",
+        icon: "barcode-line",
         label: "Products",
         link: ADMIN_PRODUCT_LIST_ROUTE,
       },

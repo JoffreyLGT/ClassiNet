@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { NgOptimizedImage } from "@angular/common";
 import { SvgIconComponent } from "angular-svg-icon";
 import {
-  DASHBOARD_HOME_ROUTE,
+  HOME_ROUTE,
   MENU_ITEM_LOGIN,
   MENU_ITEM_LOGOUT,
   USER_LOGIN_ROUTE,
@@ -52,7 +52,7 @@ export class NavbarComponent {
   }
 
   navigateToHome() {
-    this.router.navigate([DASHBOARD_HOME_ROUTE]).then();
+    this.router.navigate([HOME_ROUTE]).then();
   }
 
   ngOnDestroy(): void {

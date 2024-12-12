@@ -9,11 +9,14 @@ import {
   ADMIN_USER_LIST_ROUTE,
   CATEGORY_PREDICTION_ROUTE,
   DASHBOARD_DATA_VISUALIZATION_ROUTE,
-  DASHBOARD_HOME_ROUTE,
+  HOME_ROUTE,
   DASHBOARD_MODEL_PERFORMANCE_ROUTE,
   PAGE_NOT_FOUND_ROUTE,
   USER_LOGIN_ROUTE,
   USER_LOGOUT_ROUTE,
+  DISCOVER_ROUTE,
+  ABOUT_MODEL_TRAINING_ROUTE,
+  ADMIN_MODEL_LIST_ROUTE,
 } from "./app.static-data";
 import { UnderConstructionComponent } from "./shared/under-construction/under-construction.component";
 import { isLoggedInGuard } from "./guards/is-logged-in.guard";
@@ -32,38 +35,61 @@ export const routes: Routes = [
     redirectTo: USER_LOGIN_ROUTE,
     pathMatch: "full",
   },
-  // USER ROUTES
+  // PUBLIC ROUTES
   {
-    path: USER_LOGIN_ROUTE,
-    component: LoginComponent,
-  },
-  {
-    path: USER_LOGOUT_ROUTE,
-    component: UnderConstructionComponent,
-  },
-  // DASHBOARD ROUTES
-  {
-    path: DASHBOARD_HOME_ROUTE,
+    path: HOME_ROUTE,
     component: HomeComponent,
-    canActivate: [isLoggedInGuard],
+    title: "Home",
   },
   {
-    path: DASHBOARD_DATA_VISUALIZATION_ROUTE,
-    component: DataVisualizationComponent,
-    canActivate: [isLoggedInGuard],
-  },
-  {
-    path: DASHBOARD_MODEL_PERFORMANCE_ROUTE,
+    path: DISCOVER_ROUTE,
     component: UnderConstructionComponent,
-    canActivate: [isLoggedInGuard],
+    title: "Discover",
+  },
+  {
+    path: ABOUT_MODEL_TRAINING_ROUTE,
+    component: UnderConstructionComponent,
+    title: "About model training",
   },
   // CATEGORIZATION ROUTES
   {
     path: CATEGORY_PREDICTION_ROUTE,
     component: CategoryPredictionComponent,
     canActivate: [isLoggedInGuard],
+    title: "Categorize a product",
+  },
+
+  // USER ROUTES
+  {
+    path: USER_LOGIN_ROUTE,
+    component: LoginComponent,
+    title: "Log in",
+  },
+  {
+    path: USER_LOGOUT_ROUTE,
+    component: UnderConstructionComponent,
+    title: "Log out",
+  },
+  // DASHBOARD ROUTES
+  {
+    path: DASHBOARD_DATA_VISUALIZATION_ROUTE,
+    component: DataVisualizationComponent,
+    canActivate: [isLoggedInGuard],
+    title: "Data visualization",
+  },
+  {
+    path: DASHBOARD_MODEL_PERFORMANCE_ROUTE,
+    component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
+    title: "Model performance",
   },
   // ADMINISTRATION ROUTES
+  {
+    path: ADMIN_MODEL_LIST_ROUTE,
+    component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
+    title: "Model management",
+  },
   {
     path: ADMIN_PRODUCT_LIST_ROUTE,
     component: ProductManagementComponent,

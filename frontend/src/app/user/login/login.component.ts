@@ -9,7 +9,7 @@ import { UserService } from "../user.service";
 import { UserModel, LoginRequest } from "../user.model";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { DASHBOARD_HOME_ROUTE } from "../../app.static-data";
+import { HOME_ROUTE } from "../../app.static-data";
 import { SvgIconComponent } from "angular-svg-icon";
 
 @Component({
@@ -137,7 +137,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   navigateHome() {
-    this.router.navigate([DASHBOARD_HOME_ROUTE]).then();
+    this.router.navigate([HOME_ROUTE]).then();
   }
 
   ngOnDestroy(): void {
