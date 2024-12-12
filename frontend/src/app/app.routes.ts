@@ -17,7 +17,7 @@ import {
 } from "./app.static-data";
 import { UnderConstructionComponent } from "./shared/under-construction/under-construction.component";
 import { isLoggedInGuard } from "./guards/is-logged-in.guard";
-import { HomeComponent } from "./dashboard/home/home.component";
+import { HomeComponent } from "./home/home.component";
 import { DataVisualizationComponent } from "./dashboard/data-visualization/data-visualization.component";
 import { UserManagementComponent } from "./user/user-management/user-management.component";
 import { EditUserComponent } from "./user/edit-user/edit-user.component";
