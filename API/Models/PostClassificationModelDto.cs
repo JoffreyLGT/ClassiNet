@@ -7,7 +7,14 @@ namespace API.Models;
 /// </summary>
 public class PostClassificationModelDto
 {
+    /// <summary>
+    /// Gets or sets the name of the classification model.
+    /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the description of the classification model.
+    /// </summary>
     public string? Description { get; set; }
 
     /// <summary>
