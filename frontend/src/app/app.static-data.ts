@@ -15,6 +15,7 @@ export const USER_LOGIN_ROUTE = "user/login";
 export const USER_LOGOUT_ROUTE = "user/logout";
 
 export const ADMIN_MODEL_LIST_ROUTE = "admin/models";
+export const ADMIN_EDIT_MODEL_ROUTE = "admin/models/edit";
 export const ADMIN_USER_LIST_ROUTE = "admin/users";
 export const ADMIN_ADD_USER_ROUTE = "admin/users/add";
 export const ADMIN_EDIT_USER_ROUTE = "admin/users/edit";

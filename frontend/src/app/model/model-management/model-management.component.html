@@ -1,0 +1,80 @@
+<section class="m-4">
+  <div class="mb-8 flex flex-wrap justify-between gap-8">
+    <h2 class="text-4xl font-bold">Product management</h2>
+    <div class="grow text-right">
+      <button class="btn btn-primary" (click)="addProduct()">
+        <svg-icon src="icons/add-circle-line.svg" svgClass="h-6 w-6" />
+        Add product
+      </button>
+    </div>
+  </div>
+  <div class="flex flex-col gap-4 overflow-x-auto">
+    <div class="m-1 flex flex-wrap justify-between gap-4">
+      <div class="flex flex-row flex-wrap gap-4">
+        <label class="input input-bordered flex items-center gap-2">
+          <input
+            type="text"
+            class="grow"
+            placeholder="Search"
+            [formControl]="search"
+          />
+          <svg-icon src="icons/search-line.svg" svgClass="h-4 w-4" />
+        </label>
+        @if (isLoading()) {
+          <span class="loading loading-infinity loading-lg text-accent"></span>
+        }
+      </div>
+      <app-paginator
+        [currentPage]="currentPage()"
+        [lastPage]="lastPage()"
+        (changePage)="changePage($event)"
+      ></app-paginator>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra table-pin-rows table-fixed">
+        <thead>
+          <tr>
+            <td class="w-44">Designation</td>
+            <td class="w-44 md:w-full">Description</td>
+            <td class="w-44">Category</td>
+            <td class="w-20">Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          @for (
+            product of productService.productList()?.data;
+            track product.id
+          ) {
+            <tr>
+              <td>
+                <div class="tooltip" [attr.data-tip]="product.designation">
+                  <span class="line-clamp-1 text-left">{{
+                    product.designation
+                  }}</span>
+                </div>
+              </td>
+              <td>
+                <div class="tooltip" [attr.data-tip]="product.description">
+                  <span class="line-clamp-1 text-left">{{
+                    product.description
+                  }}</span>
+                </div>
+              </td>
+              <td>{{ product.category.name }}</td>
+              <td class="flex gap-2">
+                <div class="tooltip" data-tip="Edit user">
+                  <button
+                    class="btn btn-outline btn-secondary btn-sm"
+                    (click)="editProduct(product.id)"
+                  >
+                    <svg-icon src="icons/edit-line.svg" svgClass="h-4 w-4" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
