@@ -189,8 +189,10 @@ namespace API.Controllers
                 StartDate = newModel.StartDate,
                 EndDate = newModel.EndDate,
                 Status = (ModelStatus)newModel.Status,
-                IsActive = newModel.IsActive,
-                FileName = newModel.FileName
+                IsActive = newModel.IsActive ?? false,
+                FileName = newModel.FileName,
+                Name = newModel.Name,
+                Description = newModel.Description
             };
             _context.ClassificationModels.Add(model);
             await _context.SaveChangesAsync();
@@ -287,6 +289,17 @@ namespace API.Controllers
                 }
                 modelEntity.Status = status;
             }
+
+            if (!string.IsNullOrEmpty(modelPatch.Name))
+            {
+                modelEntity.Name = modelPatch.Name;
+            }
+
+            if (!string.IsNullOrEmpty(modelPatch.Description))
+            {
+                modelEntity.Description = modelPatch.Description;
+            }
+
 
             if (modelPatch.StartDate != null)
                 modelEntity.StartDate = modelPatch.StartDate.Value;

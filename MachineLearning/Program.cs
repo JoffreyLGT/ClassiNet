@@ -91,6 +91,8 @@ internal class Program
         {
             StartDate = DateTime.Now.ToUniversalTime(),
             Status = ModelStatus.Started,
+            Name = "SDCA Maximum Entropy",
+            Description = "Trained on a 80k products dataset.",
             IsActive = false
         };
         var dbContext = new AppDbContext(config);
