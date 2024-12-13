@@ -1,0 +1,17 @@
+{
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspace/${localWorkspaceFolderBasename}",
+    "postCreateCommand": "bash /workspace/${localWorkspaceFolderBasename}/.devcontainer/startup.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "GitHub.copilot",
+                "Angular.ng-template",
+                "ms-dotnettools.csdevkit",
+                "bradlc.vscode-tailwindcss"
+            ]
+        }
+    }
+}
