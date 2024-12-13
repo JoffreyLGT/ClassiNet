@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "frontend"
 		}
 	],
 	"settings": {
@@ -26,7 +29,8 @@
 			"**/dist": true,
 			"**/node_modules": true,
 			"**/obj": true,
-			"api-requests": true
+			"api-requests": true,
+			"frontend": true
 		}
 	}
 }
