@@ -51,10 +51,12 @@ namespace API.Controllers
 
             if (!string.IsNullOrEmpty(search))
                 query = query.Where(model =>
-                    model.Id.ToString().Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase)
-                    || (model.FileName != null && model.FileName.Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase))
-                    || model.StartDate.ToString().Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase)
-                    || (model.EndDate != null && model.EndDate.Value.ToString().Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase))
+                    model.Id.ToString().ToLower().Contains(cleanSearch)
+                    || model.Name.ToLower().Contains(cleanSearch)
+                    || (model.Description != null && model.Description.ToLower().Contains(cleanSearch))
+                    || (model.FileName != null && model.FileName.ToLower().Contains(cleanSearch))
+                    || model.StartDate.ToString().ToLower().Contains(cleanSearch)
+                    || (model.EndDate != null && model.EndDate.Value.ToString().ToLower().Contains(cleanSearch))
                 );
 
             var count = await query.CountAsync();
