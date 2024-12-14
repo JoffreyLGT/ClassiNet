@@ -8,7 +8,7 @@
       </button>
     </div>
   </div>
-  <div class="flex flex-col gap-4 overflow-x-auto">
+  <div class="flex flex-col gap-4">
     <div class="m-1 flex flex-wrap justify-between gap-4">
       <div class="flex flex-row flex-wrap gap-4">
         <label class="input input-bordered flex items-center gap-2">
@@ -30,12 +30,12 @@
         (changePage)="changePage($event)"
       ></app-paginator>
     </div>
-    <div class="overflow-x-auto">
-      <table class="table table-zebra table-pin-rows table-fixed">
+    <div class="overflow-x-auto px-1 py-2">
+      <table class="table table-zebra table-fixed bg-base-100 shadow-md">
         <thead>
           <tr>
-            <td class="w-44">Designation</td>
-            <td class="w-44 md:w-full">Description</td>
+            <td class="w-40">Designation</td>
+            <td class="w-auto">Description</td>
             <td class="w-44">Category</td>
             <td class="w-20">Actions</td>
           </tr>
@@ -48,23 +48,27 @@
             <tr>
               <td>
                 <div class="tooltip" [attr.data-tip]="product.designation">
-                  <span class="line-clamp-1 text-left">{{
+                  <span class="line-clamp-1 break-all text-left">{{
                     product.designation
                   }}</span>
                 </div>
               </td>
               <td>
                 <div class="tooltip" [attr.data-tip]="product.description">
-                  <span class="line-clamp-1 text-left">{{
+                  <span class="line-clamp-1 break-all text-left">{{
                     product.description
                   }}</span>
                 </div>
               </td>
-              <td>{{ product.category.name }}</td>
+              <td>
+                <span class="line-clamp-1 break-all text-left">{{
+                  product.category.name
+                }}</span>
+              </td>
               <td class="flex gap-2">
-                <div class="tooltip" data-tip="Edit user">
+                <div class="tooltip tooltip-left" data-tip="Edit product">
                   <button
-                    class="btn btn-outline btn-secondary btn-sm"
+                    class="btn btn-secondary btn-sm"
                     (click)="editProduct(product.id)"
                   >
                     <svg-icon src="icons/edit-line.svg" svgClass="h-4 w-4" />
@@ -74,6 +78,16 @@
             </tr>
           }
         </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              Display products
+              {{ productsDisplayed().start }} to
+              {{ productsDisplayed().end }} out of
+              {{ productsDisplayed().total }}.
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>

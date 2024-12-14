@@ -24,6 +24,16 @@ export class ProductManagementComponent implements OnDestroy {
 
   isLoading = signal(false);
   currentPage = signal<number>(1);
+  productsDisplayed = computed(() => {
+    return {
+      start: (this.currentPage() - 1) * this.productsPerPage + 1,
+      end: Math.min(
+        this.currentPage() * this.productsPerPage,
+        this.productService.productList()?.nbTotalProducts ?? 0,
+      ),
+      total: this.productService.productList()?.nbTotalProducts ?? 0,
+    };
+  });
 
   search = new FormControl("");
 

@@ -22,7 +22,18 @@ import { GetUserListResponse } from "../user.model";
 export class UserManagementComponent implements OnDestroy {
   private getUserListSubscription: Subscription | null = null;
 
+  isLoading = signal(false);
   currentPage = signal<number>(1);
+  usersDisplayed = computed(() => {
+    return {
+      start: (this.currentPage() - 1) * this.usersPerPage + 1,
+      end: Math.min(
+        this.currentPage() * this.usersPerPage,
+        this.userService.userList()?.nbTotalUsers ?? 0,
+      ),
+      total: this.userService.userList()?.nbTotalUsers ?? 0,
+    };
+  });
 
   search = new FormControl("");
 
@@ -33,6 +44,7 @@ export class UserManagementComponent implements OnDestroy {
   lastPage = computed(() => this.userService.userList()?.nbPages ?? 1);
 
   private refreshUserList() {
+    this.isLoading.set(true);
     this.getUserListSubscription?.unsubscribe();
     this.getUserListSubscription = this.userService
       .getUserList(
@@ -52,6 +64,10 @@ export class UserManagementComponent implements OnDestroy {
             this.currentPage.set(1);
             this.updateUrlQuery();
           }
+          this.isLoading.set(false);
+        },
+        error: (_) => {
+          this.isLoading.set(false);
         },
       });
   }
