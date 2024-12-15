@@ -5,26 +5,28 @@ meta {
 }
 
 put {
-  url: http://localhost:5267/api/models/:id
+  url: https://localhost:7052/api/models/:id
   body: json
   auth: inherit
 }
 
 params:path {
-  id: 0193bc7d-71ec-7a61-a353-12896e7a6c9e
+  id: 0193c5ce-37e9-7b43-92b9-aca2293b0a18
 }
 
 body:json {
   {
-    "id": "0193bc7d-71ec-7a61-a353-12896e7a6c9e",
-    "startDate": "2024-12-11T19:29:49.579853Z",
-    "endDate": null,
-    "status": 0,
-    "isActive": false,
-    "fileName": null,
-    "modelStats": null,
-    "keyToCategoryMap": null,
-    "createdDate": "2024-12-12T20:09:18.105971Z",
-    "updatedDate": "2024-12-12T20:09:18.095334Z"
-  }
+      "id": "0193c5ce-37e9-7b43-92b9-aca2293b0a18",
+      "name": "SDCA Maximum Entropy",
+      "description": "Trained on a 80k products dataset.",
+      "startDate": "2024-12-14T15:34:06.046316Z",
+      "endDate": "2024-12-14T15:38:44.972926Z",
+      "status": 0,
+      "isActive": true,
+      "fileName": null,
+      "modelStats": null,
+      "keyToCategoryMap": "{\"0\":1,\"1\":2,\"2\":3,\"3\":4,\"4\":5,\"5\":6,\"6\":7,\"7\":8,\"8\":9,\"9\":10,\"10\":11,\"11\":12,\"12\":13,\"13\":14,\"14\":15,\"15\":16,\"16\":17}",
+      "createdDate": "2024-12-14T15:34:06.595045Z",
+      "updatedDate": "2024-12-14T16:40:50.206481Z"
+    }
 }

@@ -8,6 +8,6 @@
   ],
   "presets": {
     "requestType": "http",
-    "requestUrl": "http://localhost:5267/api"
+    "requestUrl": "https://localhost:7052"
   }
 }
