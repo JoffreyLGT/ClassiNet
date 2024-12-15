@@ -98,6 +98,13 @@ namespace API.Controllers
                 .AsNoTracking()
                 .Include(model => model.ModelStats)
                 .ThenInclude(stats => stats.ConfusionMatrixEntity)
+                .ThenInclude(matrix => matrix.Counts)
+                .Include(model => model.ModelStats)
+                .ThenInclude(stats => stats.ConfusionMatrixEntity)
+                .ThenInclude(matrix => matrix.PerClassPrecision)
+                .Include(model => model.ModelStats)
+                .ThenInclude(stats => stats.ConfusionMatrixEntity)
+                .ThenInclude(matrix => matrix.PerClassRecall)
                 .FirstOrDefaultAsync(model => model.IsActive == true);
 
             if (model is null)
