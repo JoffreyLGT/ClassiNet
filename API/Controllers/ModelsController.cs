@@ -80,6 +80,51 @@ namespace API.Controllers
         }
 
         /// <summary>
+        /// Retrieves the active classification model.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="ActionResult{ClassificationModelEntity}"/> representing the result of the operation.
+        /// If an active model is found, returns a 200 OK response with the model.
+        /// If no active model is found, returns a 400 Bad Request response with a problem details object.
+        /// </returns>
+        /// <response code="200">Returns the active classification model.</response>
+        /// <response code="400">If no active model is found or if the model stats or confusion matrix entity is missing.</response>
+        [HttpGet("active")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ClassificationModelEntity>> GetActiveModel()
+        {
+            var model = await _context.ClassificationModels
+                .AsNoTracking()
+                .Include(model => model.ModelStats)
+                .ThenInclude(stats => stats.ConfusionMatrixEntity)
+                .FirstOrDefaultAsync(model => model.IsActive == true);
+
+            if (model is null)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Not found",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = "No active model found.",
+                    Instance = HttpContext.Request.Path
+                });
+            }
+
+            if (model.ModelStats is null || model.ModelStats.ConfusionMatrixEntity is null)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Bad Request",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = "Model stats or confusion matrix entity is missing.",
+                    Instance = HttpContext.Request.Path
+                });
+            }
+            return Ok(model);
+        }
+
+        /// <summary>
         /// Retrieves a classification model entity by its identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the classification model entity.</param>
