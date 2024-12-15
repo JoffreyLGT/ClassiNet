@@ -4,18 +4,22 @@ import { debounceTime, Subscription } from "rxjs";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
-  ADMIN_ADD_PRODUCT_ROUTE,
-  ADMIN_EDIT_PRODUCT_ROUTE,
-  ADMIN_PRODUCT_LIST_ROUTE,
+  ADMIN_EDIT_MODEL_ROUTE,
+  ADMIN_MODEL_LIST_ROUTE,
 } from "../../app.static-data";
 import { PaginatorComponent } from "../../shared/paginator/paginator.component";
-import { Location } from "@angular/common";
-import { ProductService } from "../../product/product.service";
-import { GetProductListResponse } from "../../product/product.model";
+import { DatePipe, Location } from "@angular/common";
+import { ModelService } from "../model.service";
+import { GetModelListResponse } from "../model.model";
 
 @Component({
   selector: "app-model-management",
-  imports: [SvgIconComponent, ReactiveFormsModule, PaginatorComponent],
+  imports: [
+    SvgIconComponent,
+    ReactiveFormsModule,
+    PaginatorComponent,
+    DatePipe,
+  ],
   templateUrl: "./model-management.component.html",
   styles: ``,
 })
@@ -24,26 +28,36 @@ export class ModelManagementComponent implements OnDestroy {
 
   isLoading = signal(false);
   currentPage = signal<number>(1);
+  modelsDisplayed = computed(() => {
+    return {
+      start: (this.currentPage() - 1) * this.modelsPerPage + 1,
+      end: Math.min(
+        this.currentPage() * this.modelsPerPage,
+        this.modelService.modelList()?.nbTotal ?? 0,
+      ),
+      total: this.modelService.modelList()?.nbTotal ?? 0,
+    };
+  });
 
   search = new FormControl("");
 
-  productService: ProductService;
+  modelService: ModelService;
 
   // In the future, it might be a good idea to let the user decide
-  private productsPerPage = 10;
-  lastPage = computed(() => this.productService.productList()?.nbPages ?? 1);
+  private modelsPerPage = 10;
+  lastPage = computed(() => this.modelService.modelList()?.nbPages ?? 1);
 
   private refreshList() {
     this.isLoading.set(true);
     this.modelListSubscription?.unsubscribe();
-    this.modelListSubscription = this.productService
-      .getProductList(
+    this.modelListSubscription = this.modelService
+      .getModelList(
         this.currentPage(),
-        this.productsPerPage,
+        this.modelsPerPage,
         this.search.value ?? "",
       )
       .subscribe({
-        next: (response: GetProductListResponse | undefined) => {
+        next: (response: GetModelListResponse | undefined) => {
           // Reset the current page number to 1 if the requested page
           // is above the number of pages
           if (
@@ -63,12 +77,12 @@ export class ModelManagementComponent implements OnDestroy {
   }
 
   constructor(
-    productService: ProductService,
+    modelService: ModelService,
     route: ActivatedRoute,
     private router: Router,
     private location: Location,
   ) {
-    this.productService = productService;
+    this.modelService = modelService;
 
     // Set values from url query params
     this.currentPage.set(parseInt(route.snapshot.queryParams["page"] ?? "1"));
@@ -92,17 +106,25 @@ export class ModelManagementComponent implements OnDestroy {
 
   updateUrlQuery() {
     this.location.replaceState(
-      ADMIN_PRODUCT_LIST_ROUTE,
+      ADMIN_MODEL_LIST_ROUTE,
       `page=${this.currentPage()}&search=${this.search.value}`,
     );
   }
 
-  addProduct() {
-    this.router.navigate([ADMIN_ADD_PRODUCT_ROUTE]).then();
+  setAsActiveModel(id: string) {
+    this.isLoading.set(true);
+    this.modelService.setAsActiveModel(id).subscribe({
+      next: (_) => {
+        this.refreshList();
+      },
+      error: (_) => {
+        this.isLoading.set(false);
+      },
+    });
   }
 
-  editProduct(id: number) {
-    this.router.navigate([ADMIN_EDIT_PRODUCT_ROUTE, id]).then();
+  editModel(id: string) {
+    this.router.navigate([ADMIN_EDIT_MODEL_ROUTE, id]).then();
   }
 
   ngOnDestroy() {

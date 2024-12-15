@@ -1,14 +1,8 @@
 <section class="m-4">
   <div class="mb-8 flex flex-wrap justify-between gap-8">
-    <h2 class="text-4xl font-bold">Product management</h2>
-    <div class="grow text-right">
-      <button class="btn btn-primary" (click)="addProduct()">
-        <svg-icon src="icons/add-circle-line.svg" svgClass="h-6 w-6" />
-        Add product
-      </button>
-    </div>
+    <h2 class="text-4xl font-bold">Model management</h2>
   </div>
-  <div class="flex flex-col gap-4 overflow-x-auto">
+  <div class="flex flex-col gap-4">
     <div class="m-1 flex flex-wrap justify-between gap-4">
       <div class="flex flex-row flex-wrap gap-4">
         <label class="input input-bordered flex items-center gap-2">
@@ -30,42 +24,116 @@
         (changePage)="changePage($event)"
       ></app-paginator>
     </div>
-    <div class="overflow-x-auto">
-      <table class="table table-zebra table-pin-rows table-fixed">
+    <div class="overflow-x-auto px-1 py-2">
+      <table
+        class="table table-zebra w-full table-auto bg-base-100 shadow-md lg:table-fixed"
+      >
         <thead>
           <tr>
-            <td class="w-44">Designation</td>
-            <td class="w-44 md:w-full">Description</td>
-            <td class="w-44">Category</td>
-            <td class="w-20">Actions</td>
+            <td class=""><span>Start date</span><br /><span>End date</span></td>
+            <td class="min-w-60 lg:min-w-full">Name</td>
+            <td class="min-w-60 lg:min-w-full">Description</td>
+            <td class="w-20">Status</td>
+            <td class="w-20">Is active</td>
+            <td class="min-w-40 lg:min-w-full">File name</td>
+            <td class="w-30">Actions</td>
           </tr>
         </thead>
         <tbody>
-          @for (
-            product of productService.productList()?.data;
-            track product.id
-          ) {
+          @for (model of modelService.modelList()?.data; track model.id) {
             <tr>
               <td>
-                <div class="tooltip" [attr.data-tip]="product.designation">
-                  <span class="line-clamp-1 text-left">{{
-                    product.designation
+                @if (model.endDate === undefined) {
+                  <div
+                    class="tooltip tooltip-right"
+                    attr.data-tip="{{
+                      model.startDate | date: 'MM/dd/yyyy hh:mm'
+                    }}"
+                  >
+                    <span class="line-clamp-1 text-left">
+                      {{ model.startDate | date: "MM/dd/yyyy hh:mm" }}
+                    </span>
+                  </div>
+                } @else {
+                  <div
+                    class="tooltip tooltip-right"
+                    attr.data-tip="Started on {{
+                      model.startDate | date: 'MM/dd/yyyy hh:mm'
+                    }} and finished on {{
+                      model.endDate | date: 'MM/dd/yyyy hh:mm'
+                    }}"
+                  >
+                    <span class="line-clamp-2 flex min-w-40 flex-col text-left">
+                      {{ model.startDate | date: "MM/dd/yyyy hh:mm" }}
+                      {{ model.endDate | date: "MM/dd/yyyy hh:mm" }}
+                    </span>
+                  </div>
+                }
+              </td>
+              <td>
+                <div class="tooltip" [attr.data-tip]="model.name">
+                  <span class="line-clamp-2 break-all text-left">{{
+                    model.name
                   }}</span>
                 </div>
               </td>
               <td>
-                <div class="tooltip" [attr.data-tip]="product.description">
-                  <span class="line-clamp-1 text-left">{{
-                    product.description
+                <div class="tooltip" [attr.data-tip]="model.description">
+                  <span class="line-clamp-2 break-all text-left">{{
+                    model.description
                   }}</span>
                 </div>
               </td>
-              <td>{{ product.category.name }}</td>
+              <td>
+                {{
+                  model.status === 0
+                    ? "Started"
+                    : model.status === 1
+                      ? "Finished"
+                      : "Canceled"
+                }}
+              </td>
+              <td>
+                @if (model.isActive) {
+                  <svg-icon src="icons/checkbox-line.svg" svgClass="h-6 w-6" />
+                } @else {
+                  <svg-icon
+                    src="icons/checkbox-blank-line.svg"
+                    svgClass="h-6 w-6"
+                  />
+                }
+              </td>
+              <td>
+                <div class="tooltip" [attr.data-tip]="model.fileName">
+                  <span class="line-clamp-2 break-all text-left">{{
+                    model.fileName
+                  }}</span>
+                </div>
+              </td>
               <td class="flex gap-2">
-                <div class="tooltip" data-tip="Edit user">
+                <div
+                  class="tooltip tooltip-left"
+                  data-tip="Set model as active"
+                >
                   <button
-                    class="btn btn-outline btn-secondary btn-sm"
-                    (click)="editProduct(product.id)"
+                    [disabled]="
+                      model.isActive === true ||
+                      model.fileName === null ||
+                      model.status !== 1
+                    "
+                    class="btn btn-success btn-sm"
+                    (click)="setAsActiveModel(model.id)"
+                  >
+                    <svg-icon
+                      src="icons/check-double-line.svg"
+                      svgClass="h-4 w-4"
+                    />
+                  </button>
+                </div>
+                <div class="tooltip tooltip-left" data-tip="Edit model">
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    (click)="editModel(model.id)"
                   >
                     <svg-icon src="icons/edit-line.svg" svgClass="h-4 w-4" />
                   </button>
@@ -74,6 +142,15 @@
             </tr>
           }
         </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              Display models
+              {{ modelsDisplayed().start }} to {{ modelsDisplayed().end }} out
+              of {{ modelsDisplayed().total }}.
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>

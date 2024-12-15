@@ -81,7 +81,7 @@ export const MENU_ITEMS: { name: string; items: MenuItem[] }[] = [
     items: [
       {
         icon: "brain-line",
-        label: "Models [soon]",
+        label: "Models",
         link: ADMIN_MODEL_LIST_ROUTE,
       },
       {
