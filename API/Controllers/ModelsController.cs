@@ -4,6 +4,7 @@ using Database;
 using Database.Entities;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Text;
 
 namespace API.Controllers
 {
@@ -16,14 +17,17 @@ namespace API.Controllers
     public class ModelsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly string _modelFilesDirectory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelsController"/> class.
         /// </summary>
         /// <param name="context">The database context.</param>
-        public ModelsController(AppDbContext context)
+        /// <param name="configuration">The configuration object.</param>
+        public ModelsController(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _modelFilesDirectory = configuration["ModelsDirectory"] ?? "";
         }
 
         /// <summary>
@@ -131,10 +135,6 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PutClassificationModelEntity(Guid id, ClassificationModelEntity classificationModelEntity)
         {
-            // TODO: Check if the model is set as active and if it is,
-            //  check if there is a filename and a completed status.
-            //  If it's the case, the previously active model must be set as inactive.
-            //  If not, return a bad request response.
             if (id != classificationModelEntity.Id)
                 return BadRequest(new ProblemDetails
                 {
@@ -143,6 +143,18 @@ namespace API.Controllers
                     Detail = "Id provided in URL must match model id.",
                     Instance = HttpContext.Request.Path
                 });
+
+            if (classificationModelEntity.IsActive
+            && !CanBeActive(classificationModelEntity, out var error))
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Bad Request",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = error,
+                    Instance = HttpContext.Request.Path
+                });
+            }
 
             _context.Entry(classificationModelEntity).State = EntityState.Modified;
 
@@ -161,9 +173,15 @@ namespace API.Controllers
                     throw;
                 }
             }
+            finally
+            {
+                await EnsureSingleActiveModel(_context, classificationModelEntity);
+            }
 
             return NoContent();
         }
+
+
 
         /// <summary>
         /// /// Creates a new classification model entity.
@@ -394,7 +412,62 @@ namespace API.Controllers
             return NoContent();
         }
 
+        // TODO: Move the functions bellow into their own class
 
+        /// <summary>
+        /// Determines if a classification model entity can be set as active.
+        /// </summary>
+        /// <param name="model">The classification model entity to check.</param>
+        /// <param name="error">An output parameter that contains the error message if the model cannot be set as active.</param>
+        /// <returns>True if the model can be set as active, otherwise false.</returns>
+        private bool CanBeActive(ClassificationModelEntity model, out string error)
+        {
+            // Check if we have all the properties for it to be active
+            var errorBuilder = new StringBuilder();
+            if (string.IsNullOrEmpty(model.FileName))
+            {
+                errorBuilder.AppendLine("FileName property must be set for the model to be active.");
+            }
+            else if (!System.IO.File.Exists(Path.Combine(_modelFilesDirectory, model.FileName)))
+            {
+                errorBuilder.AppendLine(
+                    "The file name provided does not exist in the model directory: "
+                    + Path.Combine(_modelFilesDirectory, model.FileName));
+            }
+
+            if (model.Status != ModelStatus.Finished)
+            {
+                errorBuilder.AppendLine("Model status must be set to 1 (finished) for the model to be active.");
+            }
+            error = errorBuilder.ToString();
+            return string.IsNullOrEmpty(error);
+        }
+
+        /// <summary>
+        /// Ensures that only one classification model entity is set as active at a time.
+        /// If the provided model is active, all other models will be set to inactive.
+        /// This method is called in the finally block to ensure it runs after the model is saved.
+        /// </summary>
+        /// <param name="uniqueActiveModel">The classification model entity that should be the only active model.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        private async Task EnsureSingleActiveModel(AppDbContext context, ClassificationModelEntity uniqueActiveModel)
+        {
+            // Set all other models to inactive since only one model can be active at a time
+            // This is done in the finally to ensure it'll be done after the model was saved
+            // It ensures we will always have an active model
+            if (uniqueActiveModel.IsActive)
+            {
+                var models = await _context.ClassificationModels
+                    .Where(model => model.IsActive == true
+                                    && model.Id != uniqueActiveModel.Id)
+                    .ToListAsync();
+                foreach (var m in models)
+                {
+                    m.IsActive = false;
+                }
+                await context.SaveChangesAsync();
+            }
+        }
 
         /// <summary>
         /// Checks if a classification model entity exists by its identifier.
