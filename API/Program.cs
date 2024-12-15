@@ -18,7 +18,8 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("http://localhost:4200",
-                    "https://localhost:*")
+                    "http://localhost:5267",
+                    "https://localhost:7052")
                 .WithExposedHeaders(PaginatorHeader.HeaderName)
                 .AllowAnyHeader()
                 .AllowAnyMethod();

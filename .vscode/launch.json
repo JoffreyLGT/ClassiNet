@@ -8,12 +8,16 @@
             "name": "C#: API Debug",
             "type": "dotnet",
             "request": "launch",
+            "cwd": "${workspaceFolder}/API",
+            "launchSettingsProfile": "https",
+            "launchSettingsFilePath": "${workspaceFolder}/API/Properties/launchSettings.json",
             "projectPath": "${workspaceFolder}/API/API.csproj"
         },
         {
             "name": "C#: MachineLearning Debug",
             "type": "dotnet",
             "request": "launch",
+            "cwd": "${workspaceFolder}/MachineLearning",
             "projectPath": "${workspaceFolder}/MachineLearning/MachineLearning.csproj"
         }
     ]
