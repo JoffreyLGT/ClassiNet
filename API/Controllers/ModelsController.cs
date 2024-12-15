@@ -332,6 +332,59 @@ namespace API.Controllers
         }
 
         /// <summary>
+        /// Sets the active model by its identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the classification model entity.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains an <see cref="IActionResult" />
+        /// indicating the result of the operation.
+        /// </returns>
+        /// <response code="204">If the operation was successful.</response>
+        /// <response code="400">If the classification model entity was not found.</response>
+        /// <response code="401">If the user is not authorized.</response>
+        [HttpPost("{id}/set-active")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> SetActiveModel(Guid id)
+        {
+
+            var model = await _context.ClassificationModels.FindAsync(id);
+            if (model is null)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Not found",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = "Model not found.",
+                    Instance = HttpContext.Request.Path
+                });
+            }
+            if (model.FileName is null || model.Status != ModelStatus.Finished)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Bad Request",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = "Model must be finished and have a file name.",
+                    Instance = HttpContext.Request.Path
+                });
+            }
+            model.IsActive = true;
+
+            // Set all other models to inactive since only one model can be active at a time
+            var models = await _context.ClassificationModels.Where(model => model.IsActive == true).ToListAsync();
+            foreach (var m in models)
+            {
+                m.IsActive = false;
+            }
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
+
+        /// <summary>
         /// Checks if a classification model entity exists by its identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the classification model entity.</param>
