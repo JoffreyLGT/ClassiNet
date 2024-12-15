@@ -51,10 +51,12 @@ namespace API.Controllers
 
             if (!string.IsNullOrEmpty(search))
                 query = query.Where(model =>
-                    model.Id.ToString().Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase)
-                    || (model.FileName != null && model.FileName.Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase))
-                    || model.StartDate.ToString().Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase)
-                    || (model.EndDate != null && model.EndDate.Value.ToString().Contains(cleanSearch, StringComparison.InvariantCultureIgnoreCase))
+                    model.Id.ToString().ToLower().Contains(cleanSearch)
+                    || model.Name.ToLower().Contains(cleanSearch)
+                    || (model.Description != null && model.Description.ToLower().Contains(cleanSearch))
+                    || (model.FileName != null && model.FileName.ToLower().Contains(cleanSearch))
+                    || model.StartDate.ToString().ToLower().Contains(cleanSearch)
+                    || (model.EndDate != null && model.EndDate.Value.ToString().ToLower().Contains(cleanSearch))
                 );
 
             var count = await query.CountAsync();
@@ -129,6 +131,10 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PutClassificationModelEntity(Guid id, ClassificationModelEntity classificationModelEntity)
         {
+            // TODO: Check if the model is set as active and if it is,
+            //  check if there is a filename and a completed status.
+            //  If it's the case, the previously active model must be set as inactive.
+            //  If not, return a bad request response.
             if (id != classificationModelEntity.Id)
                 return BadRequest(new ProblemDetails
                 {
@@ -173,6 +179,10 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<ClassificationModelEntity>> PostClassificationModelEntity([FromBody] PostClassificationModelDto newModel)
         {
+            // TODO: Check if the model is set as active and if it is,
+            //  check if there is a filename and a completed status.
+            //  If it's the case, the previously active model must be set as inactive.
+            //  If not, return a bad request response.
             var status = (ModelStatus)newModel.Status;
             if (!Enum.IsDefined(typeof(ModelStatus), status))
             {
@@ -308,6 +318,10 @@ namespace API.Controllers
                 modelEntity.EndDate = modelPatch.EndDate.Value;
 
             if (modelPatch.IsActive != null)
+                // TODO: Check if the model is set as active and if it is,
+                //  check if there is a filename and a completed status.
+                //  If it's the case, the previously active model must be set as inactive.
+                //  If not, return a bad request response.
                 modelEntity.IsActive = modelPatch.IsActive.Value;
 
             if (!string.IsNullOrEmpty(modelPatch.FileName))
@@ -328,6 +342,59 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Sets the active model by its identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the classification model entity.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains an <see cref="IActionResult" />
+        /// indicating the result of the operation.
+        /// </returns>
+        /// <response code="204">If the operation was successful.</response>
+        /// <response code="400">If the classification model entity was not found.</response>
+        /// <response code="401">If the user is not authorized.</response>
+        [HttpPost("{id}/set-active")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> SetActiveModel(Guid id)
+        {
+
+            var model = await _context.ClassificationModels.FindAsync(id);
+            if (model is null)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Not found",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = "Model not found.",
+                    Instance = HttpContext.Request.Path
+                });
+            }
+            if (model.FileName is null || model.Status != ModelStatus.Finished)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Bad Request",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = "Model must be finished and have a file name.",
+                    Instance = HttpContext.Request.Path
+                });
+            }
+            model.IsActive = true;
+
+            // Set all other models to inactive since only one model can be active at a time
+            var models = await _context.ClassificationModels.Where(model => model.IsActive == true).ToListAsync();
+            foreach (var m in models)
+            {
+                m.IsActive = false;
+            }
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
 
         /// <summary>
         /// Checks if a classification model entity exists by its identifier.

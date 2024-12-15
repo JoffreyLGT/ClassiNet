@@ -17,6 +17,7 @@ import {
   DISCOVER_ROUTE,
   ABOUT_MODEL_TRAINING_ROUTE,
   ADMIN_MODEL_LIST_ROUTE,
+  ADMIN_EDIT_MODEL_ROUTE,
 } from "./app.static-data";
 import { UnderConstructionComponent } from "./shared/under-construction/under-construction.component";
 import { isLoggedInGuard } from "./guards/is-logged-in.guard";
@@ -28,11 +29,12 @@ import { ProductManagementComponent } from "./product/product-management/product
 import { EditProductComponent } from "./product/edit-product/edit-product.component";
 import { NotFoundComponent } from "./shared/not-found/not-found.component";
 import { CategoryPredictionComponent } from "./prediction/category-prediction/category-prediction.component";
+import { ModelManagementComponent } from "./model/model-management/model-management.component";
 
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: USER_LOGIN_ROUTE,
+    redirectTo: HOME_ROUTE,
     pathMatch: "full",
   },
   // PUBLIC ROUTES
@@ -86,9 +88,15 @@ export const routes: Routes = [
   // ADMINISTRATION ROUTES
   {
     path: ADMIN_MODEL_LIST_ROUTE,
-    component: UnderConstructionComponent,
+    component: ModelManagementComponent,
     canActivate: [isLoggedInGuard],
     title: "Model management",
+  },
+  {
+    path: `${ADMIN_EDIT_MODEL_ROUTE}/:id`,
+    component: UnderConstructionComponent,
+    canActivate: [isLoggedInGuard],
+    title: "Edit MODEL",
   },
   {
     path: ADMIN_PRODUCT_LIST_ROUTE,

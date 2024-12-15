@@ -1,59 +1,63 @@
 import { Component, computed, OnDestroy, signal } from "@angular/core";
 import { SvgIconComponent } from "angular-svg-icon";
 import { debounceTime, Subscription } from "rxjs";
-import { UserService } from "../user.service";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
-  ADMIN_ADD_USER_ROUTE,
-  ADMIN_EDIT_USER_ROUTE,
-  ADMIN_USER_LIST_ROUTE,
+  ADMIN_EDIT_MODEL_ROUTE,
+  ADMIN_MODEL_LIST_ROUTE,
 } from "../../app.static-data";
 import { PaginatorComponent } from "../../shared/paginator/paginator.component";
-import { Location } from "@angular/common";
-import { GetUserListResponse } from "../user.model";
+import { DatePipe, Location } from "@angular/common";
+import { ModelService } from "../model.service";
+import { GetModelListResponse } from "../model.model";
 
 @Component({
-  selector: "app-user-management",
-  imports: [SvgIconComponent, ReactiveFormsModule, PaginatorComponent],
-  templateUrl: "./user-management.component.html",
+  selector: "app-model-management",
+  imports: [
+    SvgIconComponent,
+    ReactiveFormsModule,
+    PaginatorComponent,
+    DatePipe,
+  ],
+  templateUrl: "./model-management.component.html",
   styles: ``,
 })
-export class UserManagementComponent implements OnDestroy {
-  private getUserListSubscription: Subscription | null = null;
+export class ModelManagementComponent implements OnDestroy {
+  private modelListSubscription: Subscription | null = null;
 
   isLoading = signal(false);
   currentPage = signal<number>(1);
-  usersDisplayed = computed(() => {
+  modelsDisplayed = computed(() => {
     return {
-      start: (this.currentPage() - 1) * this.usersPerPage + 1,
+      start: (this.currentPage() - 1) * this.modelsPerPage + 1,
       end: Math.min(
-        this.currentPage() * this.usersPerPage,
-        this.userService.userList()?.nbTotalUsers ?? 0,
+        this.currentPage() * this.modelsPerPage,
+        this.modelService.modelList()?.nbTotal ?? 0,
       ),
-      total: this.userService.userList()?.nbTotalUsers ?? 0,
+      total: this.modelService.modelList()?.nbTotal ?? 0,
     };
   });
 
   search = new FormControl("");
 
-  userService: UserService;
+  modelService: ModelService;
 
   // In the future, it might be a good idea to let the user decide
-  private usersPerPage = 10;
-  lastPage = computed(() => this.userService.userList()?.nbPages ?? 1);
+  private modelsPerPage = 10;
+  lastPage = computed(() => this.modelService.modelList()?.nbPages ?? 1);
 
-  private refreshUserList() {
+  private refreshList() {
     this.isLoading.set(true);
-    this.getUserListSubscription?.unsubscribe();
-    this.getUserListSubscription = this.userService
-      .getUserList(
+    this.modelListSubscription?.unsubscribe();
+    this.modelListSubscription = this.modelService
+      .getModelList(
         this.currentPage(),
-        this.usersPerPage,
+        this.modelsPerPage,
         this.search.value ?? "",
       )
       .subscribe({
-        next: (response: GetUserListResponse | undefined) => {
+        next: (response: GetModelListResponse | undefined) => {
           // Reset the current page number to 1 if the requested page
           // is above the number of pages
           if (
@@ -73,23 +77,23 @@ export class UserManagementComponent implements OnDestroy {
   }
 
   constructor(
-    userService: UserService,
+    modelService: ModelService,
     route: ActivatedRoute,
     private router: Router,
     private location: Location,
   ) {
-    this.userService = userService;
+    this.modelService = modelService;
 
     // Set values from url query params
     this.currentPage.set(parseInt(route.snapshot.queryParams["page"] ?? "1"));
     this.search.setValue(route.snapshot.queryParams["search"] ?? "");
 
-    this.refreshUserList();
+    this.refreshList();
 
     // Set valueChange on the search input and trigger the event after 1s \
     // of inactivity
     this.search.valueChanges.pipe(debounceTime(1000)).subscribe((_) => {
-      this.refreshUserList();
+      this.refreshList();
       this.updateUrlQuery();
     });
   }
@@ -97,25 +101,33 @@ export class UserManagementComponent implements OnDestroy {
   changePage(pageNumber: number) {
     this.currentPage.set(pageNumber);
     this.updateUrlQuery();
-    this.refreshUserList();
+    this.refreshList();
   }
 
   updateUrlQuery() {
     this.location.replaceState(
-      ADMIN_USER_LIST_ROUTE,
+      ADMIN_MODEL_LIST_ROUTE,
       `page=${this.currentPage()}&search=${this.search.value}`,
     );
   }
 
-  addUser() {
-    this.router.navigate([ADMIN_ADD_USER_ROUTE]).then();
+  setAsActiveModel(id: string) {
+    this.isLoading.set(true);
+    this.modelService.setAsActiveModel(id).subscribe({
+      next: (_) => {
+        this.refreshList();
+      },
+      error: (_) => {
+        this.isLoading.set(false);
+      },
+    });
   }
 
-  editUser(userId: string) {
-    this.router.navigate([ADMIN_EDIT_USER_ROUTE, userId]).then();
+  editModel(id: string) {
+    this.router.navigate([ADMIN_EDIT_MODEL_ROUTE, id]).then();
   }
 
   ngOnDestroy() {
-    this.getUserListSubscription?.unsubscribe();
+    this.modelListSubscription?.unsubscribe();
   }
 }
