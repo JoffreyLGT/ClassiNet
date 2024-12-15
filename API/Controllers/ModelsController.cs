@@ -131,6 +131,10 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> PutClassificationModelEntity(Guid id, ClassificationModelEntity classificationModelEntity)
         {
+            // TODO: Check if the model is set as active and if it is,
+            //  check if there is a filename and a completed status.
+            //  If it's the case, the previously active model must be set as inactive.
+            //  If not, return a bad request response.
             if (id != classificationModelEntity.Id)
                 return BadRequest(new ProblemDetails
                 {
@@ -175,6 +179,10 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<ClassificationModelEntity>> PostClassificationModelEntity([FromBody] PostClassificationModelDto newModel)
         {
+            // TODO: Check if the model is set as active and if it is,
+            //  check if there is a filename and a completed status.
+            //  If it's the case, the previously active model must be set as inactive.
+            //  If not, return a bad request response.
             var status = (ModelStatus)newModel.Status;
             if (!Enum.IsDefined(typeof(ModelStatus), status))
             {
@@ -310,6 +318,10 @@ namespace API.Controllers
                 modelEntity.EndDate = modelPatch.EndDate.Value;
 
             if (modelPatch.IsActive != null)
+                // TODO: Check if the model is set as active and if it is,
+                //  check if there is a filename and a completed status.
+                //  If it's the case, the previously active model must be set as inactive.
+                //  If not, return a bad request response.
                 modelEntity.IsActive = modelPatch.IsActive.Value;
 
             if (!string.IsNullOrEmpty(modelPatch.FileName))
