@@ -31,6 +31,7 @@
 			"**/obj": true,
 			"api-requests": true,
 			"frontend": true
-		}
+		},
+		"todo-tree.tree.showCountsInTree": true
 	}
 }
