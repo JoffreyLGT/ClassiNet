@@ -138,6 +138,17 @@
                     <svg-icon src="icons/edit-line.svg" svgClass="h-4 w-4" />
                   </button>
                 </div>
+                <div class="tooltip tooltip-left" data-tip="Delete model">
+                  <button
+                    class="btn btn-error btn-sm"
+                    (click)="openDeleteModal(model.id)"
+                  >
+                    <svg-icon
+                      src="icons/delete-bin-2-line.svg"
+                      svgClass="h-4 w-4"
+                    />
+                  </button>
+                </div>
               </td>
             </tr>
           }
@@ -152,6 +163,27 @@
           </tr>
         </tfoot>
       </table>
+      <dialog
+        class="modal modal-bottom sm:modal-middle"
+        [open]="isModalOpened()"
+      >
+        <div class="modal-box">
+          <h3 class="text-lg font-bold">
+            Are you sure you want to delete the model?
+          </h3>
+          <p class="py-4">Warning: this action is irreversible.</p>
+          <div class="modal-action">
+            <form method="dialog" class="flex flex-row gap-4">
+              <button class="btn btn-error" (click)="deleteModel()">
+                Confirm
+              </button>
+              <button class="btn" (click)="isModalOpened.set(false)">
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   </div>
 </section>

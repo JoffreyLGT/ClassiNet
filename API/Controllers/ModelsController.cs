@@ -296,8 +296,10 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteClassificationModelEntity(Guid id)
         {
-            var classificationModelEntity = await _context.ClassificationModels.FindAsync(id);
-            if (classificationModelEntity == null)
+            var modelEntity = await _context.ClassificationModels.FindAsync(id);
+
+
+            if (modelEntity == null)
             {
                 return BadRequest(new ProblemDetails
                 {
@@ -307,9 +309,17 @@ namespace API.Controllers
                     Instance = HttpContext.Request.Path
                 });
             }
+            var modelFile = !String.IsNullOrWhiteSpace(modelEntity.FileName)
+                ? Path.Combine(_modelFilesDirectory, modelEntity.FileName)
+                : "";
 
-            _context.ClassificationModels.Remove(classificationModelEntity);
+            _context.ClassificationModels.Remove(modelEntity);
             await _context.SaveChangesAsync();
+
+            if (!String.IsNullOrWhiteSpace(modelFile) && System.IO.File.Exists(modelFile))
+            {
+                System.IO.File.Delete(modelFile);
+            }
 
             return NoContent();
         }
