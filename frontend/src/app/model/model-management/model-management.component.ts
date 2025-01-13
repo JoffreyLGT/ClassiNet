@@ -27,6 +27,9 @@ export class ModelManagementComponent implements OnDestroy {
   private modelListSubscription: Subscription | null = null;
 
   isLoading = signal(false);
+  isModalOpened = signal(false);
+  modelIdToDelete = signal<string>("");
+
   currentPage = signal<number>(1);
   modelsDisplayed = computed(() => {
     return {
@@ -125,6 +128,23 @@ export class ModelManagementComponent implements OnDestroy {
 
   editModel(id: string) {
     this.router.navigate([ADMIN_EDIT_MODEL_ROUTE, id]).then();
+  }
+
+  openDeleteModal(id: string) {
+    this.isModalOpened.set(true);
+    this.modelIdToDelete.set(id);
+  }
+
+  deleteModel() {
+    this.isLoading.set(true);
+    this.modelService.deleteModel(this.modelIdToDelete()).subscribe({
+      next: (_) => {
+        this.refreshList();
+      },
+      error: (_) => {
+        this.isLoading.set(false);
+      }
+    });
   }
 
   ngOnDestroy() {

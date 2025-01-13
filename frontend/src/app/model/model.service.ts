@@ -11,7 +11,7 @@ import { HEADER_PAGINATOR_KEY } from "../app.static-data";
 export class ModelService {
   modelList = signal<GetModelListResponse | undefined>(undefined);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getModelList(
     page: number = 1,
@@ -44,5 +44,11 @@ export class ModelService {
       `${environment.api_url}/models/${id}/set-active`,
       null,
     );
+  }
+
+  deleteModel(id: string) {
+    return this.http.delete(
+      `${environment.api_url}/models/${id}`
+    )
   }
 }

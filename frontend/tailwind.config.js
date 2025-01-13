@@ -6,6 +6,7 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
+    logs: false, // Logs create issues with prettier
     themes: ["pastel", "dracula"],
   },
   darkMode: ["selector", '[data-theme="dracula"]'],
