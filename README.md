@@ -1,4 +1,6 @@
-# Product Categorization
+# ClassiNet: e-commerce product categorization
+
+![Screenshot 2025-01-15 at 16 55 37](https://github.com/user-attachments/assets/cd289c75-e6df-410c-96de-5b5eb9dca24f)
 
 ## About this project
 
@@ -21,21 +23,30 @@ The service can be consumed through an API and managed with a Dashboard.
 
 ### Tech Stack
 
-#### API
+| Component | Language | Framework | Others |
+| --- | --- | --- | --- |
+| API | C# | .NET 9.0 | Entity Framework Core |
+| Dashboard | TypeScript | Angular 19 | TailwindCSS, DaisyUI, eCharts, RemixIcon |
+| Database | | | PostgreSQL |
+| Container management | | | Docker |
 
-- Language: C#
-- Framework: .NET 9.0
-- ORM: Entity Framework Core
+### Screenshots
 
-#### Dashboard
+#### Dashboard view: Data Visualization (light mode)
+![Screenshot 2025-01-15 at 16 54 01](https://github.com/user-attachments/assets/2225d319-2bca-4a7a-b26b-d60210c7367b)
 
-- Language: TypeScript
-- Framework: Angular 19
+#### Dashboard view: User management (light mode)
+![Screenshot 2025-01-15 at 17 07 03](https://github.com/user-attachments/assets/d5c92f87-2f96-40ec-9aee-749e2dbe59b8)
 
-#### Other
+#### Dashboard view: add new user (light mode)
+![Screenshot 2025-01-15 at 17 07 26](https://github.com/user-attachments/assets/f819a605-0268-4148-a80c-fbe6a2664888)
 
-- Database: PostgreSQL
-- Containers management: Docker
+#### Dashboard view: product management (dark mode)
+![Screenshot 2025-01-15 at 17 12 00](https://github.com/user-attachments/assets/d7e23aa6-d0e2-4681-8249-18a99dd00d1e)
+
+#### API: Swagger documentation
+![Screenshot 2025-01-15 at 17 09 55](https://github.com/user-attachments/assets/1b155b71-0d5c-4f94-baf8-9649eac86493)
+
 
 ## Developer notes
 
@@ -53,7 +64,7 @@ Configuration is done using the provided `.env` file.
 
 - Open the project directory in your terminal and type the commands:
 ```bash
-docker compose -f docker-compose.xaml up -d
+docker compose -f docker-compose.yaml up -d
 cd API
 dotnet ef migrations add InitialCreate
 dotnet ef database update
